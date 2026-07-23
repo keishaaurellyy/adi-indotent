@@ -1,5 +1,6 @@
 import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
+// NOTE: placeholder schema — you mentioned this isn't final yet.
 // Contact form submissions
 export const contacts = pgTable("contacts", {
   id: serial("id").primaryKey(),
