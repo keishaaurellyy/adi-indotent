@@ -1,0 +1,32 @@
+{
+  "kind": "singleType",
+  "collectionName": "peralatan_pendukungs",
+  "info": {
+    "singularName": "peralatan-pendukung",
+    "pluralName": "peralatan-pendukungs",
+    "displayName": "Kategori: Peralatan Pendukung",
+    "description": "Isi halaman detail kategori Peralatan Pendukung"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "hero_image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "equipment_groups": {
+      "type": "component",
+      "repeatable": true,
+      "component": "product.equipment-group"
+    }
+  }
+}
