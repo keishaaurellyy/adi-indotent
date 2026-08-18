@@ -1,0 +1,57 @@
+{
+  "kind": "singleType",
+  "collectionName": "sarnafils",
+  "info": {
+    "singularName": "sarnafil",
+    "pluralName": "sarnafils",
+    "displayName": "Kategori: Sarnafil",
+    "description": "Isi halaman detail kategori Sarnafil"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "hero_image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "use_cases": {
+      "type": "component",
+      "repeatable": false,
+      "component": "product.use-case-section"
+    },
+    "size_variants": {
+      "type": "component",
+      "repeatable": false,
+      "component": "product.size-variant-section"
+    },
+    "yang_anda_dapatkan": {
+      "type": "component",
+      "repeatable": false,
+      "component": "product.text-section"
+    },
+    "flooring_modul": {
+      "type": "component",
+      "repeatable": false,
+      "component": "product.flooring-section"
+    },
+    "specifications": {
+      "type": "component",
+      "repeatable": false,
+      "component": "product.spec-section"
+    },
+    "pertanyaan_umum": {
+      "type": "component",
+      "repeatable": false,
+      "component": "product.faq-section"
+    }
+  }
+}

@@ -485,6 +485,42 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiPeralatanPendukungPeralatanPendukung
+  extends Struct.SingleTypeSchema {
+  collectionName: 'peralatan_pendukungs';
+  info: {
+    description: 'Isi halaman detail kategori Peralatan Pendukung';
+    displayName: 'Kategori: Peralatan Pendukung';
+    pluralName: 'peralatan-pendukungs';
+    singularName: 'peralatan-pendukung';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    equipment_groups: Schema.Attribute.Component<
+      'product.equipment-group',
+      true
+    >;
+    hero_image: Schema.Attribute.Media<'images'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::peralatan-pendukung.peralatan-pendukung'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   collectionName: 'products';
   info: {
@@ -519,6 +555,100 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiRoderRoder extends Struct.SingleTypeSchema {
+  collectionName: 'roders';
+  info: {
+    description: 'Isi halaman detail kategori Roder';
+    displayName: 'Kategori: Roder';
+    pluralName: 'roders';
+    singularName: 'roder';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    flooring_modul: Schema.Attribute.Component<
+      'product.flooring-section',
+      false
+    >;
+    hero_image: Schema.Attribute.Media<'images'>;
+    jenis_roder: Schema.Attribute.Component<
+      'product.name-image-section',
+      false
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::roder.roder'> &
+      Schema.Attribute.Private;
+    pertanyaan_umum: Schema.Attribute.Component<'product.faq-section', false>;
+    pilihan_dinding: Schema.Attribute.Component<'product.item-section', false>;
+    publishedAt: Schema.Attribute.DateTime;
+    size_variants: Schema.Attribute.Component<
+      'product.size-variant-section',
+      false
+    >;
+    specifications: Schema.Attribute.Component<'product.spec-section', false>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    use_cases: Schema.Attribute.Component<'product.use-case-section', false>;
+    yang_anda_dapatkan: Schema.Attribute.Component<
+      'product.text-section',
+      false
+    >;
+  };
+}
+
+export interface ApiSarnafilSarnafil extends Struct.SingleTypeSchema {
+  collectionName: 'sarnafils';
+  info: {
+    description: 'Isi halaman detail kategori Sarnafil';
+    displayName: 'Kategori: Sarnafil';
+    pluralName: 'sarnafils';
+    singularName: 'sarnafil';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    flooring_modul: Schema.Attribute.Component<
+      'product.flooring-section',
+      false
+    >;
+    hero_image: Schema.Attribute.Media<'images'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::sarnafil.sarnafil'
+    > &
+      Schema.Attribute.Private;
+    pertanyaan_umum: Schema.Attribute.Component<'product.faq-section', false>;
+    publishedAt: Schema.Attribute.DateTime;
+    size_variants: Schema.Attribute.Component<
+      'product.size-variant-section',
+      false
+    >;
+    specifications: Schema.Attribute.Component<'product.spec-section', false>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    use_cases: Schema.Attribute.Component<'product.use-case-section', false>;
+    yang_anda_dapatkan: Schema.Attribute.Component<
+      'product.text-section',
+      false
+    >;
   };
 }
 
@@ -1034,7 +1164,10 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::event.event': ApiEventEvent;
+      'api::peralatan-pendukung.peralatan-pendukung': ApiPeralatanPendukungPeralatanPendukung;
       'api::product.product': ApiProductProduct;
+      'api::roder.roder': ApiRoderRoder;
+      'api::sarnafil.sarnafil': ApiSarnafilSarnafil;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
