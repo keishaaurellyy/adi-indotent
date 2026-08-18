@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_product_section_items",
+  "info": {
+    "displayName": "Section Item",
+    "description": "Item umum dalam sebuah section (nama, deskripsi, gambar)"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}

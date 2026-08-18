@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_product_flooring_sections",
+  "info": {
+    "displayName": "Flooring Section",
+    "description": "Section dengan judul, deskripsi, dan galeri gambar"
+  },
+  "options": {},
+  "attributes": {
+    "group_name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "product.image-item"
+    }
+  }
+}

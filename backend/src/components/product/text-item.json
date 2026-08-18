@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_product_text_items",
+  "info": {
+    "displayName": "Text Item",
+    "description": "Item berisi teks saja (mis. daftar \"Yang Anda Dapatkan\")"
+  },
+  "options": {},
+  "attributes": {
+    "description": {
+      "type": "text",
+      "required": true
+    }
+  }
+}
