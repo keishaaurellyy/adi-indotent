@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "events",
+  "info": {
+    "singularName": "event",
+    "pluralName": "events",
+    "displayName": "Event",
+    "description": "Event/acara untuk section Events di home & Events page"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "event_category": {
+      "type": "enumeration",
+      "enum": [
+        "korporat",
+        "pemerintahan",
+        "keagamaan",
+        "pendidikan",
+        "festival",
+        "komersial",
+        "gathering"
+      ]
+    },
+    "location": {
+      "type": "string"
+    },
+    "duration": {
+      "type": "string"
+    },
+    "is_featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "display_order": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}
