@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_product_image_items",
+  "info": {
+    "displayName": "Image Item",
+    "description": "Item berisi gambar saja (mis. galeri Flooring Modul)"
+  },
+  "options": {},
+  "attributes": {
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_product_use_case_sections",
+  "info": {
+    "displayName": "Use Case Section",
+    "description": "Section dengan judul (group_name) berisi daftar use case"
+  },
+  "options": {},
+  "attributes": {
+    "group_name": {
+      "type": "string",
+      "required": true
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "product.use-case-item"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_product_size_variant_sections",
+  "info": {
+    "displayName": "Size Variant Section",
+    "description": "Section dengan judul (group_name) berisi daftar varian ukuran"
+  },
+  "options": {},
+  "attributes": {
+    "group_name": {
+      "type": "string",
+      "required": true
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "product.size-variant"
+    }
+  }
+}

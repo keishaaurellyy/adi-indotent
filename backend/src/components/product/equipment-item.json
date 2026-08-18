@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_product_equipment_items",
+  "info": {
+    "displayName": "Equipment Item",
+    "description": "Item peralatan (mis. Misty Fan, Kursi Futura)"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}

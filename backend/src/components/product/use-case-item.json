@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_product_use_case_items",
+  "info": {
+    "displayName": "Use Case Item",
+    "description": "Kartu \"Cocok untuk Berbagai Acara\" (tanpa gambar)"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    }
+  }
+}
