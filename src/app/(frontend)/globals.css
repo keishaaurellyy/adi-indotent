@@ -1,26 +1,167 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Brand palette — from Figma "Adi Indodent - Website" (node 55-509).
+ * Scale steps follow the design file's 10%–100% naming,
+ * e.g. `bg-primary-60`, `text-grey-70`, `border-secondary-30`.
+ */
+@theme {
+  /* Primary (muted teal) */
+  --color-primary-10: #ccdbdf;
+  --color-primary-20: #aac2ca;
+  --color-primary-30: #80a4b0;
+  --color-primary-40: #568696;
+  --color-primary-50: #2b677b;
+  --color-primary-60: #014961;
+  --color-primary-70: #013d51;
+  --color-primary-80: #013141;
+  --color-primary-90: #002430;
+  --color-primary-100: #001820;
+
+  /* Secondary (cyan) */
+  --color-secondary-10: #cdeef7;
+  --color-secondary-20: #ace2f2;
+  --color-secondary-30: #83d3ec;
+  --color-secondary-40: #5ac5e6;
+  --color-secondary-50: #30b6df;
+  --color-secondary-60: #07a8d9;
+  --color-secondary-70: #068cb5;
+  --color-secondary-80: #057091;
+  --color-secondary-90: #03546c;
+  --color-secondary-100: #023848;
+
+  /* Tertiary (red) */
+  --color-tertiary-10: #f7dadb;
+  --color-tertiary-20: #f2c1c3;
+  --color-tertiary-30: #eca2a5;
+  --color-tertiary-40: #e68387;
+  --color-tertiary-50: #df6469;
+  --color-tertiary-60: #d8454b;
+  --color-tertiary-70: #b5393e;
+  --color-tertiary-80: #912e32;
+  --color-tertiary-90: #6c2225;
+  --color-tertiary-100: #481719;
+
+  /* Grey */
+  --color-grey-10: #f9fafb;
+  --color-grey-20: #f3f4f6;
+  --color-grey-30: #e5e7eb;
+  --color-grey-40: #d1d5dc;
+  --color-grey-50: #99a1af;
+  --color-grey-60: #6a7282;
+  --color-grey-70: #4a5565;
+  --color-grey-80: #364153;
+  --color-grey-90: #1e2939;
+  --color-grey-100: #030712;
+
+  /*
+   * Type scale — from Figma "Font / Dekstop" (node 10-93) and
+   * "Font / Mobile". Mobile-first: the values here are the mobile spec;
+   * the md media query below upgrades them to the desktop spec.
+   * Headings: 120% line-height, default Bold (Semibold/Medium via font-*).
+   * Body: 150% line-height, default Regular (Medium via font-medium).
+   * H5/H6 exist only in the desktop spec, so they keep one size throughout.
+   * Usage: `text-h1`, `text-h3 font-semibold`, `text-body-lg`, ...
+   */
+  --text-h1: 3rem;
+  --text-h1--line-height: 120%;
+  --text-h1--font-weight: 700;
+  --text-h2: 2rem;
+  --text-h2--line-height: 120%;
+  --text-h2--font-weight: 700;
+  --text-h3: 1.5rem;
+  --text-h3--line-height: 120%;
+  --text-h3--font-weight: 700;
+  --text-h4: 1.125rem;
+  --text-h4--line-height: 120%;
+  --text-h4--font-weight: 700;
+  --text-h5: 1.5rem;
+  --text-h5--line-height: 120%;
+  --text-h5--font-weight: 700;
+  --text-h6: 1.25rem;
+  --text-h6--line-height: 120%;
+  --text-h6--font-weight: 700;
+
+  --text-body-xl: 1rem;
+  --text-body-xl--line-height: 150%;
+  --text-body-lg: 0.875rem;
+  --text-body-lg--line-height: 150%;
+  --text-body-md: 0.75rem;
+  --text-body-md--line-height: 150%;
+  --text-body-sm: 0.6875rem;
+  --text-body-sm--line-height: 150%;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+/* Desktop type scale — Figma "Font / Dekstop" values from md up. */
+@media (min-width: 48rem) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --text-h1: 4rem;
+    --text-h2: 3rem;
+    --text-h3: 2.5rem;
+    --text-h4: 2rem;
+    --text-body-xl: 1.125rem;
+    --text-body-lg: 1rem;
+    --text-body-md: 0.875rem;
+    --text-body-sm: 0.75rem;
   }
 }
 
+/*
+ * Semantic tokens — from the Figma spec tables next to the palette
+ * (Button / Background / Text / Border / Icon Color). The design file
+ * defines light mode only; "dark"/"light" variants below are for dark
+ * page sections (e.g. bg-background-dark + text-foreground-light).
+ */
+@theme inline {
+  /* Background Color */
+  --color-background: #ffffff;                              /* background-white */
+  --color-background-grey: var(--color-grey-20);            /* background-grey */
+  --color-background-dark: var(--color-primary-90);         /* background-dark */
+
+  /* Text Color */
+  --color-foreground: var(--color-grey-100);                /* text-dark-primary */
+  --color-foreground-secondary: var(--color-grey-80);       /* text-dark-secondary */
+  --color-foreground-light: var(--color-grey-10);           /* text-light-primary */
+  --color-foreground-light-secondary: var(--color-grey-30); /* text-light-secondary */
+
+  /* Border Color */
+  --color-border: var(--color-grey-30);                     /* stroke-grey */
+  --color-border-dark: var(--color-grey-100);               /* stroke-dark */
+  --color-border-accent: var(--color-secondary-60);         /* stroke-blue */
+
+  /* Icon Color */
+  --color-icon: var(--color-grey-70);                       /* icon-grey */
+  --color-icon-dark: var(--color-grey-100);                 /* icon-dark */
+  --color-icon-accent: var(--color-secondary-60);           /* icon-blue */
+
+  /* Button Color */
+  --color-primary: var(--color-primary-60);                 /* button-primary */
+  --color-primary-hover: var(--color-primary-70);           /* button-primary-hover */
+  --color-primary-foreground: #ffffff;
+  --color-accent: var(--color-secondary-60);                /* button-secondary */
+  --color-accent-hover: var(--color-secondary-70);          /* button-secondary-hover */
+  --color-accent-foreground: #ffffff;
+
+  /* Aliases kept for the UI components */
+  --color-muted: var(--color-grey-20);
+  --color-muted-foreground: var(--color-grey-80);
+
+  --font-sans: "SF Pro Display", var(--font-geist-sans), ui-sans-serif,
+    system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Horizontal card rails scroll without a visible bar; the partly visible
+   next card is the affordance. Keyboard and wheel scrolling still work. */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
