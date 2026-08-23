@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button, Container, Logo } from "@/components/ui";
-import { WHATSAPP_URL } from "@/lib/contact";
+import { FACEBOOK_URL, INSTAGRAM_URL, WHATSAPP_URL } from "@/lib/contact";
 import { navItems } from "./nav-items";
 
 type FooterLink = { label: string; href: string };
@@ -11,8 +11,8 @@ const productLinks: FooterLink[] =
   navItems.find((item) => item.label === "Products")?.children ?? [];
 
 const socialLinks: FooterLink[] = [
-  { label: "Instagram", href: "#" },
-  { label: "Facebook", href: "#" },
+  { label: "Instagram", href: INSTAGRAM_URL },
+  { label: "Facebook", href: FACEBOOK_URL },
 ];
 
 function LinkColumn({ title, links }: { title: string; links: FooterLink[] }) {
@@ -20,16 +20,25 @@ function LinkColumn({ title, links }: { title: string; links: FooterLink[] }) {
     <div>
       <h3 className="text-body-lg font-semibold">{title}</h3>
       <ul className="mt-4 flex flex-col gap-3">
-        {links.map((link) => (
-          <li key={link.label}>
-            <Link
-              href={link.href}
-              className="text-body-lg text-foreground-secondary transition-colors hover:text-foreground"
-            >
-              {link.label}
-            </Link>
-          </li>
-        ))}
+        {links.map((link) => {
+          // Social links leave the site, so they open in a new tab. rel guards
+          // the opener against tabnabbing.
+          const external = link.href.startsWith("http");
+          return (
+            <li key={link.label}>
+              <Link
+                href={link.href}
+                {...(external && {
+                  target: "_blank",
+                  rel: "noopener noreferrer",
+                })}
+                className="text-body-lg text-foreground-secondary transition-colors hover:text-foreground"
+              >
+                {link.label}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
