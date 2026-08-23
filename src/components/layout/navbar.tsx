@@ -123,14 +123,16 @@ export function Navbar({ tone = "overlay" }: NavbarProps) {
       <Container size="lg">
         <nav
           aria-label="Main"
-          className="flex h-20 items-center justify-between gap-6"
+          // Figma desktop: a 96px bar with 12px of vertical padding, so the
+          // 72px logo is what sets the height. Mobile keeps its own 80px.
+          className="flex h-20 items-center justify-between gap-6 lg:h-24"
         >
           <Link
             href="/"
             aria-label="Adi Indotent — home"
             className="inline-flex shrink-0"
           >
-            <Logo variant="dark" height={56} preload className="h-10 w-auto lg:h-14" />
+            <Logo variant="dark" height={72} preload className="h-10 w-auto lg:h-18" />
           </Link>
 
           {/* Desktop nav */}
