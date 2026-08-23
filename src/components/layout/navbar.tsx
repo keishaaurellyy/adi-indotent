@@ -123,9 +123,11 @@ export function Navbar({ tone = "overlay" }: NavbarProps) {
       <Container size="lg">
         <nav
           aria-label="Main"
-          // Figma desktop: a 96px bar with 12px of vertical padding, so the
-          // 72px logo is what sets the height. Mobile keeps its own 80px.
-          className="flex h-20 items-center justify-between gap-6 lg:h-24"
+          // Figma frame heights: 66 on mobile, 96 from lg. Desktop decomposes
+          // as 12 + 72 + 12, the 72px logo setting the height. Mobile's 66 is
+          // a fixed height around a 40px logo, leaving 13px above and below —
+          // comfortably over the frame's 8px minimum padding.
+          className="flex h-16.5 items-center justify-between gap-6 lg:h-24"
         >
           <Link
             href="/"
