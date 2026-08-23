@@ -123,10 +123,9 @@ export function Navbar({ tone = "overlay" }: NavbarProps) {
       <Container size="lg">
         <nav
           aria-label="Main"
-          // Figma frame heights: 66 on mobile, 96 from lg. Desktop decomposes
-          // as 12 + 72 + 12, the 72px logo setting the height. Mobile's 66 is
-          // a fixed height around a 40px logo, leaving 13px above and below —
-          // comfortably over the frame's 8px minimum padding.
+          // Figma frame heights: 66 on mobile, 96 from lg. Both are fixed
+          // heights, not hugging their tallest child — the frames' 8px and 12px
+          // vertical padding are minimums the centred content clears easily.
           className="flex h-16.5 items-center justify-between gap-6 lg:h-24"
         >
           <Link
@@ -134,7 +133,7 @@ export function Navbar({ tone = "overlay" }: NavbarProps) {
             aria-label="Adi Indotent — home"
             className="inline-flex shrink-0"
           >
-            <Logo variant="dark" height={72} preload className="h-10 w-auto lg:h-18" />
+            <Logo variant="dark" height={48} preload className="h-10 w-auto lg:h-12" />
           </Link>
 
           {/* Desktop nav */}
