@@ -1,5 +1,11 @@
 import Image from "next/image";
-import { Container, Section, SectionHeading } from "@/components/ui";
+import {
+  CardDescription,
+  CardTitle,
+  Container,
+  Section,
+  SectionHeading,
+} from "@/components/ui";
 
 export type Reason = {
   title: string;
@@ -81,10 +87,8 @@ export function WhyChooseUs({
             >
               {/* Next serves .svg unoptimized automatically. */}
               <Image src={reason.icon} alt="" width={48} height={48} aria-hidden />
-              <h3 className="mt-4 text-h6 font-semibold">{reason.title}</h3>
-              <p className="mt-2 text-body-lg text-foreground-secondary">
-                {reason.description}
-              </p>
+              <CardTitle className="mt-4">{reason.title}</CardTitle>
+              <CardDescription>{reason.description}</CardDescription>
             </li>
           ))}
         </ul>

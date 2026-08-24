@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Badge, Button, Container } from "@/components/ui";
+import { Badge, Button, CardTitle, Container } from "@/components/ui";
 
 /** One card in the rail, already flattened out of the Payload document. */
 export type HandledEvent = {
@@ -104,9 +104,7 @@ export function HandledEvents({
                       <Badge tone="accent">{event.category}</Badge>
                     </div>
                   )}
-                  <h3 className="mt-2 text-h6 font-semibold text-foreground">
-                    {event.title}
-                  </h3>
+                  <CardTitle className="mt-2">{event.title}</CardTitle>
                 </Link>
               </li>
             ))}

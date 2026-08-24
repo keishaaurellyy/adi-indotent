@@ -9,7 +9,7 @@ type LogoProps = {
   variant?: "light" | "dark";
   /**
    * Intrinsic height in px; width follows the aspect ratio. Override the
-   * rendered size with a height utility in `className` (e.g. `h-10 lg:h-14`).
+   * rendered size with a height utility in `className` (e.g. `h-10 lg:h-12`).
    */
   height?: number;
   /** Preload when the logo is above the fold, e.g. in the header. */

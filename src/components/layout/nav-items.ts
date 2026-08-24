@@ -1,5 +1,5 @@
 /**
- * Navigation model. Sub-menu labels mirror the Strapi content types
+ * Navigation model. Sub-menu labels mirror the Payload product slugs
  * (roder, sarnafil, flooring, peralatan-pendukung).
  */
 export type NavItem = {

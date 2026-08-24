@@ -1,27 +1,17 @@
 import { cn } from "@/lib/cn";
 
-export function Card({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={cn(
-        "rounded-2xl border border-border bg-background p-6 shadow-sm",
-        className
-      )}
-      {...props}
-    />
-  );
-}
-
+/**
+ * Card typography. The design's cards differ too much in frame — flush
+ * dividers here, a dark-section rail there — to share a container, but the
+ * title and body styles are identical across all of them.
+ */
 export function CardTitle({
   className,
   ...props
 }: React.HTMLAttributes<HTMLHeadingElement>) {
   return (
     <h3
-      className={cn("text-h6 font-semibold", className)}
+      className={cn("text-h6 font-semibold text-foreground", className)}
       {...props}
     />
   );

@@ -12,7 +12,7 @@ export type ProductCollectionItem = {
   title: string;
   description: string;
   href: string;
-  /** Product photo. Falls back to a neutral block until the export lands. */
+  /** Product photo. The tile renders as a plain block when absent. */
   image?: StaticImageData | string;
 };
 
@@ -22,7 +22,7 @@ type ProductCollectionProps = {
   items?: ProductCollectionItem[];
 };
 
-/** Copy from the Figma frame; Strapi will supply these once wired. */
+/** Copy from the Figma frame, pending a Payload collection. */
 const defaultItems: ProductCollectionItem[] = [
   {
     title: "Roder",

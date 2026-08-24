@@ -8,7 +8,7 @@ type TrustedSolutionProps = {
   images?: { src: string; alt: string }[];
 };
 
-/** Copy from the Figma frame; Strapi will supply these once wired. */
+/** Copy from the Figma frame, pending a Payload collection. */
 const defaultParagraphs = [
   "Adi Indotent menyediakan Tenda Roder dan Tenda Sarnafil berkualitas untuk berbagai kebutuhan, mulai dari pameran, bazaar, wedding, event korporat, gudang penyimpanan, kantor sementara, dan berbagai kebutuhan lainnya.",
   "Dengan konstruksi yang kokoh, pemasangan yang cepat, serta fleksibilitas dalam penggunaannya, solusi tenda dari Adi Indotent menjadi pilihan yang efisien untuk mendukung berbagai acara maupun kebutuhan operasional.",
