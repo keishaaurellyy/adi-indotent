@@ -126,7 +126,10 @@ export function Navbar({ tone = "overlay" }: NavbarProps) {
           // Figma frame heights: 66 on mobile, 96 from lg. Both are fixed
           // heights, not hugging their tallest child — the frames' 8px and 12px
           // vertical padding are minimums the centred content clears easily.
-          className="flex h-16.5 items-center justify-between gap-6 lg:h-24"
+          // The 8px gap only bites if the row ever gets too cramped for
+          // justify-between to spread it; the 100px side padding is Container
+          // size="lg" landing on 1240px of content inside a 1440 frame.
+          className="flex h-16.5 items-center justify-between gap-2 py-2 lg:h-24 lg:py-3"
         >
           <Link
             href="/"
