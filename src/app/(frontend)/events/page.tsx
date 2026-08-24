@@ -19,65 +19,23 @@ export default async function EventsPage() {
 
   return (
     <>
-      {/* The navbar overlays the dark header, exactly as on the home page. */}
       <Navbar />
-
-      {/*
-        The header and the grid share one painted background rather than each
-        carrying bg-background-dark. Two dark rectangles meeting at a
-        fractional boundary (the header hugs its text, so it lands on 552.8125)
-        round to device pixels independently, leaving a hairline of the white
-        body showing through between them.
-      */}
       <div className="bg-background-dark">
-        {/*
-          Figma frames: 1440x493 desktop, 375x530 mobile — both are heights
-          the frame hugs to rather than fixed values, hence min-h. The top
-          padding reserves the overlaid navbar (96 desktop, 66 mobile); on
-          mobile it also adds the design's 114px of clear space above the
-          title, while on desktop items-center splits the remainder evenly.
-        */}
-        <section className="relative flex items-center overflow-hidden pt-45 pb-20 min-h-[33.125rem] lg:min-h-[30.8125rem] lg:pt-24 lg:pb-0">
-          {/*
-            The photo, extracted from the Figma SVG export — that export
-            windows the image for the desktop frame only, so its crop does not
-            survive at mobile widths. opacity-30 is the image fill's opacity;
-            the layer sits at 100% above it, so 30% is the whole of it.
-
-            Figma's "linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,0)
-            69.88%)" is a mask, not a fill — white shows, clear hides — so the
-            photo fades out ~70% down and the bottom is pure background-dark.
-
-            object-position differs per breakpoint because the frames crop the
-            photo differently: mobile centres it (the 823.65px-wide placement
-            is centred in 375), desktop shows y 14.1-65%, which lands at 29%
-            of the cover overflow.
-          */}
+        <section className="relative flex items-center overflow-hidden pt-45 pb-20 min-h-132.5 lg:min-h-123.25 lg:pt-24 lg:pb-0">
           <Image
             src="/events/events-header-bg.jpg"
             alt=""
             fill
             sizes="100vw"
             quality={90}
-            // The LCP element on this route, so it must not lazy-load. Eager
-            // rather than `preload`: a preload link resolves a candidate width
-            // in <head> before layout, and with fill + sizes="100vw" that
-            // picked w=750 while the image used another, downloading a file it
-            // never displayed. The docs recommend eager for this reason.
             loading="eager"
             aria-hidden
-            className="pointer-events-none select-none object-cover object-center opacity-30 [mask-image:linear-gradient(to_bottom,black,transparent_69.88%)] lg:object-[50%_29%]"
+            className="pointer-events-none select-none object-cover object-center opacity-30 mask-[linear-gradient(to_bottom,black,transparent_69.88%)] lg:object-[50%_29%]"
           />
 
           <Container className="relative">
             <h1 className="text-h1 font-semibold text-foreground-light">
               Berbagai Acara{" "}
-              {/*
-                Figma breaks after "Acara" on desktop; mobile wraps naturally
-                into three lines. The explicit space matters — JSX drops the
-                newline around the <br>, so hiding it would run the two
-                halves together.
-              */}
               <br className="hidden lg:block" />
               Sudah Kami Kerjakan
             </h1>

@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button, Container, Logo } from "@/components/ui";
-import { FACEBOOK_URL, INSTAGRAM_URL, WHATSAPP_URL } from "@/lib/contact";
+import { cn } from "@/lib/cn";
+import { FACEBOOK_URL, INSTAGRAM_URL } from "@/lib/contact";
 import { navItems } from "./nav-items";
 
 type FooterLink = { label: string; href: string };
@@ -50,16 +51,26 @@ function LinkColumn({ title, links }: { title: string; links: FooterLink[] }) {
   );
 }
 
-export function SiteFooter() {
+type SiteFooterProps = {
+  /**
+   * The "Konsultasikan Kebutuhan Tenda Anda" card. The contact page hides it:
+   * getting in touch is that page's whole job, so the card would point at
+   * itself (Figma 163-239 goes straight from the map to the link row).
+   */
+  showCta?: boolean;
+};
+
+export function SiteFooter({ showCta = true }: SiteFooterProps) {
   // Figma leaves ~96px of white above the card. Without it the card's grey
   // runs straight into the grey section above and the two read as one block.
   return (
     <footer className="pt-16 pb-10 lg:pt-24">
       <Container size="lg">
-        {/*
+        {showCta && (
+        /*
           Figma: a 1240x386 card, which is exactly the container's content
           width — footer-bg.svg is drawn at that size.
-        */}
+        */
         <div className="relative isolate flex items-center justify-center overflow-hidden rounded-xl bg-background-grey px-4 py-12 text-center lg:min-h-96.5 lg:px-6 lg:py-10">
           <Image
             src="/footer-bg.svg"
@@ -78,24 +89,30 @@ export function SiteFooter() {
               paling sesuai dengan kebutuhan acara anda.
             </p>
             <div className="mt-8">
-              <Button
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto"
-              >
+              {/* One of the two entry points into /contact; the other is the
+                  navbar's "Kontak kami". */}
+              <Button href="/contact" className="w-full sm:w-auto">
                 Hubungi kami
               </Button>
             </div>
           </div>
         </div>
+        )}
 
         {/*
           Mobile (Figma 193-2070): the logo block spans the full 327px content
           width and the two link columns sit side by side beneath it. From lg
           the three become one row.
         */}
-        <div className="mt-12 grid grid-cols-2 gap-x-6 gap-y-6 lg:mt-16 lg:grid-cols-[minmax(0,1fr)_auto_auto] lg:gap-x-24 lg:gap-y-0">
+        <div
+          className={cn(
+            "grid grid-cols-2 gap-x-6 gap-y-6 lg:grid-cols-[minmax(0,1fr)_auto_auto] lg:gap-x-24 lg:gap-y-0",
+            // The margin separates the columns from the card, so it goes with
+            // it — otherwise it stacks on the footer's own top padding and
+            // pushes the link row 48-64px too far down the contact page.
+            showCta && "mt-12 lg:mt-16"
+          )}
+        >
           <div className="col-span-2 max-w-92 lg:col-span-1">
             <Link href="/" aria-label="Adi Indotent — home" className="inline-flex">
               <Logo height={56} className="h-14 w-auto" />

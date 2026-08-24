@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button, Container, Logo } from "@/components/ui";
 import { cn } from "@/lib/cn";
-import { WHATSAPP_URL } from "@/lib/contact";
 import { navItems, type NavItem } from "./nav-items";
 
 type NavbarProps = {
@@ -184,12 +183,9 @@ export function Navbar({ tone = "overlay" }: NavbarProps) {
             {/* Wrapped rather than given `hidden`: cn() concatenates without
                 resolving Tailwind conflicts, so it loses to Button's inline-flex. */}
             <div className="hidden lg:block">
-              <Button
-                href={WHATSAPP_URL}
-                variant="secondary"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              {/* One of the two entry points into /contact; the other is the
+                  footer's "Hubungi kami". */}
+              <Button href="/contact" variant="secondary">
                 Kontak kami
               </Button>
             </div>
@@ -255,13 +251,7 @@ export function Navbar({ tone = "overlay" }: NavbarProps) {
             ))}
           </ul>
           <div className="mt-2">
-            <Button
-              href={WHATSAPP_URL}
-              variant="secondary"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full"
-            >
+            <Button href="/contact" variant="secondary" className="w-full">
               Kontak kami
             </Button>
           </div>
