@@ -1,23 +1,12 @@
 import Image from "next/image";
-import Link from "next/link";
-import { Badge, Button, CardTitle, Container } from "@/components/ui";
-
-/** One card in the rail, already flattened out of the Payload document. */
-export type HandledEvent = {
-  id: number;
-  title: string;
-  /** Display label, not the stored enum slug. Null when the editor left it blank. */
-  category?: string | null;
-  /** Absolute R2 URL, or a /api/media/file/... path when R2 is not configured. */
-  image?: string | null;
-  imageAlt?: string;
-};
+import { Button, Container, EventCard } from "@/components/ui";
+import type { EventSummary } from "@/lib/events";
 
 type HandledEventsProps = {
   title?: string;
   description?: string;
   ctaHref?: string;
-  events: HandledEvent[];
+  events: EventSummary[];
 };
 
 /*
@@ -84,28 +73,11 @@ export function HandledEvents({
                   Every card points at the index: `events` has no slug field,
                   so there is nothing to build a per-event route from yet.
                 */}
-                <Link
+                <EventCard
+                  event={event}
                   href={ctaHref}
-                  className="flex h-full flex-col rounded-xl bg-background p-4 transition-shadow hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent lg:p-6"
-                >
-                  <div className="relative aspect-[7/5] w-full overflow-hidden rounded-lg bg-muted lg:aspect-[5/3]">
-                    {event.image && (
-                      <Image
-                        src={event.image}
-                        alt={event.imageAlt || event.title}
-                        fill
-                        sizes="(min-width: 1024px) 430px, 280px"
-                        className="object-cover"
-                      />
-                    )}
-                  </div>
-                  {event.category && (
-                    <div className="mt-6">
-                      <Badge tone="accent">{event.category}</Badge>
-                    </div>
-                  )}
-                  <CardTitle className="mt-2">{event.title}</CardTitle>
-                </Link>
+                  sizes="(min-width: 1024px) 430px, 280px"
+                />
               </li>
             ))}
           </ul>

@@ -18,8 +18,14 @@ const socialLinks: FooterLink[] = [
 function LinkColumn({ title, links }: { title: string; links: FooterLink[] }) {
   return (
     <div>
+      {/* Figma: the column is a 151.5x144 stack with a uniform 12px gap. */}
       <h3 className="text-body-lg font-semibold">{title}</h3>
-      <ul className="mt-4 flex flex-col gap-3">
+      {/*
+        The size lives on the list, not just the anchor: an inline <a> leaves
+        the <li> line box sized by the inherited 16px body font, which makes
+        every row 24px instead of the 21px that 14px at 150% should give.
+      */}
+      <ul className="mt-3 flex flex-col gap-3 text-body-lg">
         {links.map((link) => {
           // Social links leave the site, so they open in a new tab. rel guards
           // the opener against tabnabbing.
@@ -32,7 +38,7 @@ function LinkColumn({ title, links }: { title: string; links: FooterLink[] }) {
                   target: "_blank",
                   rel: "noopener noreferrer",
                 })}
-                className="text-body-lg text-foreground-secondary transition-colors hover:text-foreground"
+                className="text-foreground-secondary transition-colors hover:text-foreground"
               >
                 {link.label}
               </Link>
@@ -63,10 +69,11 @@ export function SiteFooter() {
             className="pointer-events-none -z-10 select-none object-cover"
           />
           <div className="mx-auto max-w-160">
-            <h2 className="text-h2 font-semibold lg:text-balance">
+            {/* Figma: Font/size/xl, Semibold 600, 120%, centred, capitalize. */}
+            <h2 className="text-h2 font-semibold capitalize lg:text-balance">
               Konsultasikan Kebutuhan Tenda Anda
             </h2>
-            <p className="mt-6 text-body-xl text-foreground-secondary">
+            <p className="mt-6 text-body-lg text-foreground-secondary">
               Tim kami siap membantu menentukan jenis dan ukuran tenda yang
               paling sesuai dengan kebutuhan acara anda.
             </p>
@@ -94,7 +101,8 @@ export function SiteFooter() {
               <Logo height={56} className="h-14 w-auto" />
             </Link>
             <p className="mt-4 text-body-lg text-foreground-secondary">
-             Solusi sewa tenda terpercaya untuk berbagai acara pernikahan, seminar, hingga bazar.
+              Solusi sewa tenda terpercaya untuk berbagai acara pernikahan,
+              seminar, hingga bazar.
             </p>
           </div>
 
@@ -105,8 +113,13 @@ export function SiteFooter() {
         {/* Figma: a hairline rule separates the link columns from the
             copyright on both breakpoints; mobile stacks and centres the two
             lines instead of pushing them to opposite ends. */}
-        <div className="mt-8 flex flex-col items-center gap-4 border-t border-border pt-8 text-center text-body-md text-foreground-secondary sm:mt-10 sm:flex-row sm:justify-between sm:gap-2 sm:pt-10 sm:text-left">
-          <p>Copyright 2026 &copy; Adi Indotent</p>
+        <div className="mt-8 flex flex-col items-center gap-3 border-t border-border pt-8 text-center text-body-lg text-foreground-secondary sm:mt-10 sm:flex-row sm:justify-between sm:gap-2 sm:pt-10 sm:text-left">
+          {/*
+            Derived, not hardcoded: the pages that render this footer are
+            statically prerendered with revalidate, so the year is re-evaluated
+            on rebuild rather than going stale at the turn of the year.
+          */}
+          <p>Copyright {new Date().getFullYear()} &copy; Adi Indotent</p>
           <p>All rights reserved.</p>
         </div>
       </Container>
