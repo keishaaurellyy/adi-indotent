@@ -1,65 +1,73 @@
 import Image from "next/image";
+import { Button, Container } from "@/components/ui";
+import { Navbar } from "@/components/layout/navbar";
+import { ProductCollection } from "@/components/sections/product-collection";
+import { TrustedSolution } from "@/components/sections/trusted-solution";
+import { HandledEvents } from "@/components/sections/handled-events";
+import { WhyChooseUs } from "@/components/sections/why-choose-us";
+import { SiteFooter } from "@/components/layout/site-footer";
+import landingBg from "@/assets/landing-bg.png";
+import { getHomeEvents } from "@/lib/events";
 
-export default function Home() {
+/**
+ * The events rail is CMS-driven, so the page is rebuilt on a timer rather
+ * than pinned to whatever the database held at deploy time. Five minutes is
+ * short enough that an editor sees their change without a redeploy.
+ */
+export const revalidate = 300;
+
+export default async function Home() {
+  const events = await getHomeEvents();
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <>
+      <Navbar />
+
+      {/* Figma: 375x600 on mobile, 1440x800 from lg up. */}
+      <section className="relative flex min-h-[37.5rem] items-center justify-center overflow-hidden bg-background-dark lg:min-h-[50rem]">
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+          src={landingBg}
+          alt=""
+          fill
+          sizes="100vw"
+          placeholder="blur"
+          quality={90}
+          preload
+          className="object-cover"
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+        {/*
+          landing-bg.png is not opaque — its alpha runs 78-95%, because Figma
+          exported the photo together with the dark layer over it. It needs a
+          dark surface to composite onto; over the white body it washes out,
+          which is what bg-background-dark on the section is for. No extra
+          scrim element: the darkening is already in the asset.
+        */}
+        <Container size="md" className="relative py-24 text-center">
+          {/* Figma: Font/size/4xl, Semibold 600, 120%, capitalize */}
+          <h1 className="text-h1 font-semibold capitalize text-foreground-light">
+            Sewa Tenda
+            <br />
+            Wujudkan Acara Sukses
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          {/* Figma: Font/size/md, Regular 400, 150% */}
+          <p className="mx-auto mt-6 max-w-xl text-body-xl font-normal text-foreground-light">
+            Sewa tenda berkualitas dengan pemasangan cepat dan rapi untuk setiap
+            jenis acara, dari skala kecil hingga besar
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+          {/* Full-bleed within the gutter on mobile; content-width from sm up. */}
+          <div className="mt-10">
+            <Button href="/events" variant="secondary" className="w-full sm:w-auto">
+              Lihat proyek kami
+            </Button>
+          </div>
+        </Container>
+      </section>
+
+      <ProductCollection />
+      <TrustedSolution />
+      <HandledEvents events={events} />
+      <WhyChooseUs />
+      <SiteFooter />
+    </>
   );
 }
