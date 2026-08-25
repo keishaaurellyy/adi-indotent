@@ -1,15 +1,16 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import { Container, EventCard, Section } from "@/components/ui";
 import { Navbar } from "@/components/layout/navbar";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { getAllEvents } from "@/lib/events";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Events | Adi Indotent",
+export const metadata = pageMetadata({
+  title: "Events",
   description:
     "Pengalaman menangani berbagai jenis acara membuat kami paham kebutuhan setiap klien, sehingga hasilnya selalu sesuai harapan.",
-};
+  path: "/events",
+});
 
 /** Same five-minute window as the home rail — both read the same collection. */
 export const revalidate = 300;
