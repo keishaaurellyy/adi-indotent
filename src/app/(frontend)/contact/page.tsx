@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import { Container, SectionHeading } from "@/components/ui";
 import { Navbar } from "@/components/layout/navbar";
@@ -10,12 +9,14 @@ import {
   WHATSAPP_DISPLAY,
   WHATSAPP_URL,
 } from "@/lib/contact";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Contact | Adi Indotent",
+export const metadata = pageMetadata({
+  title: "Contact",
   description:
     "Hubungi kami untuk informasi lebih lanjut seputar produk dan layanan yang kami sediakan.",
-};
+  path: "/contact",
+});
 
 
 function InfoCard({
