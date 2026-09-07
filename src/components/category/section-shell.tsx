@@ -3,7 +3,10 @@ import { Container, Section, SectionHeading } from "@/components/ui";
 type SectionShellProps = {
   title: string;
   description?: string | null;
-  /** Alternates the background so consecutive sections read as separate bands. */
+  /**
+   * Kept for sections that want their own band. The category pages leave it
+   * default: their cards are grey, so a grey section would swallow them.
+   */
   tone?: "default" | "muted";
   children: React.ReactNode;
 };
@@ -28,7 +31,12 @@ export function SectionShell({
         <SectionHeading
           title={title}
           description={description ?? undefined}
-          align="center"
+          // SectionHeading caps a left-aligned description at max-w-2xl, which
+          // is right for a standfirst under a centred title but wrong here:
+          // the only category section with a description is Flooring Modul,
+          // and the design runs that paragraph the full width of the grid
+          // below it. Inline, so it beats the class.
+          descriptionMaxWidth="none"
         />
         {children}
       </Container>

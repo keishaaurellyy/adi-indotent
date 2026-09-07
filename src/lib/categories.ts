@@ -170,14 +170,13 @@ function galleryBlock(id: string, raw: RawGallery): SectionBlock | null {
     const image = media(item.image);
     return image ? [{ id: rowId(item, index), image }] : [];
   });
-  return items.length
-    ? {
-        kind: "gallery",
-        id,
-        title: raw.group_name,
-        description: raw.description ?? null,
-        items,
-      }
+  const description = raw.description ?? null;
+  // Unlike the other sections, this one survives an empty `items`: its
+  // description is content in its own right — the paragraph explaining what
+  // flooring modul is — so the section still has something to say while the
+  // gallery is waiting on uploads.
+  return items.length || description
+    ? { kind: "gallery", id, title: raw.group_name, description, items }
     : null;
 }
 
@@ -238,12 +237,12 @@ function present(blocks: (SectionBlock | null)[]): SectionBlock[] {
 function roderBlocks(data: Roder): SectionBlock[] {
   return present([
     usecaseBlock("use_cases", data.use_cases),
+    nameImageBlock("size_variants", data.size_variants),
     nameImageBlock("jenis_roder", data.jenis_roder),
     detailBlock("pilihan_dinding", data.pilihan_dinding),
-    nameImageBlock("size_variants", data.size_variants),
+    specBlock("specifications", data.specifications),
     textBlock("yang_anda_dapatkan", data.yang_anda_dapatkan),
     galleryBlock("flooring_modul", data.flooring_modul),
-    specBlock("specifications", data.specifications),
     faqBlock("pertanyaan_umum", data.pertanyaan_umum),
   ]);
 }

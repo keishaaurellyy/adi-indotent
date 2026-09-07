@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { CategoryHero } from "@/components/category/category-hero";
 import { CategorySections } from "@/components/category/category-sections";
+import { RelatedProducts } from "@/components/category/related-products";
 import { Navbar } from "@/components/layout/navbar";
 import { SiteFooter } from "@/components/layout/site-footer";
 import {
@@ -10,6 +11,7 @@ import {
   type SectionBlock,
 } from "@/lib/categories";
 import { pageMetadata } from "@/lib/metadata";
+import { getProducts } from "@/lib/products";
 import { absoluteUrl } from "@/lib/site";
 import { faqPageSchema, jsonLd } from "@/lib/structured-data";
 import type { Metadata } from "next";
@@ -74,14 +76,21 @@ export async function generateMetadata({
 
 export default async function CategoryPage({ params }: PageProps) {
   const { category } = await params;
-  const data = await loadCategory(category);
+  // Both reads hit the same Payload instance, so they overlap rather than
+  // queueing. The products list is the page's outro and degrades to an empty
+  // array on its own, so it is not part of loadCategory's throw-on-failure.
+  const [data, products] = await Promise.all([
+    loadCategory(category),
+    getProducts(),
+  ]);
+  const otherProducts = products.filter((p) => p.href !== `/products/${category}`);
 
   const faq = data.blocks.find(isFaq);
   const url = absoluteUrl(`/products/${data.slug}`);
 
   return (
     <>
-      <Navbar />
+      <Navbar tone="light" />
 
       <CategoryHero
         title={data.title}
@@ -90,6 +99,8 @@ export default async function CategoryPage({ params }: PageProps) {
       />
 
       <CategorySections blocks={data.blocks} />
+
+      <RelatedProducts items={otherProducts} />
 
       {faq && (
         <script

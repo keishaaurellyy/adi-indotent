@@ -20,46 +20,44 @@ import type { SectionBlock } from "@/lib/categories";
  * The switch is exhaustive over the union, so adding a `kind` there is a
  * compile error here until it has a renderer.
  */
-function SectionRenderer({
-  block,
-  tone,
-}: {
-  block: SectionBlock;
-  tone: "default" | "muted";
-}) {
+function SectionRenderer({ block }: { block: SectionBlock }) {
   switch (block.kind) {
     case "useCase":
-      return <UseCaseGrid block={block} tone={tone} />;
+      return <UseCaseGrid block={block} />;
     case "nameImage":
-      return <NameImageGrid block={block} tone={tone} />;
+      // The one place a shape is not enough to pick the look:
+      // `size_variants` holds line diagrams that need a white field and a
+      // border, while `jenis_roder` holds photos that sit on grey. This is
+      // what `id` recording the originating field is for.
+      return (
+        <NameImageGrid
+          block={block}
+          frame={block.id === "size_variants" ? "outlined" : "plain"}
+        />
+      );
     case "detail":
-      return <DetailGrid block={block} tone={tone} />;
+      return <DetailGrid block={block} />;
     case "text":
-      return <TextList block={block} tone={tone} />;
+      return <TextList block={block} />;
     case "gallery":
-      return <ImageGallery block={block} tone={tone} />;
+      return <ImageGallery block={block} />;
     case "spec":
-      return <SpecTable block={block} tone={tone} />;
+      return <SpecTable block={block} />;
     case "faq":
-      return <FaqAccordion block={block} tone={tone} />;
+      return <FaqAccordion block={block} />;
     case "equipment":
-      return <EquipmentGroups block={block} tone={tone} />;
+      return <EquipmentGroups block={block} />;
   }
 }
 
 export function CategorySections({ blocks }: { blocks: SectionBlock[] }) {
   return (
     <>
-      {blocks.map((block, index) => (
-        <SectionRenderer
-          key={block.id}
-          block={block}
-          // Banded backgrounds, so neighbouring sections stay distinguishable
-          // however many the category happens to have. Alternating on the
-          // rendered index rather than a per-section setting keeps the rhythm
-          // unbroken when an empty section drops out.
-          tone={index % 2 === 1 ? "muted" : "default"}
-        />
+      {/* Every section sits on white. The cards inside carry the grey, so
+          banding the sections too would leave the cards with nothing to
+          separate them from their own background. */}
+      {blocks.map((block) => (
+        <SectionRenderer key={block.id} block={block} />
       ))}
     </>
   );

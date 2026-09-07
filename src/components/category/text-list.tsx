@@ -10,9 +10,11 @@ type Props = {
  * A checklist. Used by `yang_anda_dapatkan`, whose items are a lone paragraph
  * each — what the rental includes, so a tick reads better than a bullet.
  *
- * The tick is inline rather than a file in /public/icon: there is no check
- * asset in the design exports yet, and inlining lets it inherit `currentColor`
- * instead of being locked to whatever colour an SVG was saved with.
+ * Two columns of grey pills, each led by a filled tick. The tick is inline
+ * rather than a file in /public/icon: there is no check asset in the design
+ * exports yet, and inlining lets the disc inherit `currentColor` so it tracks
+ * the accent token instead of being locked to whatever colour an SVG was
+ * saved with.
  *
  * It is decorative — the list semantics already say these are items, so
  * repeating "included" on every row would only add noise for a screen reader.
@@ -20,26 +22,28 @@ type Props = {
 export function TextList({ block, tone }: Props) {
   return (
     <SectionShell title={block.title} tone={tone}>
-      <ul className="mx-auto grid max-w-3xl gap-4">
+      <ul className="grid gap-4 md:grid-cols-2 lg:gap-6">
         {block.items.map((item) => (
-          <li key={item.id} className="flex items-start gap-3">
+          <li
+            key={item.id}
+            className="flex items-start gap-4 rounded-xl bg-background-grey p-5 lg:p-6"
+          >
             <svg
-              viewBox="0 0 20 20"
-              fill="none"
+              viewBox="0 0 24 24"
               aria-hidden
-              className="mt-1 size-5 shrink-0 text-primary"
+              className="mt-0.5 size-6 shrink-0 text-icon-accent"
             >
+              <circle cx="12" cy="12" r="12" fill="currentColor" />
               <path
-                d="m4.5 10.5 3.5 3.5 7.5-8"
-                stroke="currentColor"
+                d="m7 12.4 3.3 3.3L17 9"
+                fill="none"
+                stroke="#fff"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
             </svg>
-            <p className="text-body-lg text-foreground-secondary">
-              {item.description}
-            </p>
+            <p className="text-body-xl text-foreground">{item.description}</p>
           </li>
         ))}
       </ul>
