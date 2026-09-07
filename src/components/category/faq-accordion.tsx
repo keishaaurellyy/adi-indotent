@@ -90,7 +90,7 @@ export function FaqAccordion({ block, tone }: Props) {
                 </svg>
               </summary>
               {item.answer && (
-                <p className="mt-4 max-w-4xl text-body-xl text-foreground-secondary">
+                <p className="mt-4 text-body-xl text-foreground-secondary">
                   <AnswerText text={item.answer} />
                 </p>
               )}

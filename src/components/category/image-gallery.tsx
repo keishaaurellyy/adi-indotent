@@ -26,7 +26,7 @@ export function ImageGallery({ block, tone }: Props) {
           {block.items.map((item) => (
             <li
               key={item.id}
-              className="relative aspect-4/3 overflow-hidden rounded-xl bg-grey-40"
+              className="relative aspect-square overflow-hidden rounded-xl bg-grey-40"
             >
               <Image
                 src={item.image.url}

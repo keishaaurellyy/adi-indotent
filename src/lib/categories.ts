@@ -251,9 +251,9 @@ function sarnafilBlocks(data: Sarnafil): SectionBlock[] {
   return present([
     usecaseBlock("use_cases", data.use_cases),
     nameImageBlock("size_variants", data.size_variants),
+    specBlock("specifications", data.specifications),
     textBlock("yang_anda_dapatkan", data.yang_anda_dapatkan),
     galleryBlock("flooring_modul", data.flooring_modul),
-    specBlock("specifications", data.specifications),
     faqBlock("pertanyaan_umum", data.pertanyaan_umum),
   ]);
 }
