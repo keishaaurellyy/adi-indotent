@@ -74,6 +74,10 @@ export function Navbar({ tone = "overlay" }: NavbarProps) {
   const toneOutline = isLight
     ? "focus-visible:outline-foreground"
     : "focus-visible:outline-foreground-light";
+  // The CTA has to hold its own against the ground behind it: the light blue
+  // reads on the dark hero, but on the light tone's grey bar Figma uses the
+  // dark teal instead.
+  const ctaVariant = isLight ? "primary" : "secondary";
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
@@ -204,7 +208,7 @@ export function Navbar({ tone = "overlay" }: NavbarProps) {
             <div className="hidden lg:block">
               {/* One of the two entry points into /contact; the other is the
                   footer's "Hubungi kami". */}
-              <Button href="/contact" variant="secondary">
+              <Button href="/contact" variant={ctaVariant}>
                 Kontak kami
               </Button>
             </div>
@@ -274,7 +278,7 @@ export function Navbar({ tone = "overlay" }: NavbarProps) {
             ))}
           </ul>
           <div className="mt-2">
-            <Button href="/contact" variant="secondary" className="w-full">
+            <Button href="/contact" variant={ctaVariant} className="w-full">
               Kontak kami
             </Button>
           </div>
