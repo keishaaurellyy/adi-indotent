@@ -64,11 +64,14 @@ export default function ContactPage() {
       */}
       <section className="relative isolate overflow-hidden bg-background-dark pt-35 pb-6 lg:pt-49 lg:pb-25">
         
+        {/* The header's whole backdrop, and above the fold on every viewport,
+            so it loads with the page instead of waiting to be scrolled near. */}
         <Image
           src="/contact-bg.svg"
           alt=""
           width={1440}
           height={1395}
+          loading="eager"
           aria-hidden
           className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-auto w-full select-none"
         />
