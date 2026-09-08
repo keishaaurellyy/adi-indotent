@@ -1,5 +1,4 @@
-import Image from "next/image";
-import { Container, Section } from "@/components/ui";
+import { Container, ImageFrame, Section } from "@/components/ui";
 
 type TrustedSolutionProps = {
   title?: string;
@@ -50,18 +49,13 @@ export function TrustedSolution({
           */}
           <div className="flex flex-col gap-4">
             {images.map((image) => (
-              <div
+              <ImageFrame
                 key={image.src}
-                className="relative aspect-[327/182] w-full overflow-hidden first:rounded-t-xl last:rounded-b-xl lg:aspect-[632/211]"
-              >
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  fill
-                  sizes="(min-width: 1024px) 632px, 100vw"
-                  className="object-cover"
-                />
-              </div>
+                src={image.src}
+                alt={image.alt}
+                sizes="(min-width: 1024px) 632px, 100vw"
+                className="aspect-[327/182] first:rounded-t-xl last:rounded-b-xl lg:aspect-[632/211]"
+              />
             ))}
           </div>
         </div>

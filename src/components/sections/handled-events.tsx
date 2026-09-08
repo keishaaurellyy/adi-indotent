@@ -1,5 +1,4 @@
-import Image from "next/image";
-import { Button, Container, EventCard } from "@/components/ui";
+import { Backdrop, Button, Container, EventCard } from "@/components/ui";
 import type { EventSummary } from "@/lib/events";
 
 type HandledEventsProps = {
@@ -28,18 +27,8 @@ export function HandledEvents({
 }: HandledEventsProps) {
   return (
     <section className="relative overflow-hidden bg-background-dark py-16 lg:py-24">
-      {/*
-        Figma exports the backdrop as a photo at 30% behind a white-to-clear
-        gradient — that gradient is the mask, fading out at 70% of the height.
-      */}
-      <Image
-        src="/bg-section-4.jpg"
-        alt=""
-        fill
-        sizes="100vw"
-        aria-hidden
-        className="pointer-events-none select-none object-cover opacity-30 [mask-image:linear-gradient(to_bottom,black,transparent_70%)]"
-      />
+      {/* Figma fades the photo out at 70% of the section's height. */}
+      <Backdrop src="/bg-section-4.jpg" />
 
       <div className="relative">
         <Container size="lg">

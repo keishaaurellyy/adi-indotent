@@ -114,9 +114,7 @@ export function SiteFooter({ showCta = true }: SiteFooterProps) {
           )}
         >
           <div className="col-span-2 max-w-92 lg:col-span-1">
-            <Link href="/" aria-label="Adi Indotent — home" className="inline-flex">
-              <Logo height={56} className="h-14 w-auto" />
-            </Link>
+            <Logo href="/" height={56} className="h-14 w-auto" />
             <p className="mt-4 text-body-lg text-foreground-secondary">
               Solusi sewa tenda terpercaya untuk berbagai acara pernikahan,
               seminar, hingga bazar.

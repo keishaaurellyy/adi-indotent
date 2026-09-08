@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "./badge";
 import { CardTitle } from "./card";
+import { ImageFrame } from "./image-frame";
 import { cn } from "@/lib/cn";
 import type { EventSummary } from "@/lib/events";
 
@@ -57,22 +58,12 @@ export function EventCard({
 }: EventCardProps) {
   const body = (
     <>
-      <div
-        className={cn(
-          "relative w-full overflow-hidden rounded-lg bg-muted",
-          imageAspect
-        )}
-      >
-        {event.image && (
-          <Image
-            src={event.image}
-            alt={event.imageAlt || event.title}
-            fill
-            sizes={sizes}
-            className="object-cover"
-          />
-        )}
-      </div>
+      <ImageFrame
+        src={event.image}
+        alt={event.imageAlt || event.title}
+        sizes={sizes}
+        className={cn("rounded-lg bg-muted", imageAspect)}
+      />
 
       {event.category && (
         <div className="mt-6">

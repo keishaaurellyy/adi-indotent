@@ -1,5 +1,4 @@
-import Image from "next/image";
-import { Container, EventCard, Section } from "@/components/ui";
+import { Backdrop, Container, EventCard, Section } from "@/components/ui";
 import { Navbar } from "@/components/layout/navbar";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { getAllEvents } from "@/lib/events";
@@ -23,15 +22,13 @@ export default async function EventsPage() {
       <Navbar />
       <div className="bg-background-dark">
         <section className="relative flex items-center overflow-hidden pt-45 pb-20 min-h-132.5 lg:min-h-123.25 lg:pt-24 lg:pb-0">
-          <Image
+          {/* Above the fold, so it loads with the page rather than on scroll. */}
+          <Backdrop
             src="/events/events-header-bg.jpg"
-            alt=""
-            fill
-            sizes="100vw"
+            fade="69.88%"
             quality={90}
             loading="eager"
-            aria-hidden
-            className="pointer-events-none select-none object-cover object-center opacity-30 mask-[linear-gradient(to_bottom,black,transparent_69.88%)] lg:object-[50%_29%]"
+            className="object-center lg:object-[50%_29%]"
           />
 
           <Container className="relative">
