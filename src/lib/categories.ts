@@ -81,14 +81,20 @@ export type SectionBlock =
       kind: "faq";
       items: { id: string; question: string; answer: string | null }[];
     })
-  | (BlockBase & {
+  /*
+   * The one block with no title of its own: Peralatan Pendukung has a single
+   * section, and each group already names itself, so a heading above them
+   * would only repeat the page.
+   */
+  | {
+      id: string;
       kind: "equipment";
       groups: {
         id: string;
         name: string;
         items: { id: string; name: string; image: MediaRef | null }[];
       }[];
-    });
+    };
 
 /**
  * Raw section shapes, aliased off Roder because it is the superset — it holds
@@ -201,12 +207,11 @@ function faqBlock(id: string, raw: RawFaq): SectionBlock | null {
 /**
  * `equipment_groups` is the one section that nests twice — groups, each with
  * its own items — and the one Peralatan Pendukung has instead of everything
- * else. Its heading lives on each group, so the block title is supplied by the
- * caller rather than read off the data.
+ * else. Its heading lives on each group, so the block itself carries no
+ * title — see the note on the union member.
  */
 function equipmentBlock(
   id: string,
-  title: string,
   raw: PeralatanPendukung["equipment_groups"]
 ): SectionBlock | null {
   const groups = (raw ?? []).flatMap((group, index) => {
@@ -219,7 +224,7 @@ function equipmentBlock(
       ? [{ id: rowId(group, index), name: group.group_name, items }]
       : [];
   });
-  return groups.length ? { kind: "equipment", id, title, groups } : null;
+  return groups.length ? { kind: "equipment", id, groups } : null;
 }
 
 /** Discards the sections an editor has left empty, keeping CMS field order. */
@@ -260,7 +265,7 @@ function sarnafilBlocks(data: Sarnafil): SectionBlock[] {
 
 function peralatanBlocks(data: PeralatanPendukung): SectionBlock[] {
   return present([
-    equipmentBlock("equipment_groups", "Peralatan yang Tersedia", data.equipment_groups),
+    equipmentBlock("equipment_groups", data.equipment_groups),
   ]);
 }
 
