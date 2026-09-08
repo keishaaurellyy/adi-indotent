@@ -30,8 +30,8 @@ export function generateStaticParams() {
 
 /**
  * Anything outside that set 404s instead of being rendered on demand. Without
- * this, /products/flooring — which the navbar still links to — would invoke a
- * function on every hit only to fail the slug check below.
+ * this, a stale link such as /products/flooring would invoke a function on
+ * every hit only to fail the slug check below.
  */
 export const dynamicParams = false;
 
