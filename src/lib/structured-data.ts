@@ -58,3 +58,32 @@ export function localBusinessSchema() {
 export function jsonLd(schema: object): string {
   return JSON.stringify(schema).replace(/</g, "\u003c");
 }
+
+/**
+ * schema.org FAQPage for a category's `pertanyaan_umum` section.
+ *
+ * This is the one piece of structured data here that can win extra space in
+ * the result itself — Google renders qualifying Q&A pairs as expandable rows
+ * under the link. It qualifies only while the answers are visible on the page,
+ * which is why the accordion keeps them in the HTML while collapsed rather
+ * than fetching them on expand.
+ *
+ * Answers are plain textarea fields, so they are passed through as-is; if that
+ * field ever becomes rich text, this has to serialise to text first, because
+ * markup inside `acceptedAnswer.text` is what makes Google drop the result.
+ */
+export function faqPageSchema(
+  url: string,
+  items: { question: string; answer: string | null }[]
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${url}#faq`,
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer ?? "" },
+    })),
+  };
+}

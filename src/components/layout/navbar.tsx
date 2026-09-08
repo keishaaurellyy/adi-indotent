@@ -10,9 +10,10 @@ import { navItems, type NavItem } from "./nav-items";
 type NavbarProps = {
   /**
    * `overlay` sits transparently on top of a dark hero (the Figma home page);
-   * `solid` gives it its own dark background for pages without one.
+   * `solid` gives it its own dark background for pages without one;
+   * `light` is the inverse of `solid`, for pages that open on white.
    */
-  tone?: "overlay" | "solid";
+  tone?: "overlay" | "solid" | "light";
 };
 
 function Chevron({
@@ -66,6 +67,17 @@ function isActive(pathname: string, href: string) {
 
 export function Navbar({ tone = "overlay" }: NavbarProps) {
   const pathname = usePathname();
+  // Only the light tone flips the foreground; overlay and solid both sit on
+  // dark ground and share the light-on-dark treatment.
+  const isLight = tone === "light";
+  const toneText = isLight ? "text-foreground" : "text-foreground-light";
+  const toneOutline = isLight
+    ? "focus-visible:outline-foreground"
+    : "focus-visible:outline-foreground-light";
+  // The CTA has to hold its own against the ground behind it: the light blue
+  // reads on the dark hero, but on the light tone's grey bar Figma uses the
+  // dark teal instead.
+  const ctaVariant = isLight ? "primary" : "secondary";
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
@@ -116,7 +128,9 @@ export function Navbar({ tone = "overlay" }: NavbarProps) {
       ref={navRef}
       className={cn(
         "top-0 right-0 left-0 z-50",
-        tone === "overlay" ? "absolute" : "sticky bg-background-dark"
+        tone === "overlay" && "absolute",
+        tone === "solid" && "sticky bg-background-dark",
+        isLight && "sticky bg-background-grey"
       )}
     >
       <Container size="lg">
@@ -133,7 +147,7 @@ export function Navbar({ tone = "overlay" }: NavbarProps) {
           <Logo
             href="/"
             linkClassName="shrink-0"
-            variant="dark"
+            variant={isLight ? "light" : "dark"}
             height={48}
             preload
             className="h-10 w-auto lg:h-12"
@@ -152,7 +166,9 @@ export function Navbar({ tone = "overlay" }: NavbarProps) {
                       aria-haspopup="menu"
                       aria-controls={`submenu-${item.label}`}
                       className={cn(
-                        "inline-flex cursor-pointer items-center gap-1.5 rounded-sm py-2 text-body-xl text-foreground-light transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground-light",
+                        "inline-flex cursor-pointer items-center gap-1.5 rounded-sm py-2 text-body-xl transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4",
+                      toneText,
+                      toneOutline,
                         isActive(pathname, item.href) && "font-medium"
                       )}
                     >
@@ -169,7 +185,9 @@ export function Navbar({ tone = "overlay" }: NavbarProps) {
                   <Link
                     href={item.href}
                     className={cn(
-                      "inline-flex rounded-sm py-2 text-body-xl text-foreground-light transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground-light",
+                      "inline-flex rounded-sm py-2 text-body-xl transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4",
+                      toneText,
+                      toneOutline,
                       isActive(pathname, item.href) && "font-medium"
                     )}
                   >
@@ -186,7 +204,7 @@ export function Navbar({ tone = "overlay" }: NavbarProps) {
             <div className="hidden lg:block">
               {/* One of the two entry points into /contact; the other is the
                   footer's "Hubungi kami". */}
-              <Button href="/contact" variant="secondary">
+              <Button href="/contact" variant={ctaVariant}>
                 Kontak kami
               </Button>
             </div>
@@ -197,7 +215,11 @@ export function Navbar({ tone = "overlay" }: NavbarProps) {
               aria-expanded={mobileOpen}
               aria-controls="mobile-menu"
               aria-label={mobileOpen ? "Tutup menu" : "Buka menu"}
-              className="inline-flex cursor-pointer items-center justify-center rounded-md p-2 text-foreground-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground-light lg:hidden"
+              className={cn(
+                "inline-flex cursor-pointer items-center justify-center rounded-md p-2 focus-visible:outline-2 focus-visible:outline-offset-2 lg:hidden",
+                toneText,
+                toneOutline
+              )}
             >
               <Burger open={mobileOpen} />
             </button>
@@ -252,7 +274,7 @@ export function Navbar({ tone = "overlay" }: NavbarProps) {
             ))}
           </ul>
           <div className="mt-2">
-            <Button href="/contact" variant="secondary" className="w-full">
+            <Button href="/contact" variant={ctaVariant} className="w-full">
               Kontak kami
             </Button>
           </div>

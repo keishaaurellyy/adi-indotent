@@ -1,6 +1,6 @@
 /**
  * Navigation model. Sub-menu labels mirror the Payload product slugs
- * (roder, sarnafil, flooring, peralatan-pendukung).
+ * (roder, sarnafil, peralatan-pendukung).
  */
 export type NavItem = {
   label: string;
@@ -16,7 +16,6 @@ export const navItems: NavItem[] = [
     children: [
       { label: "Roder", href: "/products/roder" },
       { label: "Sarnafil", href: "/products/sarnafil" },
-      { label: "Flooring", href: "/products/flooring" },
       { label: "Peralatan pendukung", href: "/products/peralatan-pendukung" },
     ],
   },
