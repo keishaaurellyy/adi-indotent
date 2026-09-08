@@ -1,4 +1,10 @@
-import { Backdrop, Container, EventCard, Section } from "@/components/ui";
+import {
+  Backdrop,
+  CARD_GRID,
+  Container,
+  EventCard,
+  Section,
+} from "@/components/ui";
 import { Navbar } from "@/components/layout/navbar";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { getAllEvents } from "@/lib/events";
@@ -52,7 +58,7 @@ export default async function EventsPage() {
                 Belum ada acara yang dipublikasikan.
               </p>
             ) : (
-              <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+              <ul className={CARD_GRID}>
                 {events.map((event) => (
                   <li key={event.id}>
                     {/*

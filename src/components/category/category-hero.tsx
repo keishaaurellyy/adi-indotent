@@ -1,5 +1,4 @@
-import Image from "next/image";
-import { Container } from "@/components/ui";
+import { Container, ImageFrame } from "@/components/ui";
 import type { MediaRef } from "@/lib/categories";
 
 type CategoryHeroProps = {
@@ -38,19 +37,17 @@ export function CategoryHero({ title, description, image }: CategoryHeroProps) {
           // Fixed ratio rather than the file's own: the three globals hold
           // photos of different shapes, and a ratio that shifts per category
           // would move every section below the fold by a different amount.
-          <div className="relative mt-8 aspect-4/3 w-full overflow-hidden rounded-xl lg:mt-10 lg:aspect-2/1">
-            <Image
-              src={image.url}
-              // Content, not decoration — unlike the dark hero, where the photo
-              // sat behind the heading and was marked aria-hidden.
-              alt={image.alt}
-              fill
-              sizes="(min-width: 1024px) 81.5rem, 100vw"
-              quality={90}
-              preload
-              className="object-cover object-center"
-            />
-          </div>
+          <ImageFrame
+            // Content, not decoration — unlike the dark hero, where the photo
+            // sat behind the heading and was marked aria-hidden.
+            src={image.url}
+            alt={image.alt}
+            sizes="(min-width: 1024px) 81.5rem, 100vw"
+            quality={90}
+            preload
+            className="mt-8 aspect-4/3 rounded-xl lg:mt-10 lg:aspect-2/1"
+            imageClassName="object-center"
+          />
         )}
       </Container>
     </section>

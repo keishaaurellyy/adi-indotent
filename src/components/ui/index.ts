@@ -1,6 +1,7 @@
 export { Backdrop } from "./backdrop";
 export { Badge } from "./badge";
 export { Button, type ButtonProps } from "./button";
+export { CARD_GRID, CARD_GRID_SIZES } from "./card-grid";
 export { CardDescription, CardTitle } from "./card";
 export { Container } from "./container";
 export { EventCard } from "./event-card";

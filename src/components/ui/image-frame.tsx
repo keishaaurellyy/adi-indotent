@@ -16,16 +16,26 @@ type ImageFrameProps = {
   className?: string;
   /** Extra classes on the image itself, e.g. a hover transform. */
   imageClassName?: string;
+  /**
+   * `contain` for artwork that must not be cropped — line diagrams, mainly.
+   * A prop rather than a class for the same reason as above: `object-cover`
+   * and `object-contain` together would resolve by stylesheet order.
+   */
+  fit?: "cover" | "contain";
+  quality?: number;
+  /** For a well that holds the page's largest paint. */
+  preload?: boolean;
 };
 
 /**
  * The image well the cards share: a ratio-locked box that crops its photo and
  * clips it to the box's own radius.
  *
- * Written once because the three places that had it — the product tiles, the
- * event cards and the Solusi Tenda pair — must keep the same behaviour when a
- * photo is missing: the well still occupies its space, so a half-illustrated
- * grid does not render as ragged rows.
+ * Written once because every place that had it — the product tiles, the event
+ * cards, the Solusi Tenda pair, the category hero and all four category
+ * sections — must keep the same behaviour when a photo is missing: the well
+ * still occupies its space, so a half-illustrated grid does not render as
+ * ragged rows.
  */
 export function ImageFrame({
   src,
@@ -33,6 +43,9 @@ export function ImageFrame({
   sizes,
   className,
   imageClassName,
+  fit = "cover",
+  quality,
+  preload,
 }: ImageFrameProps) {
   return (
     <div className={cn("relative w-full overflow-hidden", className)}>
@@ -42,7 +55,12 @@ export function ImageFrame({
           alt={alt}
           fill
           sizes={sizes}
-          className={cn("object-cover", imageClassName)}
+          quality={quality}
+          preload={preload}
+          className={cn(
+            fit === "contain" ? "object-contain" : "object-cover",
+            imageClassName
+          )}
         />
       )}
     </div>
