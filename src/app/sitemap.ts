@@ -1,14 +1,17 @@
 import type { MetadataRoute } from "next";
 
+import { CATEGORY_SLUGS } from "@/lib/categories";
 import { absoluteUrl } from "@/lib/site";
 
 /**
  * Serves /sitemap.xml.
  *
- * Only the three routes that actually exist are listed. The Products
- * collection and the category globals hold plenty of indexable content, but
- * none of it has a URL yet — once /produk/[category] lands, map those docs
- * here so a new product is crawlable without a code change.
+ * The category pages are derived from CATEGORY_SLUGS rather than listed by
+ * hand, so the same constant that decides which routes get prerendered also
+ * decides which get submitted — the two cannot disagree.
+ *
+ * They rank above /events: these are the pages carrying the product keywords,
+ * and each one holds a full spec sheet and FAQ.
  *
  * `lastModified` is deliberately absent. The honest value is the date each
  * page's content changed, which nothing currently tracks; stamping build time
@@ -27,6 +30,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.8,
     },
+    ...CATEGORY_SLUGS.map((slug) => ({
+      url: absoluteUrl(`/products/${slug}`),
+      changeFrequency: "monthly" as const,
+      priority: 0.9,
+    })),
     {
       url: absoluteUrl("/contact"),
       changeFrequency: "yearly",

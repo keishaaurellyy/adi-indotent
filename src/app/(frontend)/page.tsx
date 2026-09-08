@@ -8,6 +8,7 @@ import { WhyChooseUs } from "@/components/sections/why-choose-us";
 import { SiteFooter } from "@/components/layout/site-footer";
 import landingBg from "@/assets/landing-bg.png";
 import { getHomeEvents } from "@/lib/events";
+import { getProducts } from "@/lib/products";
 import { openGraphBase } from "@/lib/metadata";
 import { SITE_DESCRIPTION, SITE_TITLE } from "@/lib/site";
 import type { Metadata } from "next";
@@ -23,14 +24,20 @@ export const metadata: Metadata = {
 };
 
 /**
- * The events rail is CMS-driven, so the page is rebuilt on a timer rather
- * than pinned to whatever the database held at deploy time. Five minutes is
- * short enough that an editor sees their change without a redeploy.
+ * The product cards and events rail are CMS-driven, so the page is rebuilt on
+ * a timer rather than pinned to whatever the database held at deploy time.
+ * Five minutes is short enough that an editor sees their change without a
+ * redeploy.
  */
 export const revalidate = 300;
 
 export default async function Home() {
-  const events = await getHomeEvents();
+  // Two independent reads; awaiting them in sequence would stack their
+  // latency onto the render for no reason.
+  const [products, events] = await Promise.all([
+    getProducts(),
+    getHomeEvents(),
+  ]);
 
   return (
     <>
@@ -66,7 +73,7 @@ export default async function Home() {
         </Container>
       </section>
 
-      <ProductCollection />
+      <ProductCollection items={products} />
       <TrustedSolution />
       <HandledEvents events={events} />
       <WhyChooseUs />
