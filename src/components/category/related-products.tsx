@@ -1,9 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import {
   CardDescription,
   CardTitle,
   Container,
+  ImageFrame,
   Section,
   SectionHeading,
 } from "@/components/ui";
@@ -46,17 +46,13 @@ export function RelatedProducts({ items }: RelatedProductsProps) {
                 href={item.href}
                 className="group flex h-full flex-col rounded-2xl bg-background-grey p-4 transition-colors hover:bg-grey-30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary lg:p-5"
               >
-                <div className="relative aspect-16/9 w-full overflow-hidden rounded-xl bg-grey-40">
-                  {item.image && (
-                    <Image
-                      src={item.image}
-                      alt={item.imageAlt || item.title}
-                      fill
-                      sizes="(min-width: 768px) 50vw, 100vw"
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  )}
-                </div>
+                <ImageFrame
+                  src={item.image}
+                  alt={item.imageAlt || item.title}
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="aspect-16/9 rounded-xl bg-grey-40"
+                  imageClassName="transition-transform duration-300 group-hover:scale-105"
+                />
                 <div className="mt-6 px-1 pb-2">
                   <CardTitle>{item.title}</CardTitle>
                   {item.description && (

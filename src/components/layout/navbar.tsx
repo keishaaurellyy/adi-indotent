@@ -144,18 +144,14 @@ export function Navbar({ tone = "overlay" }: NavbarProps) {
           // size="lg" landing on 1240px of content inside a 1440 frame.
           className="flex h-16.5 items-center justify-between gap-2 py-2 lg:h-24 lg:py-3"
         >
-          <Link
+          <Logo
             href="/"
-            aria-label="Adi Indotent — home"
-            className="inline-flex shrink-0"
-          >
-            <Logo
-              variant={isLight ? "light" : "dark"}
-              height={48}
-              preload
-              className="h-10 w-auto lg:h-12"
-            />
-          </Link>
+            linkClassName="shrink-0"
+            variant={isLight ? "light" : "dark"}
+            height={48}
+            preload
+            className="h-10 w-auto lg:h-12"
+          />
 
           {/* Desktop nav */}
           <ul className="hidden items-center gap-10 lg:flex">

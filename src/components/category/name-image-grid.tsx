@@ -1,6 +1,6 @@
+import { CARD_GRID, CARD_GRID_SIZES } from "@/components/ui";
 import { PhotoCard } from "./photo-card";
 import { SectionShell } from "./section-shell";
-import { CARD_GRID, CARD_GRID_SIZES } from "./card-grid";
 import type { SectionBlock } from "@/lib/categories";
 
 type Props = {

@@ -16,6 +16,8 @@ type LogoProps = {
   preload?: boolean;
   /** Wrap in a link to `href`. Omit to render the image alone. */
   href?: string;
+  /** Extra classes on that link — the header needs it not to shrink. */
+  linkClassName?: string;
   className?: string;
 };
 
@@ -24,6 +26,7 @@ export function Logo({
   height = 40,
   preload = false,
   href,
+  linkClassName,
   className,
 }: LogoProps) {
   const src = variant === "dark" ? logoDark : logoLight;
@@ -42,8 +45,14 @@ export function Logo({
   );
 
   if (href) {
+    // The label lives here rather than at the two call sites, so the header
+    // and the footer cannot end up describing the same link differently.
     return (
-      <Link href={href} aria-label="Adi Indotent — home" className="inline-flex">
+      <Link
+        href={href}
+        aria-label="Adi Indotent — home"
+        className={cn("inline-flex", linkClassName)}
+      >
         {image}
       </Link>
     );

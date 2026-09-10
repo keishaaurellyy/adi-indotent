@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { HeroImagePrefetch } from "@/components/perf/hero-image-prefetch";
 import { openGraphBase } from "@/lib/metadata";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 import { jsonLd, localBusinessSchema } from "@/lib/structured-data";
@@ -55,6 +56,12 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         {children}
+        {/*
+          Warms the other pages' hero photos once this one is idle. Here rather
+          than per page so a route added later is covered by adding it to
+          ROUTE_HERO_IMAGES alone.
+        */}
+        <HeroImagePrefetch />
         {/*
           One LocalBusiness record for the whole frontend. It sits here rather
           than on the contact page alone so any page Google lands on first

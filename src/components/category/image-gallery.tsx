@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { ImageFrame } from "@/components/ui";
 import { SectionShell } from "./section-shell";
 import type { SectionBlock } from "@/lib/categories";
 
@@ -24,16 +24,12 @@ export function ImageGallery({ block, tone }: Props) {
       {block.items.length > 0 && (
         <ul className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-6">
           {block.items.map((item) => (
-            <li
-              key={item.id}
-              className="relative aspect-square overflow-hidden rounded-xl bg-grey-40"
-            >
-              <Image
+            <li key={item.id}>
+              <ImageFrame
                 src={item.image.url}
                 alt={item.image.alt}
-                fill
                 sizes="(min-width: 1024px) 25vw, 50vw"
-                className="object-cover"
+                className="aspect-square rounded-xl bg-grey-40"
               />
             </li>
           ))}

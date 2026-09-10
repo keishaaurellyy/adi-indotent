@@ -1,9 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import {
   CardDescription,
   CardTitle,
   Container,
+  ImageFrame,
   Section,
   SectionHeading,
 } from "@/components/ui";
@@ -46,17 +46,13 @@ export function ProductCollection({
                 className="group flex flex-col p-6 transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary"
               >
                 {/* Figma: 365.333x320 (aspect 1.1417) with a 12px radius. */}
-                <div className="relative aspect-[1097/960] w-full overflow-hidden rounded-xl bg-grey-40">
-                  {item.image && (
-                    <Image
-                      src={item.image}
-                      alt={item.imageAlt || item.title}
-                      fill
-                      sizes="(min-width: 768px) 33vw, 100vw"
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  )}
-                </div>
+                <ImageFrame
+                  src={item.image}
+                  alt={item.imageAlt || item.title}
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  className="aspect-[1097/960] rounded-xl bg-grey-40"
+                  imageClassName="transition-transform duration-300 group-hover:scale-105"
+                />
                 <CardTitle className="mt-6">{item.title}</CardTitle>
                 {item.description && (
                   <CardDescription>{item.description}</CardDescription>

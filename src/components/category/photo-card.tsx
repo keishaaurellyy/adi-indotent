@@ -1,6 +1,5 @@
-import Image from "next/image";
 import { cn } from "@/lib/cn";
-import { CardTitle } from "@/components/ui";
+import { CardTitle, ImageFrame } from "@/components/ui";
 import type { MediaRef } from "@/lib/categories";
 
 type Props = {
@@ -23,9 +22,6 @@ type Props = {
  * The captioned photo tile the category pages use wherever the CMS gives a
  * name and an image — `jenis_roder`, `size_variants` and every equipment
  * group. One component so the three cannot drift apart.
- *
- * The image well keeps its aspect ratio whether or not a photo is attached, so
- * a section that is half-illustrated does not render as ragged rows.
  */
 export function PhotoCard({ name, image, frame = "plain", sizes }: Props) {
   const outlined = frame === "outlined";
@@ -37,22 +33,13 @@ export function PhotoCard({ name, image, frame = "plain", sizes }: Props) {
         outlined ? "border border-border bg-background" : "bg-background-grey"
       )}
     >
-      <div
-        className={cn(
-          "relative aspect-4/3 w-full overflow-hidden rounded-xl",
-          !outlined && "bg-grey-40"
-        )}
-      >
-        {image && (
-          <Image
-            src={image.url}
-            alt={image.alt || name}
-            fill
-            sizes={sizes}
-            className={outlined ? "object-contain" : "object-cover"}
-          />
-        )}
-      </div>
+      <ImageFrame
+        src={image?.url}
+        alt={image?.alt || name}
+        sizes={sizes}
+        fit={outlined ? "contain" : "cover"}
+        className={cn("aspect-4/3 rounded-xl", !outlined && "bg-grey-40")}
+      />
       <CardTitle className="mt-5 px-1">{name}</CardTitle>
     </div>
   );
