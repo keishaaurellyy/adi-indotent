@@ -234,8 +234,7 @@ export interface Event {
   id: number;
   name: string;
   image?: (number | null) | Media;
-  event_category?:
-    ('korporat' | 'pemerintahan' | 'keagamaan' | 'pendidikan' | 'festival' | 'komersial' | 'gathering') | null;
+  event_category?: ('korporat' | 'pemerintahan' | 'keagamaan' | 'festival' | 'bazaar' | 'wedding' | 'komunitas') | null;
   location?: string | null;
   duration?: string | null;
   is_featured?: boolean | null;

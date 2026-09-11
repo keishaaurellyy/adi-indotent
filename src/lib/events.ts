@@ -25,10 +25,10 @@ const categoryLabels: Record<NonNullable<Event["event_category"]>, string> = {
   korporat: "Korporat",
   pemerintahan: "Pemerintahan",
   keagamaan: "Keagamaan",
-  pendidikan: "Pendidikan",
   festival: "Festival",
-  komersial: "Komersial",
-  gathering: "Gathering",
+  bazaar: "Bazaar",
+  wedding: "Wedding",
+  komunitas: "Komunitas",
 };
 
 /** How many cards the home rail shows before "Lihat semua" takes over. */

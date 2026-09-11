@@ -237,15 +237,15 @@ export const peralatanPendukung = {
 };
 
 export const events = [
-  { name: 'Aeon Mall Cikarang', location: 'Cikarang', event_category: 'komersial' },
+  { name: 'Aeon Mall Cikarang', location: 'Cikarang', event_category: 'bazaar' },
   { name: 'Alun-alun Cilegon', location: 'Cilegon', event_category: 'pemerintahan' },
   { name: 'Apel Ojek Online Kamtibmas', location: 'Lampung', event_category: 'pemerintahan' },
   { name: 'Bakti Indonesia Masjid Istiqlal', location: 'Jakarta', event_category: 'keagamaan' },
   { name: 'Buka Puasa Bersama TNI & Polri', location: 'Cilegon', event_category: 'keagamaan' },
   { name: 'Bukber & Sholat Tarawih', location: 'Jakarta', event_category: 'keagamaan' },
-  { name: 'Kelas Bimbel Tatap Muka', location: 'Bogor', event_category: 'pendidikan' },
+  { name: 'Kelas Bimbel Tatap Muka', location: 'Bogor', event_category: 'komunitas' },
   { name: 'Lampung Fest', location: 'Lampung', event_category: 'festival' },
-  { name: 'Lembah Hijau Cianjur', location: 'Cianjur', event_category: 'gathering' },
+  { name: 'Lembah Hijau Cianjur', location: 'Cianjur', event_category: 'komunitas' },
   { name: 'MTQ', location: 'Bogor', event_category: 'keagamaan' },
   { name: 'Pabrik Cikarang', location: 'Cikarang', event_category: 'korporat' },
 ].map((event, index) => ({

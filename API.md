@@ -211,7 +211,7 @@ const { docs } = await payload.find({
   "id": 1,
   "name": "Aeon Mall Cikarang",
   "image": null,
-  "event_category": "komersial",
+  "event_category": "bazaar",
   "location": "Cikarang",
   "duration": "3 hari",
   "is_featured": true,
@@ -226,7 +226,7 @@ const { docs } = await payload.find({
 | --- | --- | --- |
 | `name` | string | |
 | `image` | objek gambar \| null | Semua event masih `null`, gambarnya diunggah lewat admin |
-| `event_category` | enum \| null | `korporat`, `pemerintahan`, `keagamaan`, `pendidikan`, `festival`, `komersial`, `gathering` |
+| `event_category` | enum \| null | `korporat`, `pemerintahan`, `keagamaan`, `festival`, `bazaar`, `wedding`, `komunitas` |
 | `location` | string \| null | |
 | `duration` | string \| null | Teks bebas, mis. `"3 hari"` |
 | `is_featured` | boolean | 3 event pertama bernilai `true` |
