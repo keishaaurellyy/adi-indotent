@@ -17,18 +17,6 @@ node_modules/
 .next/
 out/
 
-# Strapi
-backend/dist/
-backend/build/
-backend/.tmp/
-backend/.cache/
-backend/.strapi/
-backend/.strapi-updater.json
-
-# Strapi media uploads (keep the folder, not its contents)
-backend/public/uploads/*
-!backend/public/uploads/.gitkeep
-
 # production
 /build
 
