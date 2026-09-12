@@ -3,26 +3,14 @@
 Panduan untuk tim frontend. Semua contoh di dokumen ini diambil dari respons
 asli server, bukan perkiraan.
 
-## Yang berubah dari versi Strapi
+## Bentuk CMS-nya
 
-CMS sekarang **Payload 3 yang berjalan di dalam app Next.js ini**, bukan server
+CMS-nya **Payload 3 yang berjalan di dalam app Next.js ini**, bukan server
 terpisah. Konsekuensinya:
 
-- Tidak ada base URL, tidak ada `NEXT_PUBLIC_STRAPI_URL`, tidak ada CORS.
+- Tidak ada base URL dan tidak ada CORS yang perlu diatur.
 - Cara utama mengambil data bukan `fetch`, melainkan **Local API** — panggilan
   langsung ke database tanpa melewati HTTP.
-- Bentuk response berbeda dari `backend/API.md` lama. Dokumen itu sudah tidak
-  berlaku.
-
-| Strapi (lama) | Payload (sekarang) |
-| --- | --- |
-| `fetch('http://localhost:1337/api/products')` | `payload.find({ collection: 'products' })` |
-| `{ "data": [...], "meta": { "pagination": {...} } }` | `{ "docs": [...], "totalDocs": n, "page": 1, ... }` |
-| `GET /api/roder` (single type) | `payload.findGlobal({ slug: 'roder' })` |
-| `?sort=display_order:asc` | `sort: 'display_order'` (turun: `-display_order`) |
-| `?pagination[pageSize]=10` | `limit: 10` |
-| `?filters[category_key][$eq]=roder` | `where: { category_key: { equals: 'roder' } }` |
-| `?populate=*` | `depth: 1` (sudah default) |
 
 ---
 
