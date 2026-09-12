@@ -3,6 +3,7 @@ import {
   CardDescription,
   CardTitle,
   Container,
+  Reveal,
   Section,
   SectionHeading,
 } from "@/components/ui";
@@ -79,7 +80,11 @@ export function WhyChooseUs({
           descriptionMaxWidth="42.5rem"
         />
 
-        <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8">
+        <Reveal
+          as="ul"
+          group
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8"
+        >
           {reasons.map((reason) => (
             <li
               key={reason.title}
@@ -91,7 +96,7 @@ export function WhyChooseUs({
               <CardDescription>{reason.description}</CardDescription>
             </li>
           ))}
-        </ul>
+        </Reveal>
       </Container>
     </Section>
   );

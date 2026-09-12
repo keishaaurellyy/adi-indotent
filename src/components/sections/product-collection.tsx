@@ -4,6 +4,7 @@ import {
   CardTitle,
   Container,
   ImageFrame,
+  Reveal,
   Section,
   SectionHeading,
 } from "@/components/ui";
@@ -36,9 +37,11 @@ export function ProductCollection({
           /*
             Figma has the three cards flush against each other, sharing 1px
             dividers inside one rounded outline — hence `divide-*` rather than
-            a gap between separate cards.
+            a gap between separate cards. That is also why the row arrives
+            whole rather than card by card: staggering them would slide the
+            cards around inside a frame that is already standing still.
           */
-          <div className="grid grid-cols-1 divide-y divide-border overflow-hidden rounded-lg border border-border md:grid-cols-3 md:divide-x md:divide-y-0">
+          <Reveal className="grid grid-cols-1 divide-y divide-border overflow-hidden rounded-lg border border-border md:grid-cols-3 md:divide-x md:divide-y-0">
             {items.map((item) => (
               <Link
                 key={item.id}
@@ -59,7 +62,7 @@ export function ProductCollection({
                 )}
               </Link>
             ))}
-          </div>
+          </Reveal>
         )}
       </Container>
     </Section>

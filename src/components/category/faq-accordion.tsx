@@ -1,3 +1,4 @@
+import { Reveal } from "@/components/ui";
 import { WHATSAPP_URL } from "@/lib/contact";
 import { SectionShell } from "./section-shell";
 import type { SectionBlock } from "@/lib/categories";
@@ -67,7 +68,8 @@ type Props = {
 export function FaqAccordion({ block, tone }: Props) {
   return (
     <SectionShell title={block.title} tone={tone}>
-      <ul className="divide-y divide-border border-t border-border">
+      {/* Whole block, like the spec table it pairs with. */}
+      <Reveal as="ul" className="divide-y divide-border border-t border-border">
         {block.items.map((item) => (
           <li key={item.id}>
             <details open className="group py-6 lg:py-7">
@@ -97,7 +99,7 @@ export function FaqAccordion({ block, tone }: Props) {
             </details>
           </li>
         ))}
-      </ul>
+      </Reveal>
     </SectionShell>
   );
 }

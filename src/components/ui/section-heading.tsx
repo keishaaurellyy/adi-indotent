@@ -1,4 +1,5 @@
 import { cn } from "@/lib/cn";
+import { Reveal } from "./reveal";
 
 type SectionHeadingProps = {
   eyebrow?: string;
@@ -26,7 +27,10 @@ export function SectionHeading({
 }: SectionHeadingProps) {
   const centered = align === "center";
   return (
-    <div
+    // Arrives as one block rather than line by line: the eyebrow, title and
+    // description are a single thought, and staggering them would read as
+    // three separate arrivals above every section on the site.
+    <Reveal
       className={cn(
         "mb-12 flex flex-col gap-6 lg:mb-16",
         centered && "mx-auto items-center text-center",
@@ -54,6 +58,6 @@ export function SectionHeading({
           {description}
         </p>
       )}
-    </div>
+    </Reveal>
   );
 }

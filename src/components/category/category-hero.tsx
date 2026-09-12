@@ -22,13 +22,13 @@ export function CategoryHero({ title, description, image }: CategoryHeroProps) {
     <section className="bg-background-grey pt-10 pb-12 lg:pt-16 lg:pb-16">
       <Container>
         {/* The only h1 on the page — every section heading below is an h2. */}
-        <h1 className="text-h1 font-bold text-foreground">{title}</h1>
+        <h1 className="rise-in text-h1 font-bold text-foreground">{title}</h1>
 
         {description && (
           // Uncapped: the design runs this to the same edge as the photo
           // below it, so a max-width would leave the two ragged against each
           // other.
-          <p className="mt-5 text-body-xl font-normal text-foreground-secondary">
+          <p className="rise-in mt-5 text-body-xl font-normal text-foreground-secondary [--rise-delay:100ms]">
             {description}
           </p>
         )}
@@ -45,7 +45,7 @@ export function CategoryHero({ title, description, image }: CategoryHeroProps) {
             sizes="(min-width: 1024px) 81.5rem, 100vw"
             quality={90}
             preload
-            className="mt-8 aspect-4/3 rounded-xl lg:mt-10 lg:aspect-2/1"
+            className="rise-in mt-8 aspect-4/3 rounded-xl [--rise-delay:200ms] lg:mt-10 lg:aspect-2/1"
             imageClassName="object-center"
           />
         )}

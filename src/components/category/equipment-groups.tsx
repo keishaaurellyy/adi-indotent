@@ -1,4 +1,10 @@
-import { CARD_GRID, CARD_GRID_SIZES, Container, Section } from "@/components/ui";
+import {
+  CARD_GRID,
+  CARD_GRID_SIZES,
+  Container,
+  Reveal,
+  Section,
+} from "@/components/ui";
 import { PhotoCard } from "./photo-card";
 import type { SectionBlock } from "@/lib/categories";
 
@@ -23,10 +29,12 @@ export function EquipmentGroups({ block, tone }: Props) {
         <div className="grid gap-12 lg:gap-16">
           {block.groups.map((group) => (
             <section key={group.id}>
-              <h2 className="text-h5 font-semibold text-foreground">
-                {group.name}
-              </h2>
-              <ul className={`mt-6 ${CARD_GRID}`}>
+              <Reveal>
+                <h2 className="text-h5 font-semibold text-foreground">
+                  {group.name}
+                </h2>
+              </Reveal>
+              <Reveal as="ul" group className={`mt-6 ${CARD_GRID}`}>
                 {group.items.map((item) => (
                   <li key={item.id}>
                     <PhotoCard
@@ -36,7 +44,7 @@ export function EquipmentGroups({ block, tone }: Props) {
                     />
                   </li>
                 ))}
-              </ul>
+              </Reveal>
             </section>
           ))}
         </div>

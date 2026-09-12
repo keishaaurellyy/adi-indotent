@@ -165,3 +165,104 @@ body {
     display: none;
   }
 }
+
+/*
+ * Motion.
+ *
+ * Two effects only, both small: blocks fade up as they scroll into view, and
+ * the content of a page header rises on load. A company profile is read, not
+ * played with, so nothing here loops, slides sideways, or moves far enough to
+ * make a reader wait for it.
+ *
+ * Every rule below is gated on `prefers-reduced-motion: no-preference`, so a
+ * reader who asks for less motion gets the finished page with none of it.
+ */
+
+/*
+ * Scroll reveal, driven by the `Reveal` component's data-revealed.
+ *
+ * `scripting: enabled` is what makes hiding safe: where the observer can never
+ * run — and in any browser too old to understand the query, which then fails
+ * the whole condition — the hidden state is never applied and the content
+ * simply stands still.
+ */
+@media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+  .reveal,
+  .reveal-group > * {
+    opacity: 0;
+    transform: translateY(1rem);
+    transition:
+      opacity 700ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms),
+      transform 700ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms);
+  }
+
+  .reveal[data-revealed],
+  .reveal-group[data-revealed] > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  /*
+   * Cards arrive in sequence. Capped at the ninth: on a long grid the tail
+   * would otherwise still be waiting well after the reader got there, and
+   * everything past the cap comes in together on the last beat.
+   */
+  .reveal-group > *:nth-child(2) { --reveal-delay: 60ms; }
+  .reveal-group > *:nth-child(3) { --reveal-delay: 120ms; }
+  .reveal-group > *:nth-child(4) { --reveal-delay: 180ms; }
+  .reveal-group > *:nth-child(5) { --reveal-delay: 240ms; }
+  .reveal-group > *:nth-child(6) { --reveal-delay: 300ms; }
+  .reveal-group > *:nth-child(7) { --reveal-delay: 360ms; }
+  .reveal-group > *:nth-child(8) { --reveal-delay: 420ms; }
+  .reveal-group > *:nth-child(n + 9) { --reveal-delay: 480ms; }
+}
+
+/*
+ * Page-header entrance. Pure CSS on a keyframe rather than the observer
+ * above: this content is above the fold on every viewport, so it has nothing
+ * to wait for, and keeping it off the JavaScript path means the largest text
+ * on the page is never gated on hydration.
+ *
+ * Callers order the parts with `[--rise-delay:90ms]` and so on.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(1.25rem);
+    }
+  }
+
+  .rise-in {
+    animation: rise-in 800ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--rise-delay, 0ms);
+  }
+
+  /*
+   * Navbar dropdown and mobile panel. Entrance only — they are dismissed by
+   * the `hidden` attribute, which removes the box immediately, and holding a
+   * menu on screen to play it out would fight the click that closed it.
+   */
+  @keyframes menu-in {
+    from {
+      opacity: 0;
+      transform: translateY(-0.25rem);
+    }
+  }
+
+  .menu-in {
+    animation: menu-in 160ms ease-out;
+  }
+}
+
+/*
+ * Printing renders no scroll, so nothing would ever come into view and a
+ * printed page would arrive with holes in it. On paper everything is there.
+ */
+@media print {
+  .reveal,
+  .reveal-group > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

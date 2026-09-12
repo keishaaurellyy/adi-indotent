@@ -1,4 +1,4 @@
-import { Container, ImageFrame, Section } from "@/components/ui";
+import { Container, ImageFrame, Reveal, Section } from "@/components/ui";
 
 type TrustedSolutionProps = {
   title?: string;
@@ -32,10 +32,10 @@ export function TrustedSolution({
 }: TrustedSolutionProps) {
   return (
     <Section>
-      <Container size="xl">
-        {/* Figma: two 632px columns with a 48px gutter from lg up. */}
+      <Container size="lg">
+        {/* Two equal columns with a 48px gutter from lg up. */}
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-12">
-          <div>
+          <Reveal>
             {/* 32px on mobile, 40px from lg — between our h2 and h3 steps. */}
             <h2 className="text-[2rem]/[1.2] font-semibold lg:text-h3">
               {title}
@@ -50,23 +50,25 @@ export function TrustedSolution({
                 </p>
               ))}
             </div>
-          </div>
+          </Reveal>
 
           {/*
             The pair reads as one rounded block: only the outer corners are
-            rounded (12px), so the facing inner corners stay square.
+            rounded (12px), so the facing inner corners stay square. It
+            arrives half a beat behind the prose, so the two columns read
+            left to right rather than landing as one wall.
           */}
-          <div className="flex flex-col gap-4">
+          <Reveal className="flex flex-col gap-4 [--reveal-delay:120ms]">
             {images.map((image) => (
               <ImageFrame
                 key={image.src}
                 src={image.src}
                 alt={image.alt}
-                sizes="(min-width: 1024px) 632px, 100vw"
+                sizes="(min-width: 1024px) 596px, 100vw"
                 className="aspect-327/182 first:rounded-t-xl last:rounded-b-xl lg:aspect-632/211"
               />
             ))}
-          </div>
+          </Reveal>
         </div>
       </Container>
     </Section>

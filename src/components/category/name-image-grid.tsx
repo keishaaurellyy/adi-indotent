@@ -1,4 +1,4 @@
-import { CARD_GRID, CARD_GRID_SIZES } from "@/components/ui";
+import { CARD_GRID, CARD_GRID_SIZES, Reveal } from "@/components/ui";
 import { PhotoCard } from "./photo-card";
 import { SectionShell } from "./section-shell";
 import type { SectionBlock } from "@/lib/categories";
@@ -18,7 +18,7 @@ type Props = {
 export function NameImageGrid({ block, frame = "plain", tone }: Props) {
   return (
     <SectionShell title={block.title} tone={tone}>
-      <ul className={CARD_GRID}>
+      <Reveal as="ul" group className={CARD_GRID}>
         {block.items.map((item) => (
           <li key={item.id}>
             <PhotoCard
@@ -29,7 +29,7 @@ export function NameImageGrid({ block, frame = "plain", tone }: Props) {
             />
           </li>
         ))}
-      </ul>
+      </Reveal>
     </SectionShell>
   );
 }
