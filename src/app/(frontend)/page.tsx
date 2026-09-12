@@ -56,16 +56,16 @@ export default async function Home() {
           className="object-cover"
         />
         <Container size="md" className="relative py-24 text-center">
-          <h1 className="text-h1 font-semibold capitalize text-foreground-light">
+          <h1 className="rise-in text-h1 font-semibold capitalize text-foreground-light">
             Sewa Tenda
             <br />
             Wujudkan Acara Sukses
           </h1>
-          <p className="mx-auto mt-6 max-w-xl text-body-xl font-normal text-foreground-light">
+          <p className="rise-in mx-auto mt-6 max-w-xl text-body-xl font-normal text-foreground-light [--rise-delay:100ms]">
             Sewa tenda berkualitas dengan pemasangan cepat dan rapi untuk setiap
             jenis acara, dari skala kecil hingga besar
           </p>
-          <div className="mt-10">
+          <div className="rise-in mt-10 [--rise-delay:200ms]">
             <Button href="/events" variant="secondary" className="w-full sm:w-auto">
               Lihat proyek kami
             </Button>

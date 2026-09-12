@@ -1,3 +1,4 @@
+import { Reveal } from "@/components/ui";
 import { SectionShell } from "./section-shell";
 import type { SectionBlock } from "@/lib/categories";
 
@@ -22,7 +23,7 @@ type Props = {
 export function TextList({ block, tone }: Props) {
   return (
     <SectionShell title={block.title} tone={tone}>
-      <ul className="grid gap-4 md:grid-cols-2 lg:gap-6">
+      <Reveal as="ul" group className="grid gap-4 md:grid-cols-2 lg:gap-6">
         {block.items.map((item) => (
           <li
             key={item.id}
@@ -46,7 +47,7 @@ export function TextList({ block, tone }: Props) {
             <p className="text-body-xl text-foreground">{item.description}</p>
           </li>
         ))}
-      </ul>
+      </Reveal>
     </SectionShell>
   );
 }

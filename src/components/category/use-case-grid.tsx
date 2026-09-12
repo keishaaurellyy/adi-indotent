@@ -1,4 +1,4 @@
-import { CARD_GRID, CardDescription, CardTitle } from "@/components/ui";
+import { CARD_GRID, CardDescription, CardTitle, Reveal } from "@/components/ui";
 import { SectionShell } from "./section-shell";
 import type { SectionBlock } from "@/lib/categories";
 
@@ -21,7 +21,7 @@ type Props = {
 export function UseCaseGrid({ block, tone }: Props) {
   return (
     <SectionShell title={block.title} tone={tone}>
-      <ol className={CARD_GRID}>
+      <Reveal as="ol" group className={CARD_GRID}>
         {block.items.map((item, index) => (
           <li
             key={item.id}
@@ -39,7 +39,7 @@ export function UseCaseGrid({ block, tone }: Props) {
             )}
           </li>
         ))}
-      </ol>
+      </Reveal>
     </SectionShell>
   );
 }

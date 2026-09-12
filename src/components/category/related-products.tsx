@@ -4,6 +4,7 @@ import {
   CardTitle,
   Container,
   ImageFrame,
+  Reveal,
   Section,
   SectionHeading,
 } from "@/components/ui";
@@ -39,7 +40,7 @@ export function RelatedProducts({ items }: RelatedProductsProps) {
           maxWidth="32rem"
         />
 
-        <ul className="grid gap-6 md:grid-cols-2 lg:gap-8">
+        <Reveal as="ul" group className="grid gap-6 md:grid-cols-2 lg:gap-8">
           {items.map((item) => (
             <li key={item.id}>
               <Link
@@ -62,7 +63,7 @@ export function RelatedProducts({ items }: RelatedProductsProps) {
               </Link>
             </li>
           ))}
-        </ul>
+        </Reveal>
       </Container>
     </Section>
   );

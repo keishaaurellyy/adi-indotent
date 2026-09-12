@@ -7,5 +7,6 @@ export { Container } from "./container";
 export { EventCard } from "./event-card";
 export { ImageFrame } from "./image-frame";
 export { Logo } from "./logo";
+export { Reveal } from "./reveal";
 export { Section } from "./section";
 export { SectionHeading } from "./section-heading";

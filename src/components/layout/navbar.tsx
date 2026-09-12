@@ -229,7 +229,7 @@ export function Navbar({ tone = "overlay" }: NavbarProps) {
 
       {/* Mobile panel */}
       <div id="mobile-menu" hidden={!mobileOpen} className="px-6 pb-4 lg:hidden">
-        <div className="rounded-xl bg-background p-4 shadow-lg ring-1 ring-black/5">
+        <div className="menu-in rounded-xl bg-background p-4 shadow-lg ring-1 ring-black/5">
           <ul className="flex flex-col">
             {navItems.map((item) => (
               <li key={item.label}>
@@ -299,7 +299,7 @@ function SubMenu({
       role="menu"
       aria-label={item.label}
       hidden={!open}
-      className="absolute top-full left-0 mt-3 w-80 rounded-xl bg-background p-2 shadow-lg ring-1 ring-black/5"
+      className="menu-in absolute top-full left-0 mt-3 w-80 rounded-xl bg-background p-2 shadow-lg ring-1 ring-black/5"
     >
       {item.children?.map((child) => (
         <Link

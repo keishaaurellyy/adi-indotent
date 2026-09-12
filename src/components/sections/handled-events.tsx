@@ -1,4 +1,10 @@
-import { Backdrop, Button, Container, EventCard } from "@/components/ui";
+import {
+  Backdrop,
+  Button,
+  Container,
+  EventCard,
+  Reveal,
+} from "@/components/ui";
 import type { EventSummary } from "@/lib/events";
 
 type HandledEventsProps = {
@@ -26,7 +32,7 @@ export function HandledEvents({
       <div className="relative">
         <Container size="lg">
           {/* Figma: heading left, a ~432px block right — not a 50/50 split. */}
-          <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_27rem] lg:items-start lg:gap-12">
+          <Reveal className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_27rem] lg:items-start lg:gap-12">
             <h2 className="text-h2 font-semibold text-foreground-light lg:max-w-108">
               {title}
             </h2>
@@ -45,11 +51,13 @@ export function HandledEvents({
                 </Button>
               </div>
             </div>
-          </div>
+          </Reveal>
         </Container>
 
         <div className="no-scrollbar mt-10 overflow-x-auto lg:mt-16">
-          <ul
+          <Reveal
+            as="ul"
+            group
             className={`flex w-max snap-x snap-mandatory gap-6 lg:gap-8 ${railInset}`}
           >
             {events.map((event) => (
@@ -64,7 +72,7 @@ export function HandledEvents({
                 />
               </li>
             ))}
-          </ul>
+          </Reveal>
         </div>
       </div>
     </section>

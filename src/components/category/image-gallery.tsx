@@ -1,4 +1,4 @@
-import { ImageFrame } from "@/components/ui";
+import { ImageFrame, Reveal } from "@/components/ui";
 import { SectionShell } from "./section-shell";
 import type { SectionBlock } from "@/lib/categories";
 
@@ -22,7 +22,11 @@ export function ImageGallery({ block, tone }: Props) {
   return (
     <SectionShell title={block.title} description={block.description} tone={tone}>
       {block.items.length > 0 && (
-        <ul className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-6">
+        <Reveal
+          as="ul"
+          group
+          className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-6"
+        >
           {block.items.map((item) => (
             <li key={item.id}>
               <ImageFrame
@@ -33,7 +37,7 @@ export function ImageGallery({ block, tone }: Props) {
               />
             </li>
           ))}
-        </ul>
+        </Reveal>
       )}
     </SectionShell>
   );

@@ -1,3 +1,4 @@
+import { Reveal } from "@/components/ui";
 import { SectionShell } from "./section-shell";
 import type { SectionBlock } from "@/lib/categories";
 
@@ -32,7 +33,9 @@ type Props = {
 export function SpecTable({ block, tone }: Props) {
   return (
     <SectionShell title={block.title} tone={tone}>
-      <dl className="divide-y divide-border border-t border-border">
+      {/* No stagger: twenty spec rows arriving one by one is a queue to sit
+          through, not a flourish. */}
+      <Reveal as="dl" className="divide-y divide-border border-t border-border">
         {block.items.map((item) => (
           <div
             key={item.id}
@@ -47,7 +50,7 @@ export function SpecTable({ block, tone }: Props) {
             </dd>
           </div>
         ))}
-      </dl>
+      </Reveal>
     </SectionShell>
   );
 }

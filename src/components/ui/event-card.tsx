@@ -63,6 +63,14 @@ export function EventCard({
         alt={event.imageAlt || event.title}
         sizes={sizes}
         className={cn("rounded-lg bg-muted", imageAspect)}
+        // Only the linked cards zoom. On the events index they go nowhere,
+        // and a hover response with no click behind it promises a page that
+        // does not exist.
+        imageClassName={
+          href
+            ? "transition-transform duration-300 group-hover:scale-105"
+            : undefined
+        }
       />
 
       {event.category && (
@@ -92,7 +100,7 @@ export function EventCard({
   const shell = cn(
     "flex h-full flex-col rounded-xl bg-background p-4 lg:p-6",
     href &&
-      "transition-shadow hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+      "group transition-shadow hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
   );
 
   if (!href) return <div className={shell}>{body}</div>;

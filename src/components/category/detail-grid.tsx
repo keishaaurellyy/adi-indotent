@@ -4,6 +4,7 @@ import {
   CardDescription,
   CardTitle,
   ImageFrame,
+  Reveal,
 } from "@/components/ui";
 import { SectionShell } from "./section-shell";
 import type { SectionBlock } from "@/lib/categories";
@@ -24,7 +25,7 @@ type Props = {
 export function DetailGrid({ block, tone }: Props) {
   return (
     <SectionShell title={block.title} tone={tone}>
-      <ul className={CARD_GRID}>
+      <Reveal as="ul" group className={CARD_GRID}>
         {block.items.map((item) => (
           <li
             key={item.id}
@@ -44,7 +45,7 @@ export function DetailGrid({ block, tone }: Props) {
             </div>
           </li>
         ))}
-      </ul>
+      </Reveal>
     </SectionShell>
   );
 }

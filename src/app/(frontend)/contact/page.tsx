@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Container, SectionHeading } from "@/components/ui";
+import { Container, Reveal, SectionHeading } from "@/components/ui";
 import { Navbar } from "@/components/layout/navbar";
 import { SiteFooter } from "@/components/layout/site-footer";
 import {
@@ -79,7 +79,7 @@ export default function ContactPage() {
         <Container>
          
           <div className="lg:flex lg:items-center lg:justify-between lg:gap-16">
-            <h1 className="text-h1 font-semibold text-foreground-light">
+            <h1 className="rise-in text-h1 font-semibold text-foreground-light">
               Kami Siap{" "}
               <br />
               Membantu{" "}
@@ -87,7 +87,7 @@ export default function ContactPage() {
               Anda
             </h1>
 
-            <div className="mt-8 lg:mt-0 lg:max-w-100 lg:shrink-0 items-center">
+            <div className="rise-in mt-8 items-center [--rise-delay:100ms] lg:mt-0 lg:max-w-100 lg:shrink-0">
               <p className="text-body-lg text-foreground-light">
                 Hubungi kami untuk informasi lebih lanjut seputar produk dan
                 layanan yang kami sediakan
@@ -114,28 +114,34 @@ export default function ContactPage() {
           </div>
 
           {/* Two equal columns of the 1240 content width from lg, stacked below. */}
-          <dl className="mt-10 grid gap-4 lg:mt-18 lg:grid-cols-2 lg:gap-6">
+          <Reveal
+            as="dl"
+            group
+            className="mt-10 grid gap-4 lg:mt-18 lg:grid-cols-2 lg:gap-6"
+          >
             <InfoCard icon="/icon/clock-icon.svg" label="Jam buka">
               {OPENING_HOURS}
             </InfoCard>
             <InfoCard icon="/icon/marker-pin-icon.svg" label="Lokasi">
               {ADDRESS}
             </InfoCard>
-          </dl>
+          </Reveal>
         </Container>
       </section>
 
       <section className="pt-24 pb-8">
         <Container>
           <SectionHeading align="center" title="Temukan Kami Disini" />
-          <iframe
-            src={MAPS_EMBED_URL}
-            title={`Peta lokasi Adi Indotent — ${ADDRESS}`}
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            allowFullScreen
-            className="block h-148 w-full rounded-xl border-0 lg:h-162.5"
-          />
+          <Reveal>
+            <iframe
+              src={MAPS_EMBED_URL}
+              title={`Peta lokasi Adi Indotent — ${ADDRESS}`}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+              className="block h-148 w-full rounded-xl border-0 lg:h-162.5"
+            />
+          </Reveal>
         </Container>
       </section>
 

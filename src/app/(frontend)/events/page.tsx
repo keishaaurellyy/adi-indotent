@@ -3,6 +3,7 @@ import {
   CARD_GRID,
   Container,
   EventCard,
+  Reveal,
   Section,
 } from "@/components/ui";
 import { Navbar } from "@/components/layout/navbar";
@@ -38,12 +39,12 @@ export default async function EventsPage() {
           />
 
           <Container className="relative">
-            <h1 className="text-h1 font-semibold text-foreground-light">
+            <h1 className="rise-in text-h1 font-semibold text-foreground-light">
               Berbagai Acara{" "}
               <br className="hidden lg:block" />
               Sudah Kami Kerjakan
             </h1>
-            <p className="mt-6 text-body-xl font-normal text-foreground-light">
+            <p className="rise-in mt-6 text-body-xl font-normal text-foreground-light [--rise-delay:100ms]">
               Pengalaman menangani berbagai jenis acara membuat kami paham
               kebutuhan setiap klien, sehingga hasilnya selalu sesuai harapan.
             </p>
@@ -58,7 +59,7 @@ export default async function EventsPage() {
                 Belum ada acara yang dipublikasikan.
               </p>
             ) : (
-              <ul className={CARD_GRID}>
+              <Reveal as="ul" group className={CARD_GRID}>
                 {events.map((event) => (
                   <li key={event.id}>
                     {/*
@@ -73,7 +74,7 @@ export default async function EventsPage() {
                     />
                   </li>
                 ))}
-              </ul>
+              </Reveal>
             )}
           </Container>
         </Section>
