@@ -10,8 +10,7 @@ type TrustedSolutionProps = {
 /** Copy from the Figma frame, pending a Payload collection. */
 const defaultParagraphs = [
   "Adi Indotent menyediakan Tenda Roder dan Tenda Sarnafil berkualitas untuk berbagai kebutuhan, mulai dari pameran, bazaar, wedding, event korporat, gudang penyimpanan, kantor sementara, dan berbagai kebutuhan lainnya.",
-  "Dengan konstruksi yang kokoh, pemasangan yang cepat, serta fleksibilitas dalam penggunaannya, solusi tenda dari Adi Indotent menjadi pilihan yang efisien untuk mendukung berbagai acara maupun kebutuhan operasional.",
-  "Berdiri sejak 2013, Adi Indotent telah berpengalaman dalam menyediakan solusi tenda dengan mengutamakan kualitas dan pelayanan profesional. Hingga saat ini, Adi Indotent telah dipercaya menangani lebih dari 2000 proyek di berbagai wilayah Indonesia. Dengan komitmen untuk memberikan layanan yang terpercaya, Adi Indotent terus menghadirkan solusi terbaik yang berorientasi pada kepuasan pelanggan.",
+  "Berdiri sejak 2013, Adi Indotent telah dipercaya menangani lebih dari 2.000 proyek di berbagai wilayah Indonesia. Dengan pengalaman dan komitmen terhadap kualitas serta pelayanan profesional, Adi Indotent menghadirkan solusi tenda dengan konstruksi yang kokoh, pemasangan yang cepat, dan fleksibilitas penggunaan untuk mendukung berbagai acara maupun kebutuhan operasional.",
 ];
 
 const defaultImages = [
