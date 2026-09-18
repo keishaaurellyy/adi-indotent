@@ -14,17 +14,33 @@ import {
 
 export const Sarnafil: GlobalConfig = {
   slug: 'sarnafil',
-  label: 'Kategori: Sarnafil',
+  label: 'Sarnafil',
+  admin: {
+    group: 'Category Pages',
+    description: 'Everything on /products/sarnafil, top to bottom.',
+  },
   access: { read: () => true },
   versions: { drafts: true },
   hooks: { afterRead: [trimMedia] },
   fields: [
-    ...categoryHeaderFields,
-    usecaseSection(),
-    sizeVariantSection(),
-    textSection(),
-    flooringSection(),
-    specSection(),
-    faqSection(),
+    {
+      type: 'tabs',
+      tabs: [
+        { label: 'Page Header', fields: categoryHeaderFields },
+        {
+          // Same order as `sarnafilBlocks` in src/lib/categories.ts — Roder's
+          // list minus Jenis Roder and Pilihan Dinding.
+          label: 'Sections',
+          fields: [
+            usecaseSection(),
+            sizeVariantSection(),
+            specSection(),
+            textSection(),
+            flooringSection(),
+            faqSection(),
+          ],
+        },
+      ],
+    },
   ],
 };
