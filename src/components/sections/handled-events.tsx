@@ -1,0 +1,80 @@
+import {
+  Backdrop,
+  Button,
+  Container,
+  EventCard,
+  Reveal,
+} from "@/components/ui";
+import type { EventSummary } from "@/lib/events";
+
+type HandledEventsProps = {
+  title?: string;
+  description?: string;
+  ctaHref?: string;
+  events: EventSummary[];
+};
+
+const railInset =
+  "pl-[max(1.5rem,calc((100%-81.5rem)/2+2rem))] pr-6 " +
+  "lg:pl-[max(2rem,calc((100%-81.5rem)/2+2rem))] lg:pr-8";
+
+export function HandledEvents({
+  title = "Acara yang Pernah Kami Tangani",
+  description = "Mulai dari pernikahan, acara perusahaan, hingga kegiatan komunitas, kami siap membantu mewujudkannya.",
+  ctaHref = "/events",
+  events,
+}: HandledEventsProps) {
+  return (
+    <section className="relative overflow-hidden bg-background-dark py-16 lg:py-24">
+      {/* Figma fades the photo out at 70% of the section's height. */}
+      <Backdrop src="/bg-section-4.jpg" />
+
+      <div className="relative">
+        <Container size="lg">
+          {/* Figma: heading left, a ~432px block right — not a 50/50 split. */}
+          <Reveal className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_27rem] lg:items-start lg:gap-12">
+            <h2 className="text-h2 font-semibold text-foreground-light lg:max-w-108">
+              {title}
+            </h2>
+            <div>
+              {/* 16px/150% at both breakpoints; body-lg would drop to 14px on mobile. */}
+              <p className="text-base/[1.5] text-foreground-light-secondary">
+                {description}
+              </p>
+              <div className="mt-6">
+                <Button
+                  href={ctaHref}
+                  variant="secondary"
+                  className="w-full sm:w-auto"
+                >
+                  Lihat semua
+                </Button>
+              </div>
+            </div>
+          </Reveal>
+        </Container>
+
+        <div className="no-scrollbar mt-10 overflow-x-auto lg:mt-16">
+          <Reveal
+            as="ul"
+            group
+            className={`flex w-max snap-x snap-mandatory gap-6 lg:gap-8 ${railInset}`}
+          >
+            {events.map((event) => (
+              <li
+                key={event.id}
+                className="w-78 shrink-0 snap-start lg:w-119.5"
+              >
+                <EventCard
+                  event={event}
+                  href={ctaHref}
+                  sizes="(min-width: 1024px) 430px, 280px"
+                />
+              </li>
+            ))}
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
