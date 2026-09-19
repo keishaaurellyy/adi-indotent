@@ -53,8 +53,66 @@ export default buildConfig({
     user: Users.slug,
     importMap: { baseDir: path.resolve(dirname) },
     meta: { titleSuffix: '— Adi Indotent' },
+    components: {
+      // The Payload mark on the login screen and in the nav, swapped for the
+      // company's. Both live in src/components/admin/graphics.tsx.
+      graphics: {
+        Logo: '/components/admin/graphics#Logo',
+        Icon: '/components/admin/graphics#Icon',
+      },
+      // Payload's sidebar has no way back to the dashboard except the logo.
+      beforeNavLinks: ['/components/admin/dashboard-nav-link#DashboardNavLink'],
+    },
+    /*
+     * Dashboard widgets, in place of the bare grid of collection cards.
+     *
+     * Every number these render is queried from this database — there are no
+     * placeholder trends or sample figures. Widgets an editor does not want can
+     * be removed from the dashboard in the UI; `defaultLayout` is only the
+     * starting arrangement.
+     *
+     * Payload's own `collections` card grid is left out of the layout: it
+     * repeated the sidebar, which now carries the same links with icons. It is
+     * still appended to `widgets` by Payload, so it can be added back from the
+     * dashboard's own edit mode without a config change.
+     */
+    dashboard: {
+      widgets: [
+        {
+          slug: 'at-a-glance',
+          label: 'At a glance',
+          Component: '/components/admin/widgets/at-a-glance#AtAGlance',
+          minWidth: 'full',
+        },
+        {
+          slug: 'events-by-category',
+          label: 'Events by category',
+          Component: '/components/admin/widgets/events-by-category#EventsByCategory',
+        },
+        {
+          slug: 'category-pages',
+          label: 'Category pages',
+          Component: '/components/admin/widgets/category-pages#CategoryPages',
+        },
+        {
+          slug: 'recent-activity',
+          label: 'Recently edited',
+          Component: '/components/admin/widgets/recent-activity#RecentActivity',
+        },
+      ],
+      defaultLayout: [
+        { widgetSlug: 'at-a-glance', width: 'full' },
+        { widgetSlug: 'events-by-category', width: 'medium' },
+        { widgetSlug: 'category-pages', width: 'medium' },
+        { widgetSlug: 'recent-activity', width: 'full' },
+      ],
+    },
   },
-  collections: [Users, Media, Products, Events],
+  /*
+   * Nav order within each `admin.group`. Content first and in the order an
+   * editor is most likely to want it; Users sits alone under Settings.
+   */
+  collections: [Products, Events, Media, Users],
   globals: [Roder, Sarnafil, PeralatanPendukung],
   editor: lexicalEditor(),
   db: postgresAdapter({

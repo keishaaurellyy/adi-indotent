@@ -13,6 +13,7 @@
     "generate:importmap": "payload generate:importmap",
     "check": "payload run scripts/check-payload.ts",
     "create-admin": "payload run scripts/create-admin.ts",
+    "superadmin": "payload run scripts/set-superadmin.ts",
     "seed": "payload run scripts/seed.ts",
     "seed:force": "payload run scripts/seed.ts force"
   },

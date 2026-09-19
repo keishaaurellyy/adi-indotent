@@ -67,10 +67,10 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    users: User;
-    media: Media;
     products: Product;
     events: Event;
+    media: Media;
+    users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,10 +78,10 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -103,6 +103,10 @@ export interface Config {
   };
   locale: null;
   widgets: {
+    'at-a-glance': AtAGlanceWidget;
+    'events-by-category': EventsByCategoryWidget;
+    'category-pages': CategoryPagesWidget;
+    'recent-activity': RecentActivityWidget;
     collections: CollectionsWidget;
   };
   user: User;
@@ -130,39 +134,47 @@ export interface UserAuthOperations {
   };
 }
 /**
+ * The three cards in Products on the home page, and the entries in the navbar's Products menu. Each card links to a category page — edit the page itself under Category Pages.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
+ * via the `definition` "products".
  */
-export interface User {
+export interface Product {
   id: number;
-  name?: string | null;
+  /**
+   * The product name as it reads on the card.
+   */
+  title: string;
+  /**
+   * One or two sentences under the title.
+   */
+  description?: string | null;
+  /**
+   * Which category page this card opens — and which page's hero image it borrows. One card per category.
+   */
+  category_key: 'roder' | 'sarnafil' | 'peralatan-pendukung';
+  /**
+   * Lowest number shows first.
+   */
+  display_order?: number | null;
+  /**
+   * Read-only. This is the hero image from the category page above — change it there and this card follows.
+   */
+  hero_image?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
-  password?: string | null;
-  collection: 'users';
+  _status?: ('draft' | 'published') | null;
 }
 /**
+ * Every image, video and PDF used on the site. Upload here once and pick the file from a product, event or category page.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
   id: number;
   /**
-   * Deskripsi singkat gambar untuk pembaca layar dan SEO.
+   * A short description of what is in the image, for screen readers and search engines. Describe the subject, not the file — "Tenda Sarnafil di halaman kantor", not "foto 1".
    */
   alt?: string | null;
   updatedAt: string;
@@ -204,44 +216,79 @@ export interface Media {
   };
 }
 /**
- * Data utama kategori produk: tampil di Products Overview (home) & submenu navbar.
+ * Past events, shown on the home page and on /events. Only published events appear on the site — a draft stays private until you hit Publish.
  *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "products".
- */
-export interface Product {
-  id: number;
-  title: string;
-  description?: string | null;
-  /**
-   * Diambil otomatis dari hero_image milik global kategori ini.
-   */
-  hero_image?: (number | null) | Media;
-  /**
-   * Menentukan halaman detail mana yang dibuka kartu ini, sekaligus global mana yang dipakai untuk gambarnya.
-   */
-  category_key: 'roder' | 'sarnafil' | 'peralatan-pendukung';
-  display_order?: number | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events".
  */
 export interface Event {
   id: number;
+  /**
+   * The heading on the card, e.g. "Gathering Telkom Indonesia".
+   */
   name: string;
+  /**
+   * One photo from the event. Landscape crops best on the card.
+   */
   image?: (number | null) | Media;
+  /**
+   * Shown as a chip on the card. Leave empty to show no chip.
+   */
   event_category?: ('korporat' | 'pemerintahan' | 'keagamaan' | 'festival' | 'bazaar' | 'wedding' | 'komunitas') | null;
+  /**
+   * Where it was held, e.g. "Jakarta Convention Center".
+   */
   location?: string | null;
+  /**
+   * How long it ran, e.g. "3 hari".
+   */
   duration?: string | null;
-  is_featured?: boolean | null;
+  /**
+   * Lowest number first. Events sharing a number fall back to when they were added.
+   */
   display_order?: number | null;
+  /**
+   * Not used by the site yet. Ticking it changes nothing on the page — use Order to control what shows first.
+   */
+  is_featured?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * People who can sign in and edit this site.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: number;
+  /**
+   * Shown instead of the email address where there is room for it.
+   */
+  name?: string | null;
+  /**
+   * Admins edit all of the site content. The superadmin does that and manages this list of users — there can only be one.
+   */
+  role: 'superadmin' | 'admin';
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
+  collection: 'users';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -268,20 +315,20 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'users';
-        value: number | User;
-      } | null)
-    | ({
-        relationTo: 'media';
-        value: number | Media;
-      } | null)
-    | ({
         relationTo: 'products';
         value: number | Product;
       } | null)
     | ({
         relationTo: 'events';
         value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: number | User;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -327,26 +374,33 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
+ * via the `definition` "products_select".
  */
-export interface UsersSelect<T extends boolean = true> {
-  name?: T;
+export interface ProductsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  category_key?: T;
+  display_order?: T;
+  hero_image?: T;
   updatedAt?: T;
   createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
-    | T
-    | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
-      };
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  name?: T;
+  image?: T;
+  event_category?: T;
+  location?: T;
+  duration?: T;
+  display_order?: T;
+  is_featured?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -402,33 +456,27 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "products_select".
+ * via the `definition` "users_select".
  */
-export interface ProductsSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  hero_image?: T;
-  category_key?: T;
-  display_order?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "events_select".
- */
-export interface EventsSelect<T extends boolean = true> {
+export interface UsersSelect<T extends boolean = true> {
   name?: T;
-  image?: T;
-  event_category?: T;
-  location?: T;
-  duration?: T;
-  is_featured?: T;
-  display_order?: T;
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
-  _status?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -471,17 +519,28 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
+ * Everything on /products/roder, top to bottom.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "roder".
  */
 export interface Roder {
   id: number;
+  /**
+   * The big heading at the top of the page.
+   */
   title: string;
+  /**
+   * The paragraph under the heading.
+   */
   description?: string | null;
+  /**
+   * The banner at the top of the page. This is also the image on the product card on the home page.
+   */
   hero_image?: (number | null) | Media;
   use_cases: {
     /**
-     * Judul yang tampil di atas section ini.
+     * The heading printed above this section on the page.
      */
     group_name: string;
     items?:
@@ -492,9 +551,25 @@ export interface Roder {
         }[]
       | null;
   };
+  size_variants: {
+    /**
+     * The heading printed above this section on the page.
+     */
+    group_name: string;
+    items?:
+      | {
+          /**
+           * e.g. "10 x 20 m".
+           */
+          name: string;
+          image?: (number | null) | Media;
+          id?: string | null;
+        }[]
+      | null;
+  };
   jenis_roder: {
     /**
-     * Judul yang tampil di atas section ini.
+     * The heading printed above this section on the page.
      */
     group_name: string;
     items?:
@@ -507,7 +582,7 @@ export interface Roder {
   };
   pilihan_dinding: {
     /**
-     * Judul yang tampil di atas section ini.
+     * The heading printed above this section on the page.
      */
     group_name: string;
     items?:
@@ -519,22 +594,28 @@ export interface Roder {
         }[]
       | null;
   };
-  size_variants: {
+  specifications: {
     /**
-     * Judul yang tampil di atas section ini.
+     * The heading printed above this section on the page.
      */
     group_name: string;
     items?:
       | {
-          name: string;
-          image?: (number | null) | Media;
+          /**
+           * Left column, e.g. "Material atap".
+           */
+          label: string;
+          /**
+           * Right column.
+           */
+          value?: string | null;
           id?: string | null;
         }[]
       | null;
   };
   yang_anda_dapatkan: {
     /**
-     * Judul yang tampil di atas section ini.
+     * The heading printed above this section on the page.
      */
     group_name: string;
     items?:
@@ -546,9 +627,12 @@ export interface Roder {
   };
   flooring_modul: {
     /**
-     * Judul yang tampil di atas section ini.
+     * The heading printed above this section on the page.
      */
     group_name: string;
+    /**
+     * Explains what flooring modul is, above the photos.
+     */
     description?: string | null;
     items?:
       | {
@@ -557,22 +641,9 @@ export interface Roder {
         }[]
       | null;
   };
-  specifications: {
-    /**
-     * Judul yang tampil di atas section ini.
-     */
-    group_name: string;
-    items?:
-      | {
-          label: string;
-          value?: string | null;
-          id?: string | null;
-        }[]
-      | null;
-  };
   pertanyaan_umum: {
     /**
-     * Judul yang tampil di atas section ini.
+     * The heading printed above this section on the page.
      */
     group_name: string;
     items?:
@@ -588,17 +659,28 @@ export interface Roder {
   createdAt?: string | null;
 }
 /**
+ * Everything on /products/sarnafil, top to bottom.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "sarnafil".
  */
 export interface Sarnafil {
   id: number;
+  /**
+   * The big heading at the top of the page.
+   */
   title: string;
+  /**
+   * The paragraph under the heading.
+   */
   description?: string | null;
+  /**
+   * The banner at the top of the page. This is also the image on the product card on the home page.
+   */
   hero_image?: (number | null) | Media;
   use_cases: {
     /**
-     * Judul yang tampil di atas section ini.
+     * The heading printed above this section on the page.
      */
     group_name: string;
     items?:
@@ -611,20 +693,42 @@ export interface Sarnafil {
   };
   size_variants: {
     /**
-     * Judul yang tampil di atas section ini.
+     * The heading printed above this section on the page.
      */
     group_name: string;
     items?:
       | {
+          /**
+           * e.g. "10 x 20 m".
+           */
           name: string;
           image?: (number | null) | Media;
           id?: string | null;
         }[]
       | null;
   };
+  specifications: {
+    /**
+     * The heading printed above this section on the page.
+     */
+    group_name: string;
+    items?:
+      | {
+          /**
+           * Left column, e.g. "Material atap".
+           */
+          label: string;
+          /**
+           * Right column.
+           */
+          value?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
   yang_anda_dapatkan: {
     /**
-     * Judul yang tampil di atas section ini.
+     * The heading printed above this section on the page.
      */
     group_name: string;
     items?:
@@ -636,9 +740,12 @@ export interface Sarnafil {
   };
   flooring_modul: {
     /**
-     * Judul yang tampil di atas section ini.
+     * The heading printed above this section on the page.
      */
     group_name: string;
+    /**
+     * Explains what flooring modul is, above the photos.
+     */
     description?: string | null;
     items?:
       | {
@@ -647,22 +754,9 @@ export interface Sarnafil {
         }[]
       | null;
   };
-  specifications: {
-    /**
-     * Judul yang tampil di atas section ini.
-     */
-    group_name: string;
-    items?:
-      | {
-          label: string;
-          value?: string | null;
-          id?: string | null;
-        }[]
-      | null;
-  };
   pertanyaan_umum: {
     /**
-     * Judul yang tampil di atas section ini.
+     * The heading printed above this section on the page.
      */
     group_name: string;
     items?:
@@ -678,20 +772,37 @@ export interface Sarnafil {
   createdAt?: string | null;
 }
 /**
+ * Everything on /products/peralatan-pendukung, top to bottom.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "peralatan-pendukung".
  */
 export interface PeralatanPendukung {
   id: number;
+  /**
+   * The big heading at the top of the page.
+   */
   title: string;
+  /**
+   * The paragraph under the heading.
+   */
   description?: string | null;
+  /**
+   * The banner at the top of the page. This is also the image on the product card on the home page.
+   */
   hero_image?: (number | null) | Media;
   /**
-   * Grup peralatan, mis. Dekorasi & Ruangan, Kursi & Meja.
+   * One group per kind of equipment, e.g. Dekorasi & Ruangan, Kursi & Meja. Each group prints its own heading on the page, so there is no heading above them.
    */
   equipment_groups?:
     | {
+        /**
+         * The heading printed above this group on the page.
+         */
         group_name: string;
+        /**
+         * A photo and a name for each piece of equipment in this group.
+         */
         items?:
           | {
               name: string;
@@ -726,6 +837,18 @@ export interface RoderSelect<T extends boolean = true> {
               id?: T;
             };
       };
+  size_variants?:
+    | T
+    | {
+        group_name?: T;
+        items?:
+          | T
+          | {
+              name?: T;
+              image?: T;
+              id?: T;
+            };
+      };
   jenis_roder?:
     | T
     | {
@@ -751,15 +874,15 @@ export interface RoderSelect<T extends boolean = true> {
               id?: T;
             };
       };
-  size_variants?:
+  specifications?:
     | T
     | {
         group_name?: T;
         items?:
           | T
           | {
-              name?: T;
-              image?: T;
+              label?: T;
+              value?: T;
               id?: T;
             };
       };
@@ -783,18 +906,6 @@ export interface RoderSelect<T extends boolean = true> {
           | T
           | {
               image?: T;
-              id?: T;
-            };
-      };
-  specifications?:
-    | T
-    | {
-        group_name?: T;
-        items?:
-          | T
-          | {
-              label?: T;
-              value?: T;
               id?: T;
             };
       };
@@ -847,6 +958,18 @@ export interface SarnafilSelect<T extends boolean = true> {
               id?: T;
             };
       };
+  specifications?:
+    | T
+    | {
+        group_name?: T;
+        items?:
+          | T
+          | {
+              label?: T;
+              value?: T;
+              id?: T;
+            };
+      };
   yang_anda_dapatkan?:
     | T
     | {
@@ -867,18 +990,6 @@ export interface SarnafilSelect<T extends boolean = true> {
           | T
           | {
               image?: T;
-              id?: T;
-            };
-      };
-  specifications?:
-    | T
-    | {
-        group_name?: T;
-        items?:
-          | T
-          | {
-              label?: T;
-              value?: T;
               id?: T;
             };
       };
@@ -924,6 +1035,46 @@ export interface PeralatanPendukungSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "at-a-glance_widget".
+ */
+export interface AtAGlanceWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events-by-category_widget".
+ */
+export interface EventsByCategoryWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'x-small' | 'small' | 'medium' | 'large' | 'x-large' | 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "category-pages_widget".
+ */
+export interface CategoryPagesWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'x-small' | 'small' | 'medium' | 'large' | 'x-large' | 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "recent-activity_widget".
+ */
+export interface RecentActivityWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'x-small' | 'small' | 'medium' | 'large' | 'x-large' | 'full';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

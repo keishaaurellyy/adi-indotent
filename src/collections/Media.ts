@@ -2,6 +2,14 @@ import type { CollectionConfig } from 'payload';
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  labels: { singular: 'File', plural: 'Media Library' },
+  admin: {
+    useAsTitle: 'filename',
+    defaultColumns: ['filename', 'alt', 'updatedAt'],
+    group: 'Content',
+    description:
+      'Every image, video and PDF used on the site. Upload here once and pick the file from a product, event or category page.',
+  },
   access: { read: () => true },
   /**
    * Trim what comes back when a media doc is populated from somewhere else —
@@ -23,8 +31,12 @@ export const Media: CollectionConfig = {
   fields: [
     {
       name: 'alt',
+      label: 'Alt text',
       type: 'text',
-      admin: { description: 'Deskripsi singkat gambar untuk pembaca layar dan SEO.' },
+      admin: {
+        description:
+          'A short description of what is in the image, for screen readers and search engines. Describe the subject, not the file — "Tenda Sarnafil di halaman kantor", not "foto 1".',
+      },
     },
   ],
 };
