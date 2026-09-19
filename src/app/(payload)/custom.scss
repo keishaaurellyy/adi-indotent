@@ -1,3 +1,775 @@
-/* Admin panel style overrides live here (client branding: logo, colours).
- * Left empty on purpose — see the branding follow-up in the CMS decision doc.
+/*
+ * Admin panel branding.
+ *
+ * Payload builds its whole interface out of three colour ramps — a neutral one
+ * for text, borders and surfaces, an accent one it calls "success" for anything
+ * selected or focused, and an error one — so re-pointing those three ramps at
+ * the site's palette themes the panel without touching Payload's markup or
+ * overriding rules that a version bump could rename underneath us.
+ *
+ * Every value below is interpolated from the Figma tokens in
+ * src/app/(frontend)/globals.css, positioned by perceived lightness so each step
+ * lands where Payload's own step did:
+ *
+ *   neutral  --color-grey-10 … --color-grey-100
+ *   accent   --color-secondary-10 … --color-secondary-100  (the cyan)
+ *   error    --color-tertiary-10 … --color-tertiary-100    (the red)
+ *
+ * Payload declares its defaults inside `@layer payload-default`, and unlayered
+ * CSS beats any layer, so these plain `:root` rules win no matter what order the
+ * stylesheets load in — no `!important` needed.
+ *
+ * Payload's warning ramp (amber) is left alone: the site has no amber, and an
+ * invented one would be a colour the brand does not own.
  */
+
+:root {
+  /* Neutral — the site's grey scale. */
+  --color-base-0: rgb(255, 255, 255);
+  --color-base-50: rgb(241, 242, 245);
+  --color-base-100: rgb(227, 230, 234);
+  --color-base-150: rgb(213, 217, 223);
+  --color-base-200: rgb(200, 204, 213);
+  --color-base-250: rgb(186, 192, 202);
+  --color-base-300: rgb(172, 179, 191);
+  --color-base-350: rgb(159, 166, 180);
+  --color-base-400: rgb(146, 154, 168);
+  --color-base-450: rgb(133, 141, 156);
+  --color-base-500: rgb(120, 128, 143);
+  --color-base-550: rgb(107, 115, 131);
+  --color-base-600: rgb(93, 103, 119);
+  --color-base-650: rgb(80, 90, 106);
+  --color-base-700: rgb(66, 77, 94);
+  --color-base-750: rgb(53, 64, 82);
+  --color-base-800: rgb(41, 52, 69);
+  --color-base-850: rgb(28, 39, 55);
+  --color-base-900: rgb(18, 26, 40);
+  --color-base-950: rgb(8, 13, 25);
+  --color-base-1000: rgb(0, 0, 0);
+
+  /*
+   * Accent — the site's cyan. Payload spends this on checked checkboxes,
+   * selected radios, focus rings, the upload dropzone and success toasts.
+   */
+  --color-success-50: rgb(221, 244, 250);
+  --color-success-100: rgb(199, 236, 246);
+  --color-success-150: rgb(171, 226, 242);
+  --color-success-200: rgb(141, 215, 238);
+  --color-success-250: rgb(109, 204, 233);
+  --color-success-300: rgb(75, 192, 228);
+  --color-success-350: rgb(39, 179, 222);
+  --color-success-400: rgb(7, 165, 213);
+  --color-success-450: rgb(6, 152, 196);
+  --color-success-500: rgb(6, 138, 178);
+  --color-success-550: rgb(5, 124, 161);
+  --color-success-600: rgb(5, 111, 143);
+  --color-success-650: rgb(4, 97, 125);
+  --color-success-700: rgb(3, 83, 107);
+  --color-success-750: rgb(2, 70, 90);
+  --color-success-800: rgb(2, 56, 72);
+  --color-success-850: rgb(2, 51, 66);
+  --color-success-900: rgb(2, 46, 60);
+  --color-success-950: rgb(1, 41, 54);
+
+  /* Payload's default `blue` ramp is a copy of its `success` one; keep that. */
+  --color-blue-50: var(--color-success-50);
+  --color-blue-100: var(--color-success-100);
+  --color-blue-150: var(--color-success-150);
+  --color-blue-200: var(--color-success-200);
+  --color-blue-250: var(--color-success-250);
+  --color-blue-300: var(--color-success-300);
+  --color-blue-350: var(--color-success-350);
+  --color-blue-400: var(--color-success-400);
+  --color-blue-450: var(--color-success-450);
+  --color-blue-500: var(--color-success-500);
+  --color-blue-550: var(--color-success-550);
+  --color-blue-600: var(--color-success-600);
+  --color-blue-650: var(--color-success-650);
+  --color-blue-700: var(--color-success-700);
+  --color-blue-750: var(--color-success-750);
+  --color-blue-800: var(--color-success-800);
+  --color-blue-850: var(--color-success-850);
+  --color-blue-900: var(--color-success-900);
+  --color-blue-950: var(--color-success-950);
+
+  /* Error — the site's red. */
+  --color-error-50: rgb(250, 234, 234);
+  --color-error-100: rgb(248, 222, 223);
+  --color-error-150: rgb(245, 208, 209);
+  --color-error-200: rgb(242, 192, 194);
+  --color-error-250: rgb(239, 175, 178);
+  --color-error-300: rgb(235, 158, 161);
+  --color-error-350: rgb(232, 140, 144);
+  --color-error-400: rgb(228, 121, 126);
+  --color-error-450: rgb(223, 102, 107);
+  --color-error-500: rgb(218, 79, 85);
+  --color-error-550: rgb(204, 65, 71);
+  --color-error-600: rgb(182, 57, 62);
+  --color-error-650: rgb(160, 51, 55);
+  --color-error-700: rgb(137, 44, 47);
+  --color-error-750: rgb(115, 36, 40);
+  --color-error-800: rgb(93, 29, 32);
+  --color-error-850: rgb(71, 23, 25);
+  --color-error-900: rgb(63, 20, 22);
+  --color-error-950: rgb(54, 18, 19);
+
+  /*
+   * The two brand colours by name, for the handful of rules below that need a
+   * flat colour rather than a step on a ramp. From --color-primary-60/-70.
+   */
+  --brand-primary: #014961;
+  --brand-primary-hover: #013d51;
+  /* --color-secondary-60, the cyan the site pairs with its dark sections. */
+  --brand-accent: #07a8d9;
+
+  /* Matches the site's body font, with the same fallbacks. */
+  --font-body:
+    'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+}
+
+/*
+ * Primary buttons — Save, Publish, Create New.
+ *
+ * These are the one place Payload's neutral ramp is doing a job the brand
+ * should do: by default the button is simply `--theme-elevation-800`, the same
+ * near-black as body text. Pointing it at the brand teal is what makes the
+ * panel read as this company's rather than as a stock install.
+ */
+.btn--style-primary {
+  --bg-color: var(--brand-primary);
+  --hover-bg: var(--brand-primary-hover);
+  --color: #ffffff;
+  --hover-color: #ffffff;
+}
+
+/*
+ * Dark theme inverts the elevation ramp, so the teal that carries white text on
+ * a white page is too close to the background on a dark one. The cyan is the
+ * brand's own light-on-dark pairing — it is what the site uses for accents in
+ * its dark sections — and it takes near-black text.
+ */
+html[data-theme='dark'] .btn--style-primary {
+  --bg-color: var(--brand-accent);
+  --hover-bg: var(--color-success-350);
+  --color: #001820;
+  --hover-color: #001820;
+}
+
+/*
+ * "Create New", moved to the far right of the list header and painted with the
+ * brand colour.
+ *
+ * Payload renders it immediately after the <h1> in the same grey as a filter
+ * chip, at the end of a heading an editor's eye has already stopped reading.
+ * It is the one action people come to a list page to take, so it gets the
+ * corner and the primary colour instead.
+ *
+ * The move is done on the header's action slot rather than on the button:
+ * `.list-header__content` is a `1fr auto` grid, so `margin-inline-start: auto`
+ * carries the slot to the end of the title column — the right edge of the page
+ * while the second column is empty, and just inside the selection count or a
+ * drawer's close button when it is not. Media's "Bulk Upload" sits in the same
+ * slot and travels with it, which keeps both actions together.
+ */
+.list-header__title-actions {
+  margin-inline-start: auto;
+}
+
+/*
+ * Two selectors, because Payload builds the two buttons from different
+ * primitives: the list page renders a `Button`, which takes its colours from
+ * custom properties, while the list drawer — the picker that opens from an
+ * upload or relationship field — renders a `Pill`, which sets `background`
+ * outright. Both of Payload's rules sit in `@layer payload-default`, so these
+ * unlayered ones win without `!important`.
+ */
+.list-create-new-doc__create-new-button {
+  --bg-color: var(--brand-primary);
+  --hover-bg: var(--brand-primary-hover);
+  --color: #ffffff;
+  --hover-color: #ffffff;
+
+  /*
+   * Payload hardcodes `size="small"` on this button, which is 8px of side
+   * padding and none at all above or below. These four are its own `medium`
+   * step, copied rather than invented so the button still measures like the
+   * rest of the panel: 4px block, 12px inline, taking it from roughly 22px
+   * tall to 30px.
+   */
+  --btn-padding-block-start: calc(var(--base) * 0.2);
+  --btn-padding-block-end: calc(var(--base) * 0.2);
+  --btn-padding-inline-start: calc(var(--base) * 0.6);
+  --btn-padding-inline-end: calc(var(--base) * 0.6);
+}
+
+.list-header__create-new-button .pill {
+  background: var(--brand-primary);
+  color: #ffffff;
+
+  /* Pill runs on the same small/medium scale; same step up. */
+  --pill-padding-block-start: calc(var(--base) * 0.2);
+  --pill-padding-block-end: calc(var(--base) * 0.2);
+  --pill-padding-inline-start: calc(var(--base) * 0.6);
+  --pill-padding-inline-end: calc(var(--base) * 0.6);
+}
+
+.list-header__create-new-button:hover .pill {
+  background: var(--brand-primary-hover);
+}
+
+/*
+ * Same inversion as the primary buttons above: the deep teal is too close to a
+ * dark page's background, so dark theme takes the brand's cyan with near-black
+ * text.
+ */
+html[data-theme='dark'] {
+  .list-create-new-doc__create-new-button {
+    --bg-color: var(--brand-accent);
+    --hover-bg: var(--color-success-350);
+    --color: #001820;
+    --hover-color: #001820;
+  }
+
+  .list-header__create-new-button .pill {
+    background: var(--brand-accent);
+    color: #001820;
+  }
+
+  .list-header__create-new-button:hover .pill {
+    background: var(--color-success-350);
+  }
+}
+
+/*
+ * Logo and icon (src/components/admin/graphics.tsx).
+ *
+ * Both light and dark artwork is in the markup and one is hidden here, because
+ * the theme is a class on <html> that flips at runtime — a server component
+ * cannot know which to send, and choosing on the client flashes the wrong one.
+ */
+.brand-logo {
+  display: block;
+  width: 180px;
+  max-width: 100%;
+}
+
+.brand-icon {
+  display: block;
+  width: 100%;
+}
+
+.brand-logo__dark {
+  display: none;
+}
+
+html[data-theme='dark'] {
+  .brand-logo__light {
+    display: none;
+  }
+
+  .brand-logo__dark {
+    display: block;
+  }
+}
+
+/* ===========================================================================
+ * Shape and spacing.
+ *
+ * Payload's default admin is square-edged and hairline-bordered: 3px radii,
+ * every panel outlined in 1px, the whole app flush to the browser edge. The
+ * rules from here down soften that — one rounded surface floating on a tinted
+ * canvas, pills instead of underlines, shadows instead of outlines. Nothing
+ * below moves anything or changes what is on screen, only how hard its edges
+ * are.
+ * ========================================================================= */
+
+:root {
+  /*
+   * Radii. Payload's own three are redefined rather than overridden per
+   * component, which rounds every input, button, popup and thumbnail in the
+   * panel from one place.
+   */
+  --style-radius-s: 8px;
+  --style-radius-m: 10px;
+  --style-radius-l: 14px;
+
+  --brand-radius-pill: 10px;
+  --brand-radius-card: 16px;
+  --brand-radius-shell: 22px;
+
+  /* The gap between the app card and the browser edge. */
+  --brand-shell-gap: 14px;
+
+  /*
+   * The tint behind the card — a step outside Payload's elevation scale, which
+   * starts at the card's own white. Taken from the same interpolated ramp.
+   */
+  --brand-canvas: var(--color-base-50);
+
+  /* Soft and wide, rather than a hard 1px line. */
+  --brand-shadow-card: 0 1px 2px rgb(3 7 18 / 4%), 0 10px 24px -14px rgb(3 7 18 / 12%);
+  --brand-shadow-shell: 0 1px 3px rgb(3 7 18 / 5%), 0 28px 56px -36px rgb(3 7 18 / 20%);
+}
+
+html[data-theme='dark'] {
+  --brand-canvas: var(--color-base-950);
+  --brand-shadow-card: 0 1px 2px rgb(0 0 0 / 30%);
+  --brand-shadow-shell: 0 1px 3px rgb(0 0 0 / 40%);
+}
+
+/*
+ * The app as one rounded card on the canvas.
+ *
+ * Only `.template-default` paints; the sidebar and the content pane inside it
+ * stay transparent. That is what lets the card have rounded corners without
+ * `overflow: hidden` — and the clipping matters, because it would turn the
+ * sidebar into a scroll container of its own and its `position: sticky` would
+ * stop working.
+ */
+html {
+  background: var(--brand-canvas);
+}
+
+.template-default {
+  background: var(--theme-elevation-0);
+  border-radius: var(--brand-radius-shell);
+  box-shadow: var(--brand-shadow-shell);
+  margin: var(--brand-shell-gap);
+  min-height: calc(100vh - (var(--brand-shell-gap) * 2));
+}
+
+.template-default__wrap {
+  background: transparent;
+}
+
+/*
+ * The sidebar sticks to the top of the card rather than the top of the window,
+ * so its hairline stops where the rounded corner begins instead of running
+ * past it.
+ */
+.nav {
+  background: transparent;
+  height: calc(100vh - (var(--brand-shell-gap) * 2));
+  top: var(--brand-shell-gap);
+}
+
+/*
+ * Sidebar links as pills.
+ *
+ * Payload marks the current page by rendering a `.nav__link-indicator` — a 2px
+ * bar in the left gutter — inside the active link, not by adding a class to it.
+ * So the pill is selected on the presence of that element, and the bar itself
+ * is then hidden, because the pill is already saying the same thing.
+ *
+ * `.active` is matched alongside it: Payload's own stylesheet still carries
+ * rules for that class, so a version that goes back to setting it will keep
+ * the pill rather than silently losing the active state.
+ */
+.nav__link {
+  border-radius: var(--brand-radius-pill);
+  gap: 10px;
+  padding: 7px 12px;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--theme-elevation-50);
+    text-decoration: none;
+  }
+
+  /*
+   * The icon is a mask rather than an <img>, so it is painted in the link's own
+   * colour — which means it turns white inside the active pill and follows the
+   * dark theme without a second asset.
+   */
+  &::before {
+    background-color: currentColor;
+    content: '';
+    flex-shrink: 0;
+    height: 18px;
+    mask: var(--nav-icon) center / contain no-repeat;
+    width: 18px;
+    -webkit-mask: var(--nav-icon) center / contain no-repeat;
+  }
+}
+
+/*
+ * Icons, keyed on the ids Payload gives each entry (`nav-<collection>` and
+ * `nav-global-<slug>`). Those ids are on the link whether or not it is the
+ * current page — the `href` is not, since Payload renders the active entry as
+ * a plain div — which is why they, and not the href, are the hook.
+ *
+ * The document icon on `.nav__link` is the fallback: a collection added later
+ * gets a sensible icon instead of a blank square, because an undefined
+ * `--nav-icon` would make the mask invalid and paint a solid block.
+ */
+.nav__link {
+  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z'/%3E%3Cpath d='M14 3v5h5'/%3E%3Cpath d='M9 13h6'/%3E%3Cpath d='M9 17h4'/%3E%3C/svg%3E");
+}
+
+#nav-dashboard {
+  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='7.5' height='7.5' rx='2'/%3E%3Crect x='13.5' y='3' width='7.5' height='7.5' rx='2'/%3E%3Crect x='13.5' y='13.5' width='7.5' height='7.5' rx='2'/%3E%3Crect x='3' y='13.5' width='7.5' height='7.5' rx='2'/%3E%3C/svg%3E");
+}
+
+#nav-products {
+  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='14' rx='2.5'/%3E%3Cpath d='M7 10h4'/%3E%3Cpath d='M7 14h10'/%3E%3C/svg%3E");
+}
+
+#nav-events {
+  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='16' rx='2.5'/%3E%3Cpath d='M3 10h18'/%3E%3Cpath d='M8 3v4'/%3E%3Cpath d='M16 3v4'/%3E%3C/svg%3E");
+}
+
+#nav-media {
+  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='16' rx='2.5'/%3E%3Ccircle cx='8.5' cy='9.5' r='1.6'/%3E%3Cpath d='m4 17.5 4.5-4.5 3 3 4-4L20 16'/%3E%3C/svg%3E");
+}
+
+#nav-users {
+  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='3.6'/%3E%3Cpath d='M5.5 20a6.5 6.5 0 0 1 13 0'/%3E%3C/svg%3E");
+}
+
+/*
+ * The Dashboard entry comes from `beforeNavLinks`, so it sits as a direct child
+ * of a column flexbox that aligns its children to the start. Without this it
+ * would be a pill only as wide as its own text, unlike every link below it.
+ */
+.nav__wrap > .nav__link {
+  align-self: stretch;
+  margin-bottom: 18px;
+}
+
+/*
+ * Settings last.
+ *
+ * Nav order follows the config — collections before globals — so Users, being a
+ * collection, would otherwise sit above the category pages. Reordering here
+ * rather than in the config keeps it a presentation choice: nothing about the
+ * collection moves, only where its group is drawn.
+ */
+.nav-group.Settings {
+  order: 8;
+}
+
+.nav__link:has(.nav__link-indicator),
+.nav__link.active {
+  background: var(--brand-primary);
+  color: #ffffff;
+
+  &:hover {
+    background: var(--brand-primary-hover);
+  }
+}
+
+html[data-theme='dark'] {
+  .nav__link:has(.nav__link-indicator),
+  .nav__link.active {
+    background: var(--theme-success-700);
+    color: var(--theme-elevation-1000);
+
+    &:hover {
+      background: var(--theme-success-650);
+    }
+  }
+}
+
+.nav__link-indicator {
+  display: none;
+}
+
+/* Group headings recede to labels, so the links themselves carry the weight. */
+.nav-group__toggle {
+  padding-inline: 12px;
+
+  .nav-group__label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
+
+/* Ordered after Settings; `margin-top: auto` still pins it to the bottom. */
+.nav__controls {
+  order: 9;
+  padding-inline: 12px;
+}
+
+/*
+ * Panels: rounded, shadowed, no longer outlined. These are the surfaces that
+ * made the panel feel boxy — every list, table and collapsible carried its own
+ * 1px rectangle.
+ */
+.table {
+  border-color: transparent;
+  border-radius: var(--brand-radius-card);
+  box-shadow: var(--brand-shadow-card);
+  overflow: hidden;
+}
+
+.collapsible,
+.array-field__row {
+  border-radius: var(--brand-radius-card);
+}
+
+.collapsible__toggle-wrap {
+  border-radius: var(--brand-radius-pill);
+}
+
+.pill {
+  border-radius: 999px;
+}
+
+/*
+ * "Forgot password?" on the login screen.
+ *
+ * Hidden because no email adapter is configured. Payload would still accept
+ * the request and write a reset token, but the message goes to the server
+ * console instead of an inbox — so the link promises an email that never
+ * arrives, with nothing on screen to say why. Better to leave editors asking
+ * an admin to reset the password from the Users collection.
+ *
+ * Payload renders it as a bare <a> between the input group and the submit
+ * button with no class of its own, so it is selected by position.
+ * `display: none` rather than `visibility` or `opacity`, because it also
+ * takes the link out of the tab order and out of the accessibility tree: a
+ * link nobody should follow should not be reachable by keyboard either.
+ *
+ * This only hides the entry point — /admin/forgot still answers if typed in
+ * directly. Delete this block once an email adapter is in place.
+ */
+.login__form > a {
+  display: none;
+}
+
+/* ===========================================================================
+ * Dashboard widgets (src/components/admin/widgets/).
+ * ========================================================================= */
+
+.dash-stats {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.dash-stat {
+  background: var(--theme-elevation-0);
+  border: 1px solid var(--theme-elevation-100);
+  border-radius: var(--brand-radius-card);
+  box-shadow: var(--brand-shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px 20px;
+  text-decoration: none;
+  transition:
+    box-shadow 140ms ease,
+    transform 140ms ease;
+
+  &:hover {
+    box-shadow:
+      0 2px 4px rgb(3 7 18 / 6%),
+      0 16px 32px -18px rgb(3 7 18 / 18%);
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+}
+
+.dash-stat__label {
+  color: var(--theme-elevation-500);
+  font-size: 0.82rem;
+}
+
+.dash-stat__value {
+  font-size: 1.9rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.dash-stat__note {
+  color: var(--theme-elevation-450);
+  font-size: 0.78rem;
+}
+
+/* Only a stat standing for an unfinished job is tinted. */
+.dash-stat__note--attention {
+  color: var(--theme-warning-550);
+  font-weight: 500;
+}
+
+.dash-card {
+  background: var(--theme-elevation-0);
+  border: 1px solid var(--theme-elevation-100);
+  border-radius: var(--brand-radius-card);
+  box-shadow: var(--brand-shadow-card);
+  height: 100%;
+  padding: 20px 22px 22px;
+}
+
+.dash-card__head {
+  align-items: baseline;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.dash-card__title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.dash-card__meta {
+  color: var(--theme-elevation-450);
+  font-size: 0.8rem;
+}
+
+.dash-empty {
+  color: var(--theme-elevation-450);
+  font-size: 0.86rem;
+}
+
+/* Bars ------------------------------------------------------------------- */
+
+.dash-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dash-bars__row {
+  align-items: center;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 7.5rem 1fr 1.5rem;
+}
+
+.dash-bars__label {
+  color: var(--theme-elevation-650);
+  font-size: 0.84rem;
+  overflow: hidden;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &:hover {
+    color: var(--theme-text);
+  }
+}
+
+.dash-bars__track {
+  background: var(--theme-elevation-50);
+  border-radius: 999px;
+  display: block;
+  height: 9px;
+  overflow: hidden;
+}
+
+.dash-bars__fill {
+  background: var(--brand-accent);
+  border-radius: 999px;
+  display: block;
+  height: 100%;
+}
+
+.dash-bars__count {
+  color: var(--theme-elevation-500);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* Table ------------------------------------------------------------------ */
+
+.dash-table {
+  border-collapse: collapse;
+  font-size: 0.86rem;
+  width: 100%;
+
+  th {
+    color: var(--theme-elevation-450);
+    font-weight: 500;
+    padding-bottom: 10px;
+    text-align: left;
+  }
+
+  td {
+    border-top: 1px solid var(--theme-elevation-100);
+    padding: 11px 0;
+  }
+
+  tr td:not(:last-child),
+  tr th:not(:last-child) {
+    padding-right: 16px;
+  }
+}
+
+.dash-table__link {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.dash-table__muted {
+  color: var(--theme-elevation-450);
+  white-space: nowrap;
+}
+
+.dash-status {
+  border-radius: 999px;
+  font-size: 0.75rem;
+  padding: 3px 9px;
+  white-space: nowrap;
+}
+
+.dash-status--published {
+  background: var(--theme-success-100);
+  color: var(--theme-success-700);
+}
+
+.dash-status--draft {
+  background: var(--theme-elevation-100);
+  color: var(--theme-elevation-600);
+}
+
+/* Link list -------------------------------------------------------------- */
+
+.dash-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dash-links__item {
+  border-radius: var(--brand-radius-pill);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 11px 13px;
+  text-decoration: none;
+  transition: background-color 120ms ease;
+
+  &:hover {
+    background: var(--theme-elevation-50);
+    text-decoration: none;
+  }
+}
+
+.dash-links__label {
+  font-weight: 500;
+}
+
+.dash-links__meta {
+  color: var(--theme-elevation-450);
+  font-size: 0.78rem;
+}

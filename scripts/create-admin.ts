@@ -8,6 +8,10 @@
  * container entrypoint — set ADMIN_EMAIL and ADMIN_PASSWORD instead and it
  * skips the prompts.
  *
+ * The first account created this way becomes the superadmin, because there
+ * has to be someone who can manage users; every account after it is a plain
+ * admin. To move the superadmin role later, use "npm run superadmin".
+ *
  * Existing accounts are never touched. If the email is already registered the
  * script says so and exits, because silently resetting someone else's
  * password is not what "create" should do. To reset one deliberately:
@@ -152,8 +156,19 @@ try {
     await payload.update({ collection: 'users', id: existing.id, data: { password } });
     console.log(`\nPassword reset for ${email}. Sign in at /admin.\n`);
   } else {
-    await payload.create({ collection: 'users', data: { email, password, ...(name && { name }) } });
-    console.log(`\nCreated ${email}. Sign in at /admin.\n`);
+    // Bootstrap: with no superadmin on the site yet, this account becomes
+    // it — otherwise there would be no way into the Users list at all.
+    const { totalDocs: superadmins } = await payload.count({
+      collection: 'users',
+      where: { role: { equals: 'superadmin' } },
+    });
+    const role = superadmins === 0 ? 'superadmin' : 'admin';
+
+    await payload.create({
+      collection: 'users',
+      data: { email, password, role, ...(name && { name }) },
+    });
+    console.log(`\nCreated ${email} as ${role}. Sign in at /admin.\n`);
   }
 
   process.exit(0);
