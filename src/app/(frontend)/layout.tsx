@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { HeroImagePrefetch } from "@/components/perf/hero-image-prefetch";
 import { openGraphBase } from "@/lib/metadata";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
+import { IS_PREVIEW, SITE_DESCRIPTION, SITE_TITLE, SITE_URL, TITLE_TEMPLATE } from "@/lib/site";
 import { jsonLd, localBusinessSchema } from "@/lib/structured-data";
 import "./globals.css";
 
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
     default: SITE_TITLE,
     // Pages set the bare page name and get the brand appended, so the two
     // never drift apart.
-    template: `%s | ${SITE_NAME}`,
+    template: TITLE_TEMPLATE,
   },
   description: SITE_DESCRIPTION,
   openGraph: {
@@ -38,9 +39,12 @@ export const metadata: Metadata = {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
   },
+  // Previews (including staging) are kept out of search so they cannot
+  // outrank or duplicate the live site. robots.txt says the same; this covers
+  // a crawler that arrives by a direct link.
   robots: {
-    index: true,
-    follow: true,
+    index: !IS_PREVIEW,
+    follow: !IS_PREVIEW,
   },
 };
 
@@ -62,6 +66,13 @@ export default function RootLayout({
           ROUTE_HERO_IMAGES alone.
         */}
         <HeroImagePrefetch />
+        {/*
+          Real-user load times, shown in the Vercel dashboard. It lives in this
+          layout rather than the root because the Payload admin has its own, so
+          editors browsing the CMS are not counted against the free monthly
+          data-point allowance.
+        */}
+        <SpeedInsights />
         {/*
           One LocalBusiness record for the whole frontend. It sits here rather
           than on the contact page alone so any page Google lands on first
