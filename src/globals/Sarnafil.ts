@@ -1,4 +1,5 @@
 import type { GlobalConfig } from 'payload';
+import { hideDocTabs } from '../lib/admin-views';
 
 import { trimMedia } from '../hooks/trimMedia';
 
@@ -16,6 +17,8 @@ export const Sarnafil: GlobalConfig = {
   slug: 'sarnafil',
   label: 'Sarnafil',
   admin: {
+    hideAPIURL: true,
+    components: hideDocTabs,
     group: 'Category Pages',
     description: 'Everything on /products/sarnafil, top to bottom.',
   },

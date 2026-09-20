@@ -1,4 +1,5 @@
 import type { GlobalConfig } from 'payload';
+import { hideDocTabs } from '../lib/admin-views';
 
 import { trimMedia } from '../hooks/trimMedia';
 
@@ -18,6 +19,8 @@ export const Roder: GlobalConfig = {
   slug: 'roder',
   label: 'Roder',
   admin: {
+    hideAPIURL: true,
+    components: hideDocTabs,
     group: 'Category Pages',
     description: 'Everything on /products/roder, top to bottom.',
   },

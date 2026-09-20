@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload';
+import { hideDocTabs } from '../lib/admin-views';
 
 /*
  * The stored values are the enum slugs the frontend maps to display chips in
@@ -20,6 +21,8 @@ export const Events: CollectionConfig = {
   slug: 'events',
   labels: { singular: 'Event', plural: 'Events' },
   admin: {
+    hideAPIURL: true,
+    components: hideDocTabs,
     useAsTitle: 'name',
     defaultColumns: ['name', 'event_category', 'location', 'display_order'],
     group: 'Content',

@@ -1,4 +1,5 @@
 import type { GlobalConfig } from 'payload';
+import { hideDocTabs } from '../lib/admin-views';
 
 import { trimMedia } from '../hooks/trimMedia';
 
@@ -8,6 +9,8 @@ export const PeralatanPendukung: GlobalConfig = {
   slug: 'peralatan-pendukung',
   label: 'Peralatan Pendukung',
   admin: {
+    hideAPIURL: true,
+    components: hideDocTabs,
     group: 'Category Pages',
     description: 'Everything on /products/peralatan-pendukung, top to bottom.',
   },

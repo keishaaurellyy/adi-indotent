@@ -1,4 +1,6 @@
+import { FileSizeCell as FileSizeCell_88e505ecfa7b48b60bee65b10a64b09f } from '../../../components/admin/file-size-cell'
 import { RowLabel as RowLabel_bf77544266d401359bb913e1e4b02cd4 } from '../../../components/admin/row-label'
+import { NavSettings as NavSettings_bc0fc2a290ca7208c24ccf1d5feca71f } from '../../../components/admin/nav-settings'
 import { Icon as Icon_626e24b987f1ce07afe3d44061a1a2bf } from '../../../components/admin/graphics'
 import { Logo as Logo_626e24b987f1ce07afe3d44061a1a2bf } from '../../../components/admin/graphics'
 import { DashboardNavLink as DashboardNavLink_500df755c75c7658d37a64c713a0a181 } from '../../../components/admin/dashboard-nav-link'
@@ -11,7 +13,9 @@ import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } f
 
 /** @type import('payload').ImportMap */
 export const importMap = {
+  "/components/admin/file-size-cell#FileSizeCell": FileSizeCell_88e505ecfa7b48b60bee65b10a64b09f,
   "/components/admin/row-label#RowLabel": RowLabel_bf77544266d401359bb913e1e4b02cd4,
+  "/components/admin/nav-settings#NavSettings": NavSettings_bc0fc2a290ca7208c24ccf1d5feca71f,
   "/components/admin/graphics#Icon": Icon_626e24b987f1ce07afe3d44061a1a2bf,
   "/components/admin/graphics#Logo": Logo_626e24b987f1ce07afe3d44061a1a2bf,
   "/components/admin/dashboard-nav-link#DashboardNavLink": DashboardNavLink_500df755c75c7658d37a64c713a0a181,

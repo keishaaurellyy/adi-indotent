@@ -62,6 +62,8 @@ export default buildConfig({
       },
       // Payload's sidebar has no way back to the dashboard except the logo.
       beforeNavLinks: ['/components/admin/dashboard-nav-link#DashboardNavLink'],
+      // Theme and reset preferences, in the gear menu above the logout button.
+      settingsMenu: ['/components/admin/nav-settings#NavSettings'],
     },
     /*
      * Dashboard widgets, in place of the bare grid of collection cards.
