@@ -1,24 +1,53 @@
+/** The live domain. Canonical URLs, the sitemap and the JSON-LD point here in production. */
+export const PRODUCTION_URL = "https://adi-indotent.com";
+
+/** True on the production deployment. Undefined off Vercel, so false locally. */
+export const IS_PRODUCTION = process.env.VERCEL_ENV === "production";
+
+/**
+ * True on a Vercel preview, which includes the staging branch. These must not
+ * compete with the live site in search results.
+ */
+export const IS_PREVIEW = process.env.VERCEL_ENV === "preview";
+
 /**
  * Absolute origin this site is served from.
  *
  * Canonical URLs, the sitemap and the JSON-LD all need fully-qualified URLs,
- * and the origin differs per environment — production, Vercel previews and
- * localhost are three different hosts — so it cannot be a hardcoded constant.
+ * and the origin differs per environment. In order:
  *
- * Set NEXT_PUBLIC_SITE_URL to https://adi-indotent.com on the Vercel
- * production environment. Left unset, every canonical and sitemap entry
- * points at localhost, which tells Google the pages do not exist.
+ * 1. NEXT_PUBLIC_SITE_URL, when set. An explicit override always wins.
+ * 2. The live domain on the production deployment, so it is right even if the
+ *    variable is forgotten. Without a fallback, every canonical and sitemap
+ *    entry would point at localhost and tell Google the real pages do not
+ *    exist.
+ * 3. The deployment's own host on a Vercel preview, so its links resolve to
+ *    itself rather than to production.
+ * 4. localhost.
  */
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (IS_PRODUCTION
+    ? PRODUCTION_URL
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000");
 
 /** Brand name. Doubles as the `<title>` suffix and the schema.org business name. */
 export const SITE_NAME = "Adi Indotent";
 
 /**
- * Fallback `<title>` for the home page. Search results truncate around 60
- * characters, so the brand comes first and the keywords follow.
+ * How a page title and the brand are joined, for both `<title>` and og:title.
+ * `%s` is the page's own title.
  */
-export const SITE_TITLE = "Adi Indotent — Sewa Tenda Sarnafil, Roder & Peralatan Event";
+export const TITLE_TEMPLATE = `%s - ${SITE_NAME}`;
+
+/**
+ * `<title>` for the home page, which has no page name of its own. Written in
+ * the same "name - brand" shape as every other page, and kept near 60
+ * characters, where search results truncate.
+ */
+export const SITE_TITLE = `Sewa Tenda Sarnafil, Roder & Peralatan Event - ${SITE_NAME}`;
 
 /**
  * The `<meta name="description">` Google shows under the result. Not a ranking

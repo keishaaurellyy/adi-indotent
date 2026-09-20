@@ -52,7 +52,7 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     importMap: { baseDir: path.resolve(dirname) },
-    meta: { titleSuffix: '— Adi Indotent' },
+    meta: { titleSuffix: '- Adi Indotent' },
     components: {
       // The Payload mark on the login screen and in the nav, swapped for the
       // company's. Both live in src/components/admin/graphics.tsx.
