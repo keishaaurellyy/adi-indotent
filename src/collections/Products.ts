@@ -1,4 +1,5 @@
 import type { CollectionConfig, GlobalSlug } from "payload";
+import { hideDocTabs } from "../lib/admin-views";
 
 import { trimMedia } from "../hooks/trimMedia";
 
@@ -18,6 +19,8 @@ export const Products: CollectionConfig = {
   slug: "products",
   labels: { singular: "Product Card", plural: "Product Cards" },
   admin: {
+    hideAPIURL: true,
+    components: hideDocTabs,
     useAsTitle: "title",
     defaultColumns: ["title", "category_key", "display_order"],
     group: "Content",

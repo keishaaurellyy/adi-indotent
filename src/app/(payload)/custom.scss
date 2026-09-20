@@ -505,7 +505,10 @@ html[data-theme='dark'] {
   border-color: transparent;
   border-radius: var(--brand-radius-card);
   box-shadow: var(--brand-shadow-card);
-  overflow: hidden;
+  // Not `hidden`: this element is Payload's horizontal scroller, and hiding
+  // the overflow cuts off the right-hand columns with no way to reach them.
+  // `auto` still clips to the rounded corners.
+  overflow-x: auto;
 }
 
 .collapsible,
@@ -513,8 +516,32 @@ html[data-theme='dark'] {
   border-radius: var(--brand-radius-card);
 }
 
+// Same radius as the `.collapsible` outline above, so the grey header fill
+// doesn't sit inside the border with visibly different corners. Payload
+// squares the bottom corners while a section is open, because the content
+// continues straight underneath; they only round when it is collapsed.
 .collapsible__toggle-wrap {
-  border-radius: var(--brand-radius-pill);
+  border-radius: var(--brand-radius-card) var(--brand-radius-card) 0 0;
+}
+
+.collapsible--collapsed .collapsible__toggle-wrap {
+  border-radius: var(--brand-radius-card);
+}
+
+// The content area paints a white background with Payload's own 10px bottom
+// radius. Inside a 16px outline that leaves its corners poking over the
+// border's curve, so the side lines look cut short of the bottom line. It sits
+// inside the 1px border, hence the subtraction.
+// "Payload Settings" on the account page. Its theme and reset controls now live
+// in the sidebar's gear menu (components/admin/nav-settings.tsx), and the
+// language picker has a single option. Payload gives the block no switch to turn
+// it off, so it is hidden here.
+.payload-settings {
+  display: none;
+}
+
+.collapsible__content {
+  border-radius: 0 0 calc(var(--brand-radius-card) - 1px) calc(var(--brand-radius-card) - 1px);
 }
 
 .pill {

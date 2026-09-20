@@ -2,6 +2,8 @@ import type { Access, ClientUser, CollectionConfig, FieldAccess, TypedUser } fro
 
 import { APIError } from 'payload';
 
+import { hideDocTabs } from '../lib/admin-views';
+
 /*
  * Two roles, and the whole rule is one sentence: there is exactly one
  * superadmin, and they are the only person who can see or change who is able
@@ -42,6 +44,8 @@ export const Users: CollectionConfig = {
   slug: 'users',
   labels: { singular: 'User', plural: 'Users' },
   admin: {
+    hideAPIURL: true,
+    components: hideDocTabs,
     // `email` rather than `name`, because name is optional and a user who
     // never filled it in would show up as "Untitled" everywhere.
     useAsTitle: 'email',
