@@ -268,7 +268,7 @@ export interface User {
    */
   name?: string | null;
   /**
-   * Admins edit all of the site content. The superadmin does that and manages this list of users — there can only be one.
+   * Admins edit all of the site content. Superadmins do that and manage this list of users — there can be more than one, but never none.
    */
   role: 'superadmin' | 'admin';
   updatedAt: string;
