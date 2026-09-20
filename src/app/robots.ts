@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { absoluteUrl } from "@/lib/site";
+import { IS_PREVIEW, absoluteUrl } from "@/lib/site";
 
 /**
  * Serves /robots.txt.
@@ -10,6 +10,13 @@ import { absoluteUrl } from "@/lib/site";
  * login page competes with real pages for crawl budget.
  */
 export default function robots(): MetadataRoute.Robots {
+  // A preview or staging deployment is a copy of the live site on another
+  // host. Indexing it would split ranking between the two, so it is closed off
+  // entirely, with no sitemap to advertise.
+  if (IS_PREVIEW) {
+    return { rules: { userAgent: "*", disallow: "/" } };
+  }
+
   return {
     rules: {
       userAgent: "*",

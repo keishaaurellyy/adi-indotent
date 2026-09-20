@@ -12,7 +12,7 @@ import {
 } from "@/lib/categories";
 import { pageMetadata } from "@/lib/metadata";
 import { getProducts } from "@/lib/products";
-import { absoluteUrl } from "@/lib/site";
+import { SITE_DESCRIPTION, absoluteUrl } from "@/lib/site";
 import { faqPageSchema, jsonLd } from "@/lib/structured-data";
 import type { Metadata } from "next";
 
@@ -69,7 +69,9 @@ export async function generateMetadata({
     // title to "Tenda Roder" in the admin improves the heading, the tab title
     // and the shared-link title together, with no code change.
     title: data.title,
-    description: data.description ?? "",
+    // An empty field falls back to the site-wide line rather than shipping a
+    // blank `<meta name="description">`.
+    description: data.description?.trim() || SITE_DESCRIPTION,
     path: `/products/${data.slug}`,
   });
 }

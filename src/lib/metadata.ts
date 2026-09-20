@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 
-import { SITE_NAME, SITE_OG_IMAGE } from "./site";
+import { SITE_NAME, SITE_OG_IMAGE, TITLE_TEMPLATE } from "./site";
+
+/** A page title with the brand appended, the way `<title>` shows it. */
+const withBrand = (title: string) => TITLE_TEMPLATE.replace("%s", title);
 
 /**
  * The openGraph fields every page shares.
@@ -46,13 +49,13 @@ export function pageMetadata({
       ...openGraphBase,
       // The title template applies only to `<title>`, so og:title spells the
       // brand out to match what a shared link should read as.
-      title: `${title} | ${SITE_NAME}`,
+      title: withBrand(title),
       description,
       url: path,
     },
     twitter: {
       card: "summary_large_image",
-      title: `${title} | ${SITE_NAME}`,
+      title: withBrand(title),
       description,
       images: [SITE_OG_IMAGE.url],
     },
