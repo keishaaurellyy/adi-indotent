@@ -8,9 +8,10 @@
  * container entrypoint — set ADMIN_EMAIL and ADMIN_PASSWORD instead and it
  * skips the prompts.
  *
- * The first account created this way becomes the superadmin, because there
- * has to be someone who can manage users; every account after it is a plain
- * admin. To move the superadmin role later, use "npm run superadmin".
+ * The first account created this way becomes a superadmin, because there has
+ * to be someone who can manage users; every account after it is a plain admin.
+ * A superadmin can promote others from Settings > Users, or use
+ * "npm run superadmin" to do it from the terminal.
  *
  * Existing accounts are never touched. If the email is already registered the
  * script says so and exits, because silently resetting someone else's
@@ -157,7 +158,8 @@ try {
     console.log(`\nPassword reset for ${email}. Sign in at /admin.\n`);
   } else {
     // Bootstrap: with no superadmin on the site yet, this account becomes
-    // it — otherwise there would be no way into the Users list at all.
+    // one — otherwise there would be no way into the Users list at all.
+    // After that, promoting the next one is the panel's job.
     const { totalDocs: superadmins } = await payload.count({
       collection: 'users',
       where: { role: { equals: 'superadmin' } },

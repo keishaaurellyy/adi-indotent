@@ -540,6 +540,29 @@ html[data-theme='dark'] {
   display: none;
 }
 
+/*
+ * "Force unlock" on the account page.
+ *
+ * The button clears the lockout that five failed sign-ins leaves behind, so it
+ * only ever makes sense aimed at someone else: on your own account you are, by
+ * definition, signed in and therefore not locked. Users is where it belongs,
+ * and the collection's `access.unlock` (src/collections/Users.ts) already keeps
+ * everyone but a superadmin from using it at all — but a superadmin passes that
+ * check on every document including their own, so their account page would
+ * still show it.
+ *
+ * Payload renders the account view through the ordinary edit view and marks it
+ * nowhere, so it is selected by the one thing only the account page has: the
+ * "Payload Settings" block above, which is hidden but still in the DOM. Both
+ * sit inside the same `.document-fields__edit` gutter.
+ *
+ * `display: none` rather than `visibility`, so the button also leaves the tab
+ * order and the accessibility tree.
+ */
+.document-fields__edit:has(.payload-settings) #force-unlock {
+  display: none;
+}
+
 .collapsible__content {
   border-radius: 0 0 calc(var(--brand-radius-card) - 1px) calc(var(--brand-radius-card) - 1px);
 }

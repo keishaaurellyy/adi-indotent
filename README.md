@@ -48,7 +48,7 @@ npm run dev
 - Site: <http://localhost:3000>
 - Admin panel: <http://localhost:3000/admin>
 
-The first account created with `create-admin` becomes the **superadmin**.
+The first account created with `create-admin` becomes a **superadmin**.
 
 ## Environment variables
 
@@ -66,7 +66,7 @@ Production needs the four `R2_*` variables set. Without them, uploads are saved 
 | `npm run seed` | Load the starting content. Refuses to run once content exists. |
 | `npm run seed:force` | Seed again anyway. Existing entries are skipped, never overwritten. |
 | `npm run create-admin` | Create an admin account, with masked password prompts |
-| `npm run superadmin -- someone@example.com` | Hand the superadmin role to an existing account |
+| `npm run superadmin -- someone@example.com` | Give the superadmin role to an existing account |
 | `npm run check` | Confirm the database and the Local API are reachable, and count what's in each collection |
 | `npm run generate:types` | Regenerate `src/payload-types.ts` after changing a collection or global |
 | `npm run generate:importmap` | Regenerate the admin import map after adding a custom admin component |
@@ -79,7 +79,7 @@ Editors sign in at `/admin`. It is set up for non-technical staff:
 - **Content**: Product Cards, Events, Media Library
 - **Category Pages**: one editable page each for Roder, Sarnafil and Peralatan Pendukung, organised into tabs and collapsible sections
 - **Draft / Publish** on products, events and category pages. Drafts stay private until published.
-- **Roles**: exactly one **superadmin**, who alone can manage accounts. Everyone else is an **admin** with full control of the content.
+- **Roles**: **superadmins**, who alone can manage accounts — there can be several, but the last one cannot be demoted or deleted. Everyone else is an **admin** with full control of the content.
 - **Settings menu** (gear icon in the sidebar) for the admin theme and resetting preferences
 
 The API, Versions and Edit tabs are hidden on purpose, to keep the panel simple.

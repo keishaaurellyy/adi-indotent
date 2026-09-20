@@ -1,17 +1,24 @@
 /**
- * Hands the superadmin role to an existing account. Run it with:
+ * Gives the superadmin role to an existing account. Run it with:
  *
  *   npm run superadmin -- someone@example.com
  *
- * There is exactly one superadmin: the only person who can open Settings >
- * Users, and therefore the only person who can add, remove or re-role anyone
- * else. Everyone else is a plain admin with the full run of the content.
+ * Superadmins are the only people who can open Settings > Users, and therefore
+ * the only people who can add, remove or re-role anyone else. Everyone else is
+ * a plain admin with the full run of the content.
  *
- * The panel deliberately refuses to promote a second superadmin, demote the
- * only one, or delete them — otherwise one wrong dropdown would leave the site
- * with nobody who can manage accounts. This script is the way past those
- * guards, which is why it is a terminal command and not a button: whoever runs
- * it already has the database and the server.
+ * There can be more than one, and day to day a superadmin promotes the next one
+ * from the panel — this script is the way in when nobody is there to do that:
+ * the first superadmin after a restore, or the replacement for one who was
+ * removed straight from the database. It writes through the database layer
+ * rather than the Local API for the same reason, so it still works when the
+ * collection's own guards or validation would get in the way. That is also why
+ * it is a terminal command and not a button: whoever runs it already has the
+ * database and the server.
+ *
+ * Nobody is demoted. The panel refuses only to leave the site with zero
+ * superadmins; handing the role over means promoting the new one here and
+ * demoting the old one from Settings > Users.
  *
  * It also backfills. Accounts that predate the role field have no role at all;
  * they already behave as plain admins everywhere, and this writes that down so
@@ -56,22 +63,9 @@ try {
     depth: 0,
   });
 
-  const { docs: superadmins } = await payload.find({
-    collection: 'users',
-    where: { role: { equals: 'superadmin' } },
-    limit: 200,
-    depth: 0,
-  });
-
   const backfill = missingRole.filter((user) => user.id !== target.id);
-  const demote = superadmins.filter((user) => user.id !== target.id);
 
-  /*
-   * `payload.db.updateOne` rather than `payload.update`: the collection's
-   * hooks exist to stop precisely these writes, and going through them would
-   * mean the script could never move the role at all.
-   */
-  for (const user of [...backfill, ...demote]) {
+  for (const user of backfill) {
     await payload.db.updateOne({
       collection: 'users',
       id: user.id,
@@ -79,8 +73,8 @@ try {
     });
   }
 
-  if (target.role === 'superadmin' && !backfill.length && !demote.length) {
-    console.log(`\n${email} is already the superadmin — nothing changed.\n`);
+  if (target.role === 'superadmin' && !backfill.length) {
+    console.log(`\n${email} is already a superadmin — nothing changed.\n`);
     process.exit(0);
   }
 
@@ -90,9 +84,14 @@ try {
     data: { role: 'superadmin' },
   });
 
-  const lines = ['', `${email} is now the superadmin.`];
-  if (demote.length) {
-    lines.push(`Demoted to admin: ${demote.map((user) => user.email).join(', ')}`);
+  const { totalDocs: superadmins } = await payload.count({
+    collection: 'users',
+    where: { role: { equals: 'superadmin' } },
+  });
+
+  const lines = ['', `${email} is now a superadmin.`];
+  if (superadmins > 1) {
+    lines.push(`The site has ${superadmins} superadmins. Manage the rest in Settings > Users.`);
   }
   if (backfill.length) {
     lines.push(`Filled in the missing role on ${backfill.length} other account(s).`);

@@ -5,15 +5,18 @@ import { APIError } from 'payload';
 import { hideDocTabs } from '../lib/admin-views';
 
 /*
- * Two roles, and the whole rule is one sentence: there is exactly one
- * superadmin, and they are the only person who can see or change who is able
- * to sign in. Everyone else is an "admin" — full run of the content, no access
- * to this collection.
+ * Two roles, and the whole rule is one sentence: superadmins are the only
+ * people who can see or change who is able to sign in. Everyone else is an
+ * "admin" — full run of the content, no access to this collection.
  *
  * The roles are a fixed pair rather than a permissions matrix on purpose. A
- * company this size has one person who owns the accounts and a handful of
+ * company this size has the people who own the accounts and a handful of
  * people who edit the site; anything finer would be settings nobody ever
  * changes, and every extra role is another combination to get wrong.
+ *
+ * There can be as many superadmins as the company wants — one person holding
+ * the role is a single point of failure the moment they are on leave — but
+ * never zero. The hooks below enforce only that floor.
  */
 
 /**
@@ -40,6 +43,26 @@ const superadminOrSelf: Access = ({ req: { user } }) => {
   return { id: { equals: user.id } };
 };
 
+/**
+ * How many superadmins there would be left if `excludeId` lost the role (or the
+ * account itself). `overrideAccess` is implied — this runs inside the hooks, on
+ * a request whose own access was already checked.
+ */
+const countOtherSuperadmins = async (
+  req: Parameters<Access>[0]['req'],
+  excludeId: number | string
+): Promise<number> => {
+  const { totalDocs } = await req.payload.count({
+    collection: 'users',
+    where: {
+      and: [{ role: { equals: 'superadmin' } }, { id: { not_equals: excludeId } }],
+    },
+    req,
+  });
+
+  return totalDocs;
+};
+
 export const Users: CollectionConfig = {
   slug: 'users',
   labels: { singular: 'User', plural: 'Users' },
@@ -63,10 +86,24 @@ export const Users: CollectionConfig = {
     delete: superadminOnly,
     read: superadminOrSelf,
     update: superadminOrSelf,
+    /*
+     * Clearing the lockout that five failed sign-ins leaves behind. Payload
+     * defaults this to "any signed-in user", which put a Force unlock button on
+     * every admin's own /admin/account page — the one place it can never do
+     * anything, since being locked out and being signed in are mutually
+     * exclusive. It belongs with the rest of account management: Settings >
+     * Users, superadmins only.
+     *
+     * This governs the button and the POST /api/users/unlock route alike, so
+     * there is no version of it a plain admin can still reach. The account page
+     * is finished off in custom.scss, which hides the button a superadmin would
+     * otherwise still see on their own account.
+     */
+    unlock: superadminOnly,
   },
   hooks: {
     /*
-     * "Exactly one superadmin" enforced at the only two places it can break.
+     * "Never zero superadmins" enforced at the only two places it can break.
      * These run on every route into the database — admin panel, REST, GraphQL
      * and the Local API alike — so there is no way in that skips them.
      */
@@ -77,26 +114,13 @@ export const Users: CollectionConfig = {
         // not "clear it".
         const nextRole = data.role ?? previousRole;
 
-        if (nextRole === 'superadmin' && previousRole !== 'superadmin') {
-          const { totalDocs } = await req.payload.count({
-            collection: 'users',
-            where: { role: { equals: 'superadmin' } },
-            req,
-          });
-
-          if (totalDocs > 0) {
+        if (previousRole === 'superadmin' && nextRole !== 'superadmin') {
+          if ((await countOtherSuperadmins(req, originalDoc.id)) === 0) {
             throw new APIError(
-              'There is already a superadmin. Demote that account first, or run "npm run superadmin" to move the role.',
+              'This is the only superadmin. Promote someone else first, or the site would be left with nobody who can manage users.',
               400
             );
           }
-        }
-
-        if (previousRole === 'superadmin' && nextRole !== 'superadmin') {
-          throw new APIError(
-            'The superadmin cannot be demoted — the site would be left with nobody who can manage users. Run "npm run superadmin" to hand the role to someone else.',
-            400
-          );
         }
 
         return data;
@@ -111,9 +135,9 @@ export const Users: CollectionConfig = {
           req,
         });
 
-        if (doc?.role === 'superadmin') {
+        if (doc?.role === 'superadmin' && (await countOtherSuperadmins(req, id)) === 0) {
           throw new APIError(
-            'The superadmin account cannot be deleted. Hand the role to someone else first with "npm run superadmin".',
+            'This is the only superadmin. Promote someone else first, or the site would be left with nobody who can manage users.',
             400
           );
         }
@@ -151,7 +175,7 @@ export const Users: CollectionConfig = {
       },
       admin: {
         description:
-          'Admins edit all of the site content. The superadmin does that and manages this list of users — there can only be one.',
+          'Admins edit all of the site content. Superadmins do that and manage this list of users — there can be more than one, but never none.',
       },
     },
   ],
