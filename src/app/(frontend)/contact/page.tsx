@@ -21,7 +21,7 @@ export const metadata = pageMetadata({
 function WhatsappCard() {
   return (
     <>
-      <h2 className="text-h5 font-semibold text-foreground">
+      <h2 className="text-h6 font-semibold whitespace-nowrap text-foreground lg:text-h5">
         Hubungi Melalui Whatsapp
       </h2>
       <p className="mt-2 text-body-lg text-foreground-secondary">
@@ -67,6 +67,7 @@ function WhatsappCard() {
               target="_blank"
               rel="noopener noreferrer"
               size="sm"
+              className="shrink-0 whitespace-nowrap"
             >
               Kirim pesan
             </Button>
@@ -179,19 +180,13 @@ export default function ContactPage() {
 
         <div className="pb-10 lg:pb-16">
           <Container>
-            {/*
-              One continuous card below lg — the two sections read as a
-              single block, not two stacked boxes — then an even split of
-              the 1240 content width into two separate cards from lg.
-            */}
-            <Reveal
-              group
-              className="grid overflow-hidden rounded-xl bg-background lg:grid-cols-2 lg:gap-6 lg:overflow-visible lg:rounded-none lg:bg-transparent"
-            >
-              <div className="p-6 lg:h-full lg:rounded-xl lg:bg-background lg:p-8">
+            {/* Two separate cards, stacked below lg and an even split of
+                the 1240 content width from lg. */}
+            <Reveal group className="grid gap-4 lg:grid-cols-2 lg:gap-6">
+              <div className="h-full rounded-xl bg-background p-6 lg:p-8">
                 <WhatsappCard />
               </div>
-              <div className="p-6 pt-0 lg:h-full lg:rounded-xl lg:bg-background lg:p-8 lg:pt-8">
+              <div className="h-full rounded-xl bg-background p-6 lg:p-8">
                 <OperationalInfoCard />
               </div>
             </Reveal>
