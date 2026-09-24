@@ -20,7 +20,7 @@ export const metadata = pageMetadata({
 
 function WhatsappCard() {
   return (
-    <div className="h-full rounded-xl bg-background p-6 lg:p-8">
+    <>
       <h2 className="text-h5 font-semibold text-foreground">
         Hubungi Melalui Whatsapp
       </h2>
@@ -73,13 +73,13 @@ function WhatsappCard() {
           </li>
         ))}
       </ul>
-    </div>
+    </>
   );
 }
 
 function OperationalInfoCard() {
   return (
-    <div className="h-full rounded-xl bg-background p-6 lg:p-8">
+    <>
       <div className="grid grid-cols-2 gap-6">
         <div>
           <Image
@@ -125,7 +125,7 @@ function OperationalInfoCard() {
         <p className="mt-4 text-body-md text-foreground-secondary">Lokasi</p>
         <p className="mt-2 text-body-xl text-foreground">{ADDRESS}</p>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -179,12 +179,19 @@ export default function ContactPage() {
 
         <div className="pb-10 lg:pb-16">
           <Container>
-            {/* 3:2 split of the 1240 content width from lg, stacked below. */}
-            <Reveal group className="grid gap-4 lg:grid-cols-5 lg:gap-6">
-              <div className="lg:col-span-3">
+            {/*
+              One continuous card below lg — the two sections read as a
+              single block, not two stacked boxes — then an even split of
+              the 1240 content width into two separate cards from lg.
+            */}
+            <Reveal
+              group
+              className="grid overflow-hidden rounded-xl bg-background lg:grid-cols-2 lg:gap-6 lg:overflow-visible lg:rounded-none lg:bg-transparent"
+            >
+              <div className="p-6 lg:h-full lg:rounded-xl lg:bg-background lg:p-8">
                 <WhatsappCard />
               </div>
-              <div className="lg:col-span-2">
+              <div className="p-6 pt-0 lg:h-full lg:rounded-xl lg:bg-background lg:p-8 lg:pt-8">
                 <OperationalInfoCard />
               </div>
             </Reveal>
