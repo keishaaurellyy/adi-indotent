@@ -156,7 +156,7 @@ export default function ContactPage() {
 
         {/* pt reserves the overlaid navbar (96 desktop, 66 mobile) plus the
             clear space the design leaves above the title (100 and ~74). */}
-        <section className="pt-35 pb-6 lg:pt-49 lg:pb-10">
+        <section className="pt-35 pb-16 lg:pt-49 lg:pb-10">
           <Container>
             <div className="lg:flex lg:items-center lg:justify-between lg:gap-16">
               <h1 className="rise-in text-h1 font-semibold text-foreground-light">
