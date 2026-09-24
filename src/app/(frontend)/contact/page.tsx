@@ -20,7 +20,7 @@ export const metadata = pageMetadata({
 
 function WhatsappCard() {
   return (
-    <div className="rounded-xl bg-background p-6 lg:p-8">
+    <div className="h-full rounded-xl bg-background p-6 lg:p-8">
       <h2 className="text-h5 font-semibold text-foreground">
         Hubungi Melalui Whatsapp
       </h2>
@@ -79,11 +79,11 @@ function WhatsappCard() {
 
 function OperationalInfoCard() {
   return (
-    <div className="rounded-xl bg-background p-6 lg:p-8">
+    <div className="h-full rounded-xl bg-background p-6 lg:p-8">
       <div className="grid grid-cols-2 gap-6">
         <div>
           <Image
-            src="/icon/calendar.svg"
+            src="/icon/calendar-icon.svg"
             alt=""
             width={24}
             height={24}
