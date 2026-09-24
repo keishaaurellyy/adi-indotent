@@ -1,13 +1,13 @@
 import Image from "next/image";
-import { Container, Reveal, Section, SectionHeading } from "@/components/ui";
+import { Button, Container, Reveal, Section, SectionHeading } from "@/components/ui";
 import { Navbar } from "@/components/layout/navbar";
 import { SiteFooter } from "@/components/layout/site-footer";
 import {
   ADDRESS,
   MAPS_EMBED_URL,
-  OPENING_HOURS,
-  WHATSAPP_DISPLAY,
-  WHATSAPP_URL,
+  OPENING_DAYS,
+  OPENING_HOURS_TIME,
+  WHATSAPP_CONTACTS,
 } from "@/lib/contact";
 import { pageMetadata } from "@/lib/metadata";
 
@@ -18,32 +18,113 @@ export const metadata = pageMetadata({
   path: "/contact",
 });
 
-function InfoCard({
-  icon,
-  label,
-  children,
-}: {
-  /** Path under public/. The file carries its own stroke colour. */
-  icon: string;
-  label: string;
-  children: React.ReactNode;
-}) {
+function WhatsappCard() {
   return (
-    <div className="rounded-xl bg-background p-4 lg:p-6">
-      <dt className="text-body-md text-foreground-secondary">
+    <div className="rounded-xl bg-background p-6 lg:p-8">
+      <h2 className="text-h5 font-semibold text-foreground">
+        Hubungi Melalui Whatsapp
+      </h2>
+      <p className="mt-2 text-body-lg text-foreground-secondary">
+        Dapat menghubungi kami melalui nomor WhatsApp berikut.
+      </p>
+
+      <ul className="mt-6 divide-y divide-border">
+        {WHATSAPP_CONTACTS.map((contact) => (
+          <li
+            key={contact.url}
+            className="flex flex-col items-start gap-3 py-4 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <div className="flex items-center gap-3">
+              {/* The icon is a flat glyph, so the WhatsApp-brand halo behind
+                  it is drawn here rather than baked into the SVG. */}
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#25D366]/10">
+                <Image
+                  src="/icon/whatsapp-icon.svg"
+                  alt=""
+                  width={20}
+                  height={20}
+                  aria-hidden
+                  className="size-5"
+                />
+              </span>
+              <div>
+                <p className="text-body-lg font-semibold text-foreground">
+                  {contact.name}
+                  {contact.tag && (
+                    <span className="ml-1 text-body-md font-normal text-foreground-secondary">
+                      ({contact.tag})
+                    </span>
+                  )}
+                </p>
+                <p className="text-body-md text-foreground-secondary">
+                  {contact.display}
+                </p>
+              </div>
+            </div>
+
+            <Button
+              href={contact.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              size="sm"
+            >
+              Kirim pesan
+            </Button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function OperationalInfoCard() {
+  return (
+    <div className="rounded-xl bg-background p-6 lg:p-8">
+      <div className="grid grid-cols-2 gap-6">
+        <div>
+          <Image
+            src="/icon/calendar.svg"
+            alt=""
+            width={24}
+            height={24}
+            aria-hidden
+            className="size-6"
+          />
+          <p className="mt-4 text-body-md text-foreground-secondary">
+            Hari Operasional
+          </p>
+          <p className="mt-2 text-body-xl text-foreground">{OPENING_DAYS}</p>
+        </div>
+        <div>
+          <Image
+            src="/icon/clock-icon.svg"
+            alt=""
+            width={24}
+            height={24}
+            aria-hidden
+            className="size-6"
+          />
+          <p className="mt-4 text-body-md text-foreground-secondary">
+            Jam Operasional
+          </p>
+          <p className="mt-2 text-body-xl text-foreground">
+            {OPENING_HOURS_TIME}
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-8">
         <Image
-          src={icon}
+          src="/icon/marker-pin-icon.svg"
           alt=""
           width={24}
           height={24}
-          className="mb-4 size-6 lg:mb-6"
+          aria-hidden
+          className="size-6"
         />
-        {label}
-      </dt>
-      {/* pre-line so a \n in the value breaks the line; HTML would collapse it. */}
-      <dd className="mt-2 text-body-xl whitespace-pre-line text-foreground">
-        {children}
-      </dd>
+        <p className="mt-4 text-body-md text-foreground-secondary">Lokasi</p>
+        <p className="mt-2 text-body-xl text-foreground">{ADDRESS}</p>
+      </div>
     </div>
   );
 }
@@ -91,24 +172,6 @@ export default function ContactPage() {
                   Hubungi kami untuk informasi lebih lanjut seputar produk dan
                   layanan yang kami sediakan
                 </p>
-                <a
-                  href={WHATSAPP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  // border-b, not underline: text-decoration does not paint
-                  // across a replaced flex item, so an underline would start
-                  // after the icon. The border spans the whole box.
-                  className="mt-4 inline-flex items-center gap-2 border-b border-current pb-1 text-h5 font-medium text-[#25D366] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground-light"
-                >
-                  <Image
-                    src="/icon/whatsapp-icon.svg"
-                    alt=""
-                    width={32}
-                    height={32}
-                    className="size-6"
-                  />
-                  {WHATSAPP_DISPLAY}
-                </a>
               </div>
             </div>
           </Container>
@@ -116,18 +179,14 @@ export default function ContactPage() {
 
         <div className="pb-10 lg:pb-16">
           <Container>
-            {/* Two equal columns of the 1240 content width from lg, stacked below. */}
-            <Reveal
-              as="dl"
-              group
-              className="grid gap-4 lg:grid-cols-2 lg:gap-6"
-            >
-              <InfoCard icon="/icon/clock-icon.svg" label="Jam buka">
-                {OPENING_HOURS}
-              </InfoCard>
-              <InfoCard icon="/icon/marker-pin-icon.svg" label="Lokasi">
-                {ADDRESS}
-              </InfoCard>
+            {/* 3:2 split of the 1240 content width from lg, stacked below. */}
+            <Reveal group className="grid gap-4 lg:grid-cols-5 lg:gap-6">
+              <div className="lg:col-span-3">
+                <WhatsappCard />
+              </div>
+              <div className="lg:col-span-2">
+                <OperationalInfoCard />
+              </div>
             </Reveal>
           </Container>
         </div>
