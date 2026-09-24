@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Container, Reveal, SectionHeading } from "@/components/ui";
+import { Container, Reveal, Section, SectionHeading } from "@/components/ui";
 import { Navbar } from "@/components/layout/navbar";
 import { SiteFooter } from "@/components/layout/site-footer";
 import {
@@ -17,7 +17,6 @@ export const metadata = pageMetadata({
     "Hubungi kami untuk informasi lebih lanjut seputar produk dan layanan yang kami sediakan.",
   path: "/contact",
 });
-
 
 function InfoCard({
   icon,
@@ -56,14 +55,12 @@ export default function ContactPage() {
       <Navbar />
 
       {/*
-        Figma frame 163-239 is 1440x2057 (hug), of which the dark header
-        measures ~694 — ~796 on the 375 mobile frame. Reproduced as padding
-        rather than a height so the header hugs its text the way the frame
-        does: pt reserves the overlaid navbar (96 desktop, 66 mobile) plus the
-        clear space the design leaves above the title (100 and ~74).
+        The dark panel spans the hero and the info cards, as on the events
+        page, so the cards read as part of the header rather than a new
+        section — the whole panel is one visual unit before the page turns
+        light for the map.
       */}
-      <section className="relative isolate overflow-hidden bg-background-dark pt-35 pb-6 lg:pt-49 lg:pb-25">
-        
+      <div className="relative isolate overflow-hidden bg-background-dark">
         {/* The header's whole backdrop, and above the fold on every viewport,
             so it loads with the page instead of waiting to be scrolled near. */}
         <Image
@@ -76,60 +73,67 @@ export default function ContactPage() {
           className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-auto w-full select-none"
         />
 
-        <Container>
-         
-          <div className="lg:flex lg:items-center lg:justify-between lg:gap-16">
-            <h1 className="rise-in text-h1 font-semibold text-foreground-light">
-              Kami Siap{" "}
-              <br />
-              Membantu{" "}
-              <br className="lg:hidden" />
-              Anda
-            </h1>
+        {/* pt reserves the overlaid navbar (96 desktop, 66 mobile) plus the
+            clear space the design leaves above the title (100 and ~74). */}
+        <section className="pt-35 pb-6 lg:pt-49 lg:pb-10">
+          <Container>
+            <div className="lg:flex lg:items-center lg:justify-between lg:gap-16">
+              <h1 className="rise-in text-h1 font-semibold text-foreground-light">
+                Kami Siap{" "}
+                <br />
+                Membantu{" "}
+                <br className="lg:hidden" />
+                Anda
+              </h1>
 
-            <div className="rise-in mt-8 items-center [--rise-delay:100ms] lg:mt-0 lg:max-w-100 lg:shrink-0">
-              <p className="text-body-lg text-foreground-light">
-                Hubungi kami untuk informasi lebih lanjut seputar produk dan
-                layanan yang kami sediakan
-              </p>
-              <a
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                // border-b, not underline: text-decoration does not paint
-                // across a replaced flex item, so an underline would start
-                // after the icon. The border spans the whole box.
-                className="mt-4 inline-flex items-center gap-2 border-b border-current pb-1 text-h5 font-medium text-[#25D366] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground-light"
-              >
-                <Image
-                  src="/icon/whatsapp-icon.svg"
-                  alt=""
-                  width={32}
-                  height={32}
-                  className="size-6"
-                />
-                {WHATSAPP_DISPLAY}
-              </a>
+              <div className="rise-in mt-8 items-center [--rise-delay:100ms] lg:mt-0 lg:max-w-100 lg:shrink-0">
+                <p className="text-body-lg text-foreground-light">
+                  Hubungi kami untuk informasi lebih lanjut seputar produk dan
+                  layanan yang kami sediakan
+                </p>
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  // border-b, not underline: text-decoration does not paint
+                  // across a replaced flex item, so an underline would start
+                  // after the icon. The border spans the whole box.
+                  className="mt-4 inline-flex items-center gap-2 border-b border-current pb-1 text-h5 font-medium text-[#25D366] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground-light"
+                >
+                  <Image
+                    src="/icon/whatsapp-icon.svg"
+                    alt=""
+                    width={32}
+                    height={32}
+                    className="size-6"
+                  />
+                  {WHATSAPP_DISPLAY}
+                </a>
+              </div>
             </div>
-          </div>
+          </Container>
+        </section>
 
-          {/* Two equal columns of the 1240 content width from lg, stacked below. */}
-          <Reveal
-            as="dl"
-            group
-            className="mt-10 grid gap-4 lg:mt-18 lg:grid-cols-2 lg:gap-6"
-          >
-            <InfoCard icon="/icon/clock-icon.svg" label="Jam buka">
-              {OPENING_HOURS}
-            </InfoCard>
-            <InfoCard icon="/icon/marker-pin-icon.svg" label="Lokasi">
-              {ADDRESS}
-            </InfoCard>
-          </Reveal>
-        </Container>
-      </section>
+        <div className="pb-10 lg:pb-16">
+          <Container>
+            {/* Two equal columns of the 1240 content width from lg, stacked below. */}
+            <Reveal
+              as="dl"
+              group
+              className="grid gap-4 lg:grid-cols-2 lg:gap-6"
+            >
+              <InfoCard icon="/icon/clock-icon.svg" label="Jam buka">
+                {OPENING_HOURS}
+              </InfoCard>
+              <InfoCard icon="/icon/marker-pin-icon.svg" label="Lokasi">
+                {ADDRESS}
+              </InfoCard>
+            </Reveal>
+          </Container>
+        </div>
+      </div>
 
-      <section className="pt-24 pb-8">
+      <Section tone="muted">
         <Container>
           <SectionHeading align="center" title="Temukan Kami Disini" />
           <Reveal>
@@ -143,9 +147,8 @@ export default function ContactPage() {
             />
           </Reveal>
         </Container>
-      </section>
+      </Section>
 
-    
       <SiteFooter showCta={false} />
     </>
   );
