@@ -8,18 +8,38 @@ export const WHATSAPP_DISPLAY = "(+62) 81111805577";
  */
 export const PHONE_E164 = "+6281111805577";
 
+export type WhatsappContact = {
+  name: string;
+  /** e.g. "Nomor utama", shown next to the name for the line to call first. */
+  tag?: string;
+  /** Human-punctuated, same style as WHATSAPP_DISPLAY. */
+  display: string;
+  url: string;
+};
+
+/** The contact card's list, in display order — first is the primary line. */
+export const WHATSAPP_CONTACTS: WhatsappContact[] = [
+  { name: "Admin 1", tag: "Nomor utama", display: WHATSAPP_DISPLAY, url: WHATSAPP_URL },
+  {
+    name: "Admin 2",
+    display: "(+62) 8118907727",
+    url: "https://wa.me/628118907727",
+  },
+];
+
 export const INSTAGRAM_URL = "https://www.instagram.com/adiindotent";
 
 export const FACEBOOK_URL = "https://www.facebook.com/profile.php?id=61584008922195";
 
-/** The newline is rendered by whitespace-pre-line on the contact card. */
-export const OPENING_HOURS = "Senin - Sabtu\n09.00 - 17.00 WIB";
+export const OPENING_DAYS = "Senin - Sabtu";
+
+export const OPENING_HOURS_TIME = "09.00 - 17.00 WIB";
 
 /**
  * The same hours as machine-readable parts, for the LocalBusiness schema.
- * OPENING_HOURS above is not mechanically derivable from these — it carries
- * Indonesian day names, a line break and the timezone label — so the two are
- * kept side by side and must be edited together.
+ * OPENING_DAYS and OPENING_HOURS_TIME above are not mechanically derivable
+ * from these — they carry Indonesian day names and a timezone label — so the
+ * two are kept side by side and must be edited together.
  */
 export const OPENING_HOURS_SPEC = {
   days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
