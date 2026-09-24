@@ -32,9 +32,9 @@ function WhatsappCard() {
         {WHATSAPP_CONTACTS.map((contact) => (
           <li
             key={contact.url}
-            className="flex flex-col items-start gap-3 py-4 sm:flex-row sm:items-center sm:justify-between"
+            className="flex items-center justify-between gap-3 py-4"
           >
-            <div className="flex items-center gap-3">
+            <div className="flex min-w-0 items-center gap-3">
               {/* The icon is a flat glyph, so the WhatsApp-brand halo behind
                   it is drawn here rather than baked into the SVG. */}
               <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#25D366]/10">
@@ -47,7 +47,7 @@ function WhatsappCard() {
                   className="size-5"
                 />
               </span>
-              <div>
+              <div className="min-w-0">
                 <p className="text-body-lg font-semibold text-foreground">
                   {contact.name}
                   {contact.tag && (
