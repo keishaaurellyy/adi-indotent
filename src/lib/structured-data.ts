@@ -28,6 +28,7 @@ export function localBusinessSchema() {
     url: absoluteUrl("/"),
     image: absoluteUrl(SITE_OG_IMAGE.url),
     telephone: PHONE_E164,
+    areaServed: ["Jabodetabek", "Banten"],
     address: {
       "@type": "PostalAddress",
       streetAddress: POSTAL_ADDRESS.streetAddress,

@@ -55,8 +55,8 @@ export const SITE_TITLE = `Sewa Tenda Sarnafil, Roder & Peralatan Event - ${SITE
  * products by the words people actually search for.
  */
 export const SITE_DESCRIPTION =
-  "Adi Indotent menyewakan tenda Sarnafil, tenda Roder, dan peralatan pendukung event. " +
-  "Berpengalaman menangani acara korporat, pemerintahan, festival, hingga gathering.";
+  "Sewa tenda Sarnafil, tenda Roder, dan peralatan event di Jabodetabek & Banten. " +
+  "Berpengalaman menangani acara korporat, pemerintahan, festival, dan gathering.";
 
 /**
  * Shared social preview image. 1200x800 rather than the ideal 1200x630, so

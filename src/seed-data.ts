@@ -32,7 +32,7 @@ const YANG_ANDA_DAPATKAN_ITEMS = [
 ];
 
 export const roder = {
-  title: 'Roder',
+  title: 'Sewa Tenda Roder',
   description:
     'Tenda Roder berangka besi/alumunium dengan atap PVC tahan cuaca, bebas tiang tengah, mudah dipasang, dan cocok untuk hajatan, bazar, pameran, hingga kebutuhan darurat, tersedia dalam ukuran 5m - 25m sesuai kebutuhan acara.',
   use_cases: {
@@ -139,7 +139,7 @@ export const roder = {
 };
 
 export const sarnafil = {
-  title: 'Sarnafil',
+  title: 'Sewa Tenda Sarnafil',
   description:
     'Atap membran PVC berkualitas tinggi dirancang khusus untuk menghadapi kondisi cuaca outdoor, kedap air, tahan sinar UV, dan tetap kokoh dalam pemakaian jangka panjang untuk berbagai jenis acara.',
   use_cases: {
@@ -217,7 +217,7 @@ export const sarnafil = {
 };
 
 export const peralatanPendukung = {
-  title: 'Peralatan Pendukung',
+  title: 'Sewa Peralatan Pendukung Event',
   description:
     'Kursi, meja, AC, dan misty fan yang kami sediakan siap melengkapi kenyamanan acara, mulai dari tempat duduk, penyajian, hingga sirkulasi udara yang sejuk sepanjang acara berlangsung.',
   equipment_groups: [
