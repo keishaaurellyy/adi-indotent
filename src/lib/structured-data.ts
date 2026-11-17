@@ -7,6 +7,12 @@ import {
 } from "./contact";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_OG_IMAGE, absoluteUrl } from "./site";
 
+/** Where the business delivers and installs, as the owner states it. */
+const SERVICE_AREA = ["Jabodetabek", "Banten"] as const;
+
+/** `@id` of the LocalBusiness node, so other nodes can point at it. */
+const businessId = () => absoluteUrl("/#business");
+
 /**
  * schema.org LocalBusiness for the company.
  *
@@ -22,13 +28,14 @@ export function localBusinessSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "@id": absoluteUrl("/#business"),
+    "@id": businessId(),
     name: SITE_NAME,
     description: SITE_DESCRIPTION,
     url: absoluteUrl("/"),
     image: absoluteUrl(SITE_OG_IMAGE.url),
     telephone: PHONE_E164,
-    areaServed: ["Jabodetabek", "Banten"],
+    logo: absoluteUrl("/icon.png"),
+    areaServed: [...SERVICE_AREA],
     address: {
       "@type": "PostalAddress",
       streetAddress: POSTAL_ADDRESS.streetAddress,
@@ -86,5 +93,39 @@ export function faqPageSchema(
       name: item.question,
       acceptedAnswer: { "@type": "Answer", text: item.answer ?? "" },
     })),
+  };
+}
+
+/**
+ * schema.org BreadcrumbList for a category page: Home, then the page.
+ *
+ * Markup only. There is no visible trail and no /products index to list as a
+ * middle step, so the path is the two pages that exist.
+ */
+export function breadcrumbSchema(url: string, name: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+      { "@type": "ListItem", position: 2, name, item: url },
+    ],
+  };
+}
+
+/**
+ * schema.org Service for one rental category, tied to the LocalBusiness by
+ * `provider` so the two read as one entity offering three services.
+ */
+export function serviceSchema(url: string, name: string, description: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${url}#service`,
+    name,
+    description,
+    url,
+    provider: { "@id": businessId() },
+    areaServed: [...SERVICE_AREA],
   };
 }

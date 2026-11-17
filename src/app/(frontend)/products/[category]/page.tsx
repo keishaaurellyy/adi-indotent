@@ -8,12 +8,18 @@ import {
   CATEGORY_SLUGS,
   getCategory,
   isCategorySlug,
+  type CategorySlug,
   type SectionBlock,
 } from "@/lib/categories";
 import { pageMetadata } from "@/lib/metadata";
 import { getProducts } from "@/lib/products";
-import { SITE_DESCRIPTION, absoluteUrl } from "@/lib/site";
-import { faqPageSchema, jsonLd } from "@/lib/structured-data";
+import { absoluteUrl } from "@/lib/site";
+import {
+  breadcrumbSchema,
+  faqPageSchema,
+  jsonLd,
+  serviceSchema,
+} from "@/lib/structured-data";
 import type { Metadata } from "next";
 
 type PageProps = { params: Promise<{ category: string }> };
@@ -58,6 +64,24 @@ const isFaq = (
   block: SectionBlock
 ): block is Extract<SectionBlock, { kind: "faq" }> => block.kind === "faq";
 
+/**
+ * The search-result snippet for each category, kept apart from the CMS intro.
+ *
+ * The intro is the paragraph under the heading and runs past the ~160
+ * characters a result shows, so reusing it meant a cut-off snippet, and
+ * shortening it meant rewriting copy on the page. These live in code rather
+ * than a CMS field because a new Payload field needs a schema change on the
+ * production database, and the repo has no migrations.
+ */
+const META_DESCRIPTIONS: Record<CategorySlug, string> = {
+  roder:
+    "Sewa tenda Roder bentang 5m - 25m: rangka besi/aluminium, atap PVC tahan cuaca, bebas tiang tengah. Untuk hajatan, bazar, pameran, hingga kebutuhan darurat.",
+  sarnafil:
+    "Sewa tenda Sarnafil 3x3 dan 5x5 dengan atap membran PVC kedap air dan tahan panas. Tanpa tiang tengah dan kokoh untuk berbagai acara outdoor.",
+  "peralatan-pendukung":
+    "Sewa kursi, meja, AC, dan misty fan untuk melengkapi acara: tempat duduk tamu, meja penyajian, hingga sirkulasi udara yang sejuk.",
+};
+
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
@@ -69,9 +93,7 @@ export async function generateMetadata({
     // title to "Tenda Roder" in the admin improves the heading, the tab title
     // and the shared-link title together, with no code change.
     title: data.title,
-    // An empty field falls back to the site-wide line rather than shipping a
-    // blank `<meta name="description">`.
-    description: data.description?.trim() || SITE_DESCRIPTION,
+    description: META_DESCRIPTIONS[data.slug],
     path: `/products/${data.slug}`,
   });
 }
@@ -103,6 +125,16 @@ export default async function CategoryPage({ params }: PageProps) {
       <CategorySections blocks={data.blocks} />
 
       <RelatedProducts items={otherProducts} />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLd([
+            breadcrumbSchema(url, data.title),
+            serviceSchema(url, data.title, META_DESCRIPTIONS[data.slug]),
+          ]),
+        }}
+      />
 
       {faq && (
         <script
