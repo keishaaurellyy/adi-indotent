@@ -12,7 +12,7 @@ import {
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
-  title: "Contact",
+  title: "Kontak & Lokasi",
   description:
     "Hubungi kami untuk informasi lebih lanjut seputar produk dan layanan yang kami sediakan.",
   path: "/contact",

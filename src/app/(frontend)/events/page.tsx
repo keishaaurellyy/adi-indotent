@@ -12,7 +12,7 @@ import { getAllEvents } from "@/lib/events";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
-  title: "Events",
+  title: "Portofolio Acara & Proyek Tenda",
   description:
     "Pengalaman menangani berbagai jenis acara membuat kami paham kebutuhan setiap klien, sehingga hasilnya selalu sesuai harapan.",
   path: "/events",
