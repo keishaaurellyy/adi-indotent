@@ -35,6 +35,8 @@ export function localBusinessSchema() {
     image: absoluteUrl(SITE_OG_IMAGE.url),
     telephone: PHONE_E164,
     logo: absoluteUrl("/icon.png"),
+    // Stated on the home page ("Berdiri sejak 2013").
+    foundingDate: "2013",
     areaServed: [...SERVICE_AREA],
     address: {
       "@type": "PostalAddress",
