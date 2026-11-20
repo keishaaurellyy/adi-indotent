@@ -14,10 +14,13 @@ import { Users } from './collections/Users';
 import { PeralatanPendukung } from './globals/PeralatanPendukung';
 import { Roder } from './globals/Roder';
 import { Sarnafil } from './globals/Sarnafil';
+import { publicMediaBase } from './lib/media-url';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const publicBucketUrl = process.env.R2_PUBLIC_URL;
+// `/media` for an r2.dev bucket (proxied, see lib/media-url.ts), the custom
+// domain otherwise, or undefined to stream through /api/media/file.
+const mediaBase = publicMediaBase(process.env.R2_PUBLIC_URL);
 
 const hasR2Credentials = Boolean(
   process.env.R2_BUCKET &&
@@ -29,11 +32,11 @@ const hasR2Credentials = Boolean(
 const storage = s3Storage({
   enabled: hasR2Credentials,
   collections: {
-    media: publicBucketUrl
+    media: mediaBase
       ? {
           disablePayloadAccessControl: true,
           generateFileURL: ({ filename, prefix }) =>
-            [publicBucketUrl.replace(/\/$/, ''), prefix, filename].filter(Boolean).join('/'),
+            [mediaBase, prefix, filename].filter(Boolean).join('/'),
         }
       : true,
   },

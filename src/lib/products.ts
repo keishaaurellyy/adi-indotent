@@ -11,7 +11,7 @@ export type ProductSummary = {
   description?: string | null;
   /** Category detail page. Built from `category_key`, which is the route slug. */
   href: string;
-  /** Absolute R2 URL, or a /api/media/file/... path when R2 is not configured. */
+  /** /media/... (proxied r2.dev), an absolute custom-domain URL, or /api/media/file/... when R2_PUBLIC_URL is unset. */
   image?: string | null;
   imageAlt?: string;
 };

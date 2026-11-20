@@ -12,7 +12,7 @@ export type EventSummary = {
   category?: string | null;
   location?: string | null;
   duration?: string | null;
-  /** Absolute R2 URL, or a /api/media/file/... path when R2 is not configured. */
+  /** /media/... (proxied r2.dev), an absolute custom-domain URL, or /api/media/file/... when R2_PUBLIC_URL is unset. */
   image?: string | null;
   imageAlt?: string;
 };
